@@ -1,11 +1,8 @@
-import React from 'react';
+import styled from 'styled-components';
 
+const FilterWrap = styled.div``;
 const Filter = () => {
-  return (
-    <div>
-      
-    </div>
-  );
+  return <FilterWrap></FilterWrap>;
 };
 
 export default Filter;

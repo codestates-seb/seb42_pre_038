@@ -1,11 +1,5 @@
-import React from 'react';
-
 const UserDelete = () => {
-  return (
-    <div>
-      
-    </div>
-  );
+  return <div></div>;
 };
 
 export default UserDelete;

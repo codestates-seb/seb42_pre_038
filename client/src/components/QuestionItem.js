@@ -1,11 +1,5 @@
-import React from 'react';
-
 const QuestionItem = () => {
-  return (
-    <div>
-      
-    </div>
-  );
+  return <div></div>;
 };
 
 export default QuestionItem;

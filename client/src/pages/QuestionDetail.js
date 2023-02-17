@@ -1,11 +1,5 @@
-import React from 'react';
-
 const QuestionDetail = () => {
-  return (
-    <div>
-      
-    </div>
-  );
+  return <div></div>;
 };
 
 export default QuestionDetail;
