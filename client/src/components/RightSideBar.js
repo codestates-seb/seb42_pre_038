@@ -1,11 +1,5 @@
-import React from 'react';
-
 const RightSideBar = () => {
-  return (
-    <div>
-      
-    </div>
-  );
+  return <div></div>;
 };
 
 export default RightSideBar;

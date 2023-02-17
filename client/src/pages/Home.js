@@ -1,7 +1,7 @@
+import Footer from '../components/Footer';
+
 const Home = () => {
-
-  return <div>!다다익선 38조 화이팅!!!!!!!</div>;
-
+  return <Footer />;
 };
 
 export default Home;
