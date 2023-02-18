@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 const QuestionItemWrap = styled.div`
-  /* background-color: pink; */
   display: flex;
   justify-content: center;
 
@@ -13,10 +12,8 @@ const QuestionItemBox = styled.div`
   width: 770px;
   height: 120px;
   padding: 16px;
-  /* background-color: red; */
   display: flex;
   border-top: 1px solid hsl(204deg 10% 90%);
-  border-bottom: 1px solid hsl(204deg 10% 90%);
   align-items: center;
 `;
 const QuestionStatsBox = styled.div`
@@ -35,6 +32,7 @@ const QuestionContentTitle = styled.h3`
   margin: 0;
   margin-bottom: 0.3846rem;
   font-weight: normal;
+  font-size: 1.30769231rem;
 `;
 
 const QuestionContentA = styled.a`
