@@ -9,17 +9,6 @@ const Filter = () => {
         <div className="flex--item">
           <div className=" d-flex s-btn-group js-filter-btn">
             <a
-              className="js-sort-preference-change youarehere is-selected flex--item s-btn s-btn__muted s-btn__outlined"
-              href="?tab=interesting"
-              data-nav-xhref=""
-              title="Questions that may be of interest to you based on your history and tag preference"
-              data-value="interesting"
-              data-shortcut=""
-              aria-current="page"
-            >
-              Interesting
-            </a>
-            <a
               className="js-sort-preference-change flex--item s-btn s-btn__muted s-btn__outlined"
               href="?tab=bounties"
               data-nav-xhref=""
@@ -27,7 +16,7 @@ const Filter = () => {
               data-value="bounties"
               data-shortcut="B"
             >
-              <span className="bounty-indicator-tab"></span> Bountied
+              <span className="bounty-indicator-tab">123</span> Score
             </a>
             <a
               className="js-sort-preference-change flex--item s-btn s-btn__muted s-btn__outlined"
@@ -37,7 +26,7 @@ const Filter = () => {
               data-value="hot"
               data-shortcut="H"
             >
-              Hot
+              Newest
             </a>
             <a
               className="js-sort-preference-change flex--item s-btn s-btn__muted s-btn__outlined"
@@ -47,7 +36,7 @@ const Filter = () => {
               data-value="week"
               data-shortcut="W"
             >
-              Week
+              Unanswered
             </a>
             <a
               className="js-sort-preference-change flex--item s-btn s-btn__muted s-btn__outlined"
@@ -57,7 +46,7 @@ const Filter = () => {
               data-value="month"
               data-shortcut="M"
             >
-              Month
+              Active
             </a>
           </div>
         </div>

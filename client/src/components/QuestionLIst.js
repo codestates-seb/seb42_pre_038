@@ -1,6 +1,6 @@
 import QuestionItem from './QuestionItem';
 
-const QuestionLIst = () => {
+const QuestionList = () => {
   return (
     <>
       <QuestionItem />
@@ -11,4 +11,4 @@ const QuestionLIst = () => {
   );
 };
 
-export default QuestionLIst;
+export default QuestionList;
