@@ -9,12 +9,12 @@ const QuestionItemWrap = styled.div`
   }
 `;
 const QuestionItemBox = styled.div`
-  width: 770px;
-  height: 120px;
+  width: 728px;
   padding: 16px;
   display: flex;
   border-top: 1px solid hsl(204deg 10% 90%);
   align-items: center;
+  align-items: flex-start;
 `;
 const QuestionStatsBox = styled.div`
   display: flex;
@@ -22,6 +22,8 @@ const QuestionStatsBox = styled.div`
   margin-right: 16px;
   text-align: right;
   gap: 6px;
+  width: 108px;
+  margin-bottom: 4px;
 `;
 const StatsSpan = styled.span``;
 const QuestionContent = styled.div`
