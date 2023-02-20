@@ -52,7 +52,7 @@ public class AnswerService {
     // Answer 조회
     public Answer findAnswer(long answerId){
 
-        return findVerifiedAnswer(anserId);
+        return findVerifiedAnswer(answerId);
     }
 
     // Answer 목록 조회
