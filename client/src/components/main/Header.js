@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Logo from '../img/Logo.png';
+import Logo from '../../images/logo.png';
 import SearchIcon from '@mui/icons-material/Search';
 // const isLogin = true;
 const HeaderWrap = styled.div`

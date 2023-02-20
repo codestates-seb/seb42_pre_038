@@ -27,7 +27,7 @@ const FooterNav = styled.nav`
   flex: 2 1 auto;
   flex-wrap: wrap;
   div {
-    padding: 0 12px 24px 0;
+    padding: 0 12px 12px 0;
     flex: 1 0 auto;
 
     h5 {

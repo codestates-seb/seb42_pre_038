@@ -1,8 +1,6 @@
-import Footer from '../components/Footer';
-import RightSideBar from '../components/RightSideBar';
-import Header from '../components/Header';
-import LeftNavBar from '../components/LeftNavBar';
-import QuestionList from '../components/QuestionList';
+import RightSideBar from '../components/main/RightSideBar';
+import LeftNavBar from '../components/main/LeftNavBar';
+import QuestionList from '../components/question/QuestionList';
 import styled from 'styled-components';
 
 const ContainerBox = styled.div`
@@ -20,8 +18,7 @@ const MainBox = styled.section`
 `;
 const Home = () => {
   return (
-    <div>
-      <Header />
+    <>
       <ContainerBox>
         <LeftNavBar />
         <MainBox>
@@ -29,8 +26,7 @@ const Home = () => {
           <RightSideBar />
         </MainBox>
       </ContainerBox>
-      <Footer />
-    </div>
+    </>
   );
 };
 
