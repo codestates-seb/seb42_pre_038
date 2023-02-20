@@ -1,7 +1,6 @@
-package com.preproject.stackoverflow.answer.entity;
+package com.preproject.stackoverflow.question.entity;
 
 import com.preproject.stackoverflow.member.entity.Member;
-import com.preproject.stackoverflow.question.entity.Question;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,30 +11,30 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
-public class AnswerVote {
+public class QuestionVote {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long voteId;
 
     @ManyToOne
-    @JoinColumn(name = "answer_id")
-    private Answer answer;
+    @JoinColumn(name = "question_id")
+    private Question question;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
 
-    public void setAnswer(Answer answer) {
-        this.answer = answer;
-        if(!answer.getAnswerVotes().contains(this)) {
-            answer.getAnswerVotes().add(this);
+    public void setQuestion(Question question) {
+        this.question = question;
+        if(!question.getQuestionVotes().contains(this)) {
+            question.getQuestionVotes().add(this);
         }
     }
 
     public void setMember(Member member) {
         this.member = member;
-        if(!member.getAnswerVotes().contains(this)) {
-            answer.getAnswerVotes().add(this);
+        if(!member.getQuestionVotes().contains(this)) {
+            question.getQuestionVotes().add(this);
         }
     }
 }
