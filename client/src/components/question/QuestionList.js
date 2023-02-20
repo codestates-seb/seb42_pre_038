@@ -1,6 +1,6 @@
 import QuestionItem from './QuestionItem';
 import styled from 'styled-components';
-import Filter from './Filter';
+import Filter from '../ui/Filter';
 const QuestionContainerWrap = styled.div``;
 
 const QuestionListContainer = styled.div`

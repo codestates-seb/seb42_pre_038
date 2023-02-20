@@ -1,5 +1,5 @@
 const QuestionCreate = () => {
-  return <div></div>;
+  return <></>;
 };
 
 export default QuestionCreate;
