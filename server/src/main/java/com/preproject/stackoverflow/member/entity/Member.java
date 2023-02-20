@@ -1,6 +1,9 @@
 package com.preproject.stackoverflow.member.entity;
 
+import com.preproject.stackoverflow.answer.entity.Answer;
 import com.preproject.stackoverflow.audit.BaseTime;
+import com.preproject.stackoverflow.question.entity.Question;
+import com.preproject.stackoverflow.question.entity.QuestionVote;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,12 +33,25 @@ public class Member extends BaseTime {
     private String password;
 
     @Column
+    private String profileImageUrl;
 
     @Enumerated(value = EnumType.STRING)
     private MemberStatus memberStatus = MemberStatus.MEMBER_ACTIVE;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Question> questions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Answer> answers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<QuestionVote> questionVotes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<QuestionVote> answerVotes = new ArrayList<>();
 
     public enum MemberStatus {
         MEMBER_ACTIVE("활동중"),
