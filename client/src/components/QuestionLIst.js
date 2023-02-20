@@ -1,5 +1,14 @@
-const QuestionLIst = () => {
-  return <div></div>;
+import QuestionItem from './QuestionItem';
+
+const QuestionList = () => {
+  return (
+    <>
+      <QuestionItem />
+      <QuestionItem />
+      <QuestionItem />
+      <QuestionItem />
+    </>
+  );
 };
 
-export default QuestionLIst;
+export default QuestionList;

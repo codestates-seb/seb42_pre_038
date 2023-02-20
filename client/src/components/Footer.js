@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 
 const FooterWrap = styled.footer`
+  font-family: 'system-ui';
   background-color: #232629;
   width: 100vw;
   height: 322px;
-  color: #b1b6bb;
+  color: hsl(210, 8%, 60%);
 `;
 
 const FooterBox = styled.div`
@@ -28,7 +29,41 @@ const FooterNav = styled.nav`
   div {
     padding: 0 12px 24px 0;
     flex: 1 0 auto;
+
+    h5 {
+      text-transform: uppercase;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    h5 > a:hover {
+      color: hsl(210, 8%, 60%);
+    }
+    ul > li {
+      padding: 4px 0;
+      a {
+        font-weight: 400;
+      }
+      a:hover {
+        color: hsl(210, 8%, 60%);
+      }
+    }
   }
+`;
+
+const FooterCopyBox = styled.div`
+  width: 313.1px;
+  height: 278px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  font-weight: 400;
+`;
+
+const FooterCopyList = styled.ul`
+  display: flex;
+  justify-content: space-between;
 `;
 
 const Footer = () => {
@@ -209,7 +244,9 @@ const Footer = () => {
                 </a>
               </li>
               <li className="" id="consent-footer-link">
-                Cookie Settings
+                <a href="https://stackoverflow.co/company/contact">
+                  Cookie Settings
+                </a>
               </li>
               <li>
                 <a
@@ -311,8 +348,8 @@ const Footer = () => {
             </div>
           </div>
         </FooterNav>
-        <div className="site-footer--copyright fs-fine md:mt24">
-          <ul className="-list -social md:mb8">
+        <FooterCopyBox className="site-footer--copyright fs-fine md:mt24">
+          <FooterCopyList className="-list -social md:mb8">
             <li>
               <a
                 className="js-gps-track -link"
@@ -358,7 +395,7 @@ const Footer = () => {
                 Instagram
               </a>
             </li>
-          </ul>
+          </FooterCopyList>
 
           <p className="md:mb0">
             Site design / logo © 2023 Stack Exchange Inc; user contributions
@@ -366,9 +403,10 @@ const Footer = () => {
             <span className="td-underline">
               <a href="https://stackoverflow.com/help/licensing">CC BY-SA</a>
             </span>
-            . <span id="svnrev">rev&nbsp;2023.2.16.43246</span>
+            <br></br>
+            <span id="svnrev">rev&nbsp;2023.2.16.43246</span>
           </p>
-        </div>
+        </FooterCopyBox>
       </FooterBox>
     </FooterWrap>
   );
