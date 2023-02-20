@@ -14,6 +14,7 @@ const QuestionListHeadBox = styled.div`
 const QuestionListTitle = styled.h1`
   flex: 1;
   font-size: 2.07692308rem;
+  font-weight: normal;
 `;
 
 const AskButton = styled.button`
