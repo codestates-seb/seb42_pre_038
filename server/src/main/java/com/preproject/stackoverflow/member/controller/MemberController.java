@@ -8,19 +8,23 @@ import com.preproject.stackoverflow.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 import java.net.URI;
 
 @RestController
 @RequestMapping("/api/members")
 @RequiredArgsConstructor
+@Validated
 public class MemberController {
     private final MemberService memberService;
     private final MemberMapper memberMapper;
 
     @PostMapping
-    public ResponseEntity postMember(@RequestBody MemberDto.Post memberPostDto) {
+    public ResponseEntity postMember(@Valid @RequestBody MemberDto.Post memberPostDto) {
         Member member = memberMapper.memberPostToMember(memberPostDto);
         Member createdMember = memberService.registerMember(member);
 
@@ -28,21 +32,15 @@ public class MemberController {
     }
 
     @GetMapping("/{member-id}")
-    public ResponseEntity getMember(@PathVariable("member-id") Long memberId) {
+    public ResponseEntity getMember(@PathVariable("member-id") @Positive Long memberId) {
         Member member = memberService.getMember(memberId);
         MemberDto.Response response = memberMapper.memberToMemberResponse(member);
 
         return new ResponseEntity(new SingleResponseDto(response), HttpStatus.OK);
     }
 
-    //회원 정보에서 question 정보 같이 응답 연관관계 매핑 후 구현
-    @GetMapping("/{member-id}/qna")
-    public ResponseEntity getMemberProfile() {
-        return null;
-    }
-
     @PatchMapping("/{member-id}")
-    public ResponseEntity patchMember(@PathVariable("member-id") Long memberId, @RequestBody MemberDto.Patch memberPatchDto) {
+    public ResponseEntity patchMember(@PathVariable("member-id") @Positive Long memberId, @Valid @RequestBody MemberDto.Patch memberPatchDto) {
         Member member = memberMapper.memberPatchToMember(memberPatchDto);
         member.setMemberId(memberId);
         Member updateMember = memberService.updateMember(member);
@@ -53,7 +51,7 @@ public class MemberController {
     }
 
     @DeleteMapping("/{member-id}")
-    public ResponseEntity deleteMember(@PathVariable("member-id") Long memberId) {
+    public ResponseEntity deleteMember(@PathVariable("member-id") @Positive Long memberId) {
         memberService.deleteMember(memberId);
 
         return ResponseEntity.noContent().build();
