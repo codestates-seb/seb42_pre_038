@@ -1,5 +1,14 @@
+import QuestionItem from './QuestionItem';
+
 const QuestionLIst = () => {
-  return <div></div>;
+  return (
+    <>
+      <QuestionItem />
+      <QuestionItem />
+      <QuestionItem />
+      <QuestionItem />
+    </>
+  );
 };
 
 export default QuestionLIst;
