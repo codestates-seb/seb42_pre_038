@@ -8,20 +8,20 @@ const LeftNavBarWrap = styled.div`
   min-height: 85vh;
 `;
 const LeftNavBarContent = styled.div`
-  display: flex;
+  /* display: flex;
   width: 100%;
-  justify-content: flex-start;
+  justify-content: flex-start; */
 `;
 const LeftNavBarBox = styled.div`
   display: flex;
-  padding: 20px 0 10px 10px;
+  padding: 24px 0 10px 10px;
   height: 100%;
   flex: 0.5;
-  max-width: 200px;
+  width: 164px;
   border-right: 1px solid #ddd;
 `;
 const LeftNavBarContainer = styled.div`
-  margin: 10px 0;
+  /* margin: 10px 0; */
   display: flex;
   width: 100%;
 `;
@@ -29,7 +29,7 @@ const LeftNavBarOptions = styled.div`
   display: flex;
   flex-direction: column;
   width: 200%;
-  margin: 10px 0;
+  /* margin: 10px 0; */
   font-size: 14px;
   a {
     text-decoration: none;
@@ -39,9 +39,11 @@ const LeftNavBarOptions = styled.div`
   }
 `;
 const LeftNavBarOption = styled.div`
-  margin: 15px 0;
+  /* padding: 15px 0; */
   display: flex;
   flex-direction: column;
+  padding: 4px;
+  margin-top: 16px;
   > p {
     font-size: 14px;
   }
@@ -50,7 +52,8 @@ const LeftNavBarOption = styled.div`
     flex-direction: column;
     margin: 10px 0;
     > p {
-      margin: 2px 2px 0 20px;
+      margin: 10px 2px 0 20px;
+      font-size: 13px;
     }
   }
   .LinkTagBox {
@@ -58,12 +61,13 @@ const LeftNavBarOption = styled.div`
     align-content: center;
     padding: 5px 0;
     width: 100%;
+    align-items: center;
   }
   .LinkTagBox:hover {
     border-right: 5px solid #fea209;
   }
   .LinkTagBox > .MuiSvgIcon-root {
-    font-size: 14px;
+    font-size: 16px;
     margin-right: 5px;
     color: #fea209;
   }

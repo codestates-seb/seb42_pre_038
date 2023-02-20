@@ -5,7 +5,6 @@ const RightSideBarWrap = styled.div`
   float: right;
   width: 300px;
   height: auto;
-  margin: 0 0 15px;
 `;
 
 const RightSideBar = () => {
