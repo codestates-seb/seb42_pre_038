@@ -8,6 +8,7 @@ import QuestionCreate from './pages/QuestionCreate';
 import Signup from './pages/Signup';
 import QuestionDetail from './pages/QuestionDetail';
 import UserInfo from './pages/UserInfo';
+import UserEdit from './pages/UserEdit';
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
           <Route path="/questions/ask" element={<QuestionCreate />} />
           <Route path="/questions/:id" element={<QuestionDetail />} />
           <Route path="/userinfo" element={<UserInfo />} />
+          <Route path="/useredit" element={<UserEdit />} />
         </Routes>
       </ContainerBox>
       <Footer />

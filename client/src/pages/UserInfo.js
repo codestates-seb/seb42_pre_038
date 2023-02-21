@@ -1,6 +1,9 @@
 import UserInfoHeader from '../components/userinfo/UserInfoHeader';
 import LeftNavBar from '../components/main/LeftNavBar';
 import styled from 'styled-components';
+import { MainBox } from './Home';
+import UserInfoLeftNav from '../components/userinfo/UserInfoLeftNav';
+import UserInfoEditProfile from '../components/userinfo/UserInfoEditProfile';
 
 const UserInfoWrap = styled.div`
   max-width: 1100px;
@@ -27,6 +30,12 @@ const UserStats = styled.div`
     margin-right: 22px;
   }
 `;
+
+const UserInfoProfileBox = styled.div`
+  display: flex;
+  margin-top: 30px;
+`;
+
 const UserInfo = () => {
   return (
     <>

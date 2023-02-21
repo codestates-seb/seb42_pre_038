@@ -13,6 +13,7 @@ const UserInfoItem = styled.div`
   margin: calc(var(--su16) / 2 * -1);
 `;
 
+
 const UserNameBox = styled.div`
   margin-left: 20px;
   margin-top: 12px;
@@ -26,11 +27,14 @@ const UserInfoTap = styled.div`
   padding: 2px 0;
   margin: 20px 0 20px 0;
 `;
+
 const UserInfoHeader = () => {
   return (
     <UserInfoHeaderWrap>
       <UserInfoItem>
+
         <UserImgLink className="flex--item" href="/userinfo">
+
           <div className="md:d-none js-usermini-avatar-container">
             <div className="bar-md bs-sm">
               <img

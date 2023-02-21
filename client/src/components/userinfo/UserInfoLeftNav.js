@@ -21,12 +21,17 @@ const NavLeftListBox = styled.ul`
   width: 173px;
   height: 29px;
   font-size: 13px;
+  li:nth-child(1) {
+    margin-top: 0;
+  }
   .isBold {
     font-weight: bold;
     margin-top: 30px;
     font-size: 11px;
+    cursor: default;
     :hover {
       background-color: #ffffff !important;
+      cursor: default;
     }
   }
 `;
@@ -40,23 +45,17 @@ const NavLeftListItem = styled.li`
   :hover {
     background-color: #e3e6e8;
     border-radius: 1000px;
+    cursor: ${(props) => (props.isBold ? 'none' : 'pointer')};
   }
   :visited {
     background-color: #da680b;
-    border-radius: 1000px;
+    border-radius: 10px;
     color: #ffffff;
     text-decoration: none;
-  }
-  :active {
-    color: #000000;
   }
 `;
 
 const NavLeftListItemLink = styled(Link)`
-  cursor: pointer;
-  /* :link {
-    color: rgb(255, 255, 255);
-  } */
   :hover {
     color: #000000;
   }
