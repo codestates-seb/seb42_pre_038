@@ -1,7 +1,7 @@
 import UserInfoHeader from '../components/userinfo/UserInfoHeader';
 import LeftNavBar from '../components/main/LeftNavBar';
 import styled from 'styled-components';
-import { MainBox } from './Home';
+import { ContainerBox, MainBox } from './Home';
 import UserInfoLeftNav from '../components/userinfo/UserInfoLeftNav';
 import UserInfoEditProfile from '../components/userinfo/UserInfoEditProfile';
 
@@ -17,7 +17,7 @@ const UserInfoProfileBox = styled.div`
 
 const UserEdit = () => {
   return (
-    <>
+    <ContainerBox>
       <LeftNavBar />
       <MainBox>
         <UserInfoWrap>
@@ -28,7 +28,7 @@ const UserEdit = () => {
           </UserInfoProfileBox>
         </UserInfoWrap>
       </MainBox>
-    </>
+    </ContainerBox>
   );
 };
 

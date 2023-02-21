@@ -3,6 +3,7 @@
 
 // import { useState } from 'react';
 import styled from 'styled-components';
+import { ContainerBox } from './Home';
 const QuestionCreateWrap = styled.div``;
 const QuestionCreateTopContainer = styled.div`
   width: 1215.99px;
@@ -199,102 +200,104 @@ const QuestionCreate = () => {
   // const [textValue, setTextValue] = useState('');
 
   return (
-    <QuestionCreateWrap>
-      <QuestionCreateTopContainer>
-        <QuestionCreateTopHeader>
-          <h1 className="Headline">Ask a pulic question</h1>
-        </QuestionCreateTopHeader>
-        <QuestionCreateTopNoticeBox>
-          <QuestionCreateTopNotice>
-            <h2 className="NoticeH2">Writing a good question</h2>
-            <p className="NoticeContent">
-              You’re ready to&nbsp;
-              <a href="https://stackoverflow.com/help/how-to-ask">ask</a> a
-              <a href="https://stackoverflow.com/help/on-topic">
-                &nbsp;programming-related question
-              </a>
-              and this form will help guide you through the process.
-            </p>
-            <p className="NoticeContentBottom">
-              Looking to ask a non-programming question? See&nbsp;
-              <a href="https://stackexchange.com/sites#technology">
-                the topics here&nbsp;
-              </a>
-              to find a relevant site.
-            </p>
-            <h5 style={{ fontWeight: 600 }}>Step</h5>
-            <ul style={{ marginLeft: 30 }}>
-              <li style={{ listStyle: 'disc' }}>
-                Summarize your problem in a one-line title.
-              </li>
-              <li style={{ listStyle: 'disc' }}>
-                Describe your problem in more detail.
-              </li>
-              <li style={{ listStyle: 'disc' }}>
-                Describe what you tried and what you expected to happen.
-              </li>
-              <li style={{ listStyle: 'disc' }}>
-                Add “tags” which help surface your question to members of the
-                community.
-              </li>
-              <li style={{ listStyle: 'disc' }}>
-                Review your question and post it to the site.
-              </li>
-            </ul>
-          </QuestionCreateTopNotice>
-        </QuestionCreateTopNoticeBox>
-      </QuestionCreateTopContainer>
-      <QuestionCreateTitleBox>
-        <QuestionCreateTitle>
-          <QuestionCreateLabelBox>
-            <label htmlFor="Askinput" className="LabelTop">
-              Title
-            </label>
-            <label htmlFor="Askinput" className="LabelMiddle">
-              Be specific and imagine you’re asking a question to another
-              person.
-            </label>
-            <div className="InputBox">
-              <input
-                id="Askinput"
-                type="AskInput"
-                placeholder="e.g. Is there an R funtion for finding the index of an element in a vector?"
-              ></input>
-            </div>
-          </QuestionCreateLabelBox>
-        </QuestionCreateTitle>
-      </QuestionCreateTitleBox>
-      <ProblemBox>
-        <ProblemContainer>
-          <ProblemTextBox>
-            <ProblemTextContainer>
-              {/* text */}
-              <ItemBox>
-                <ItemLabel htmlFor="WriteProblem">
-                  What are the details of your problem?
-                  <p className="ItemLabelParagraph">
-                    Introduce the problem and expand on what you put in the
-                    title. Minimum 20 characters.
-                  </p>
-                </ItemLabel>
-              </ItemBox>
-              {/* text */}
-              <ProblemTextarea id="WriteProblem" />
-              {/* Submit */}
-              <QuestionSubmitBox>
-                <button className="Submit">Review your question</button>
-              </QuestionSubmitBox>
-              {/* Submit */}
-            </ProblemTextContainer>
-          </ProblemTextBox>
-        </ProblemContainer>
-      </ProblemBox>
-      {/* Discard */}
-      <QuestionDiscard>
-        <p>Discard draft</p>
-      </QuestionDiscard>
-      {/* Discard */}
-    </QuestionCreateWrap>
+    <ContainerBox>
+      <QuestionCreateWrap>
+        <QuestionCreateTopContainer>
+          <QuestionCreateTopHeader>
+            <h1 className="Headline">Ask a pulic question</h1>
+          </QuestionCreateTopHeader>
+          <QuestionCreateTopNoticeBox>
+            <QuestionCreateTopNotice>
+              <h2 className="NoticeH2">Writing a good question</h2>
+              <p className="NoticeContent">
+                You’re ready to&nbsp;
+                <a href="https://stackoverflow.com/help/how-to-ask">ask</a> a
+                <a href="https://stackoverflow.com/help/on-topic">
+                  &nbsp;programming-related question
+                </a>
+                and this form will help guide you through the process.
+              </p>
+              <p className="NoticeContentBottom">
+                Looking to ask a non-programming question? See&nbsp;
+                <a href="https://stackexchange.com/sites#technology">
+                  the topics here&nbsp;
+                </a>
+                to find a relevant site.
+              </p>
+              <h5 style={{ fontWeight: 600 }}>Step</h5>
+              <ul style={{ marginLeft: 30 }}>
+                <li style={{ listStyle: 'disc' }}>
+                  Summarize your problem in a one-line title.
+                </li>
+                <li style={{ listStyle: 'disc' }}>
+                  Describe your problem in more detail.
+                </li>
+                <li style={{ listStyle: 'disc' }}>
+                  Describe what you tried and what you expected to happen.
+                </li>
+                <li style={{ listStyle: 'disc' }}>
+                  Add “tags” which help surface your question to members of the
+                  community.
+                </li>
+                <li style={{ listStyle: 'disc' }}>
+                  Review your question and post it to the site.
+                </li>
+              </ul>
+            </QuestionCreateTopNotice>
+          </QuestionCreateTopNoticeBox>
+        </QuestionCreateTopContainer>
+        <QuestionCreateTitleBox>
+          <QuestionCreateTitle>
+            <QuestionCreateLabelBox>
+              <label htmlFor="Askinput" className="LabelTop">
+                Title
+              </label>
+              <label htmlFor="Askinput" className="LabelMiddle">
+                Be specific and imagine you’re asking a question to another
+                person.
+              </label>
+              <div className="InputBox">
+                <input
+                  id="Askinput"
+                  type="AskInput"
+                  placeholder="e.g. Is there an R funtion for finding the index of an element in a vector?"
+                ></input>
+              </div>
+            </QuestionCreateLabelBox>
+          </QuestionCreateTitle>
+        </QuestionCreateTitleBox>
+        <ProblemBox>
+          <ProblemContainer>
+            <ProblemTextBox>
+              <ProblemTextContainer>
+                {/* text */}
+                <ItemBox>
+                  <ItemLabel htmlFor="WriteProblem">
+                    What are the details of your problem?
+                    <p className="ItemLabelParagraph">
+                      Introduce the problem and expand on what you put in the
+                      title. Minimum 20 characters.
+                    </p>
+                  </ItemLabel>
+                </ItemBox>
+                {/* text */}
+                <ProblemTextarea id="WriteProblem" />
+                {/* Submit */}
+                <QuestionSubmitBox>
+                  <button className="Submit">Review your question</button>
+                </QuestionSubmitBox>
+                {/* Submit */}
+              </ProblemTextContainer>
+            </ProblemTextBox>
+          </ProblemContainer>
+        </ProblemBox>
+        {/* Discard */}
+        <QuestionDiscard>
+          <p>Discard draft</p>
+        </QuestionDiscard>
+        {/* Discard */}
+      </QuestionCreateWrap>
+    </ContainerBox>
   );
 };
 
