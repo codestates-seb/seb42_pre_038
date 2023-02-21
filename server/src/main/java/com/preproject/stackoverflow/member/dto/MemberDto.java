@@ -35,6 +35,8 @@ public class MemberDto {
     @AllArgsConstructor
     public static class Response {
 
+        private String memberId;
+
         private String email;
 
         private String password;

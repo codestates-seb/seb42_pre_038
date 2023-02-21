@@ -28,7 +28,7 @@ public class MemberController {
         Member member = memberMapper.memberPostToMember(memberPostDto);
         Member createdMember = memberService.registerMember(member);
 
-        return ResponseEntity.created(URI.create("/api/members/" + createdMember)).build();
+        return ResponseEntity.created(URI.create("/api/members/" + createdMember.getMemberId())).build();
     }
 
     @GetMapping("/{member-id}")
