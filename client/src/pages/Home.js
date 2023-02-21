@@ -18,13 +18,13 @@ export const MainBox = styled.section`
 `;
 const Home = () => {
   return (
-    <>
+    <ContainerBox>
       <LeftNavBar />
       <MainBox>
         <QuestionList />
         <RightSideBar />
       </MainBox>
-    </>
+    </ContainerBox>
   );
 };
 
