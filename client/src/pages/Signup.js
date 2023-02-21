@@ -358,7 +358,7 @@ const Signup = () => {
   const signupOnClickHandler = (e) => {
     e.preventDefault();
     const data = {
-      usename: displayName,
+      username: displayName,
       email: loginEmail,
       password: loginPassword,
     };
