@@ -11,16 +11,16 @@ const HeaderWrap = styled.div`
     0 2px 8px rgba(0, 0, 0, 0.05);
   display: flex;
   height: 50px;
-  left: 0;
   position: sticky;
+  left: 0;
   width: 100vw;
   z-index: 100;
+  justify-content: center;
 `;
 const HeaderContainer = styled.div`
-  min-height: 5vh;
   width: 1264px;
   height: 47.6px;
-  margin: 0 127.6px;
+  margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -77,7 +77,6 @@ const HeaderSearchContainer = styled.div`
 const HeaderRight = styled.div`
   display: flex;
   align-items: center;
-  width: 212.913px;
   cursor: pointer;
   .Login {
     background-color: #e1ecf4;
