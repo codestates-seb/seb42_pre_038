@@ -1,6 +1,7 @@
 import UserInfoHeader from '../components/userinfo/UserInfoHeader';
 import LeftNavBar from '../components/main/LeftNavBar';
 import styled from 'styled-components';
+import { ContainerBox } from './Home';
 
 const UserInfoWrap = styled.div`
   max-width: 1100px;
@@ -30,7 +31,7 @@ const UserStats = styled.div`
 
 const UserInfo = () => {
   return (
-    <>
+    <ContainerBox>
       <LeftNavBar />
       <UserInfoWrap>
         <UserInfoHeader />
@@ -72,7 +73,7 @@ const UserInfo = () => {
           </div>
         </UserInfoBody>
       </UserInfoWrap>
-    </>
+    </ContainerBox>
   );
 };
 
