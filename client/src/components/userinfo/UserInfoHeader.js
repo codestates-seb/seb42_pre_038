@@ -13,14 +13,24 @@ const UserInfoItem = styled.div`
   margin: calc(var(--su16) / 2 * -1);
 `;
 
+const UserNameBox = styled.div`
+  margin-left: 20px;
+  margin-top: 12px;
+`;
+
+const UserImgLink = styled.a`
+  margin-top: 12px;
+`;
+
+const UserInfoTap = styled.div`
+  padding: 2px 0;
+  margin: 20px 0 20px 0;
+`;
 const UserInfoHeader = () => {
   return (
     <UserInfoHeaderWrap>
       <UserInfoItem>
-        <a
-          className="flex--item"
-          href="/users/21216624/%ec%9e%a5%ec%9d%80%ec%88%98"
-        >
+        <UserImgLink className="flex--item" href="/userinfo">
           <div className="md:d-none js-usermini-avatar-container">
             <div className="bar-md bs-sm">
               <img
@@ -32,8 +42,8 @@ const UserInfoHeader = () => {
               />
             </div>
           </div>
-        </a>
-        <div className="flex--item">
+        </UserImgLink>
+        <UserNameBox className="flex--item">
           <div className="d-flex ai-center fw-wrap gs8 wmx4">
             <div className="flex--item mb12 fs-headline2 lh-xs">장은수</div>
             <div className="flex--item">
@@ -95,7 +105,7 @@ const UserInfoHeader = () => {
               </div>
             </li>
           </ul>
-        </div>
+        </UserNameBox>
         <div className="ps-absolute t0 r0 d-flex gs6 fw-wrap">
           <a
             className="flex--item s-btn s-btn__outlined s-btn__muted s-btn__icon s-btn__sm"
@@ -143,6 +153,39 @@ const UserInfoHeader = () => {
           </ul>
         </div>
       </UserInfoItem>
+      <UserInfoTap className="d-flex ai-center jc-space-between fw-wrap mb16 js-user-header">
+        <div className="flex--item s-navigation">
+          <a
+            href="/users/21216624/%ec%9e%a5%ec%9d%80%ec%88%98?tab=profile"
+            className="s-navigation--item is-selected"
+            data-shortcut="P"
+          >
+            Profile
+          </a>
+          <a
+            href="/users/21216624/%ec%9e%a5%ec%9d%80%ec%88%98?tab=topactivity"
+            className="s-navigation--item"
+            data-shortcut="A"
+          >
+            Activity
+          </a>
+
+          <a
+            href="/users/saves/21216624/all"
+            className="js-gps-track s-navigation--item"
+            data-gps-track="saves.visit;"
+          >
+            Saves
+          </a>
+
+          <a href="/users/preferences/21216624" className="s-navigation--item">
+            Settings
+          </a>
+        </div>
+        <div className="flex--item ml-auto">
+          <div className="s-navigation s-navigation__muted ai-center"></div>
+        </div>
+      </UserInfoTap>
     </UserInfoHeaderWrap>
   );
 };

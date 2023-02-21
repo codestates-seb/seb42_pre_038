@@ -33,17 +33,17 @@ const NavLeftListBox = styled.ul`
 
 const NavLeftListItem = styled.li`
   font-size: 13px;
-  padding: 5px;
+  padding: 6px 12px;
   :link {
     color: rgb(255, 255, 255);
   }
   :hover {
     background-color: #e3e6e8;
-    border-radius: 10px;
+    border-radius: 1000px;
   }
   :visited {
     background-color: #da680b;
-    border-radius: 10px;
+    border-radius: 1000px;
     color: #ffffff;
     text-decoration: none;
   }
