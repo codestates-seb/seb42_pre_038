@@ -85,7 +85,7 @@ const QuestionItem = () => {
         </QuestionStatsBox>
         <QuestionContent>
           <QuestionContentTitle>
-            <QuestionContentA href="/">
+            <QuestionContentA href="/questions/1">
               Angular FormBuilder is undefined in unit tests
             </QuestionContentA>
           </QuestionContentTitle>
