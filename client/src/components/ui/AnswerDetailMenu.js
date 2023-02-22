@@ -10,7 +10,7 @@ const MenuBox = styled.div`
 const MenuSpan = styled.span`
   cursor: pointer;
   margin: calc(var(--su8) / 2);
-  color: var(--_an-a-fc, inherit);
+  color: hsl(210deg 8% 45%);
   &:hover {
     color: hsl(210deg 8% 55%);
   }
