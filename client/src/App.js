@@ -9,6 +9,7 @@ import Signup from './pages/Signup';
 import QuestionDetail from './pages/QuestionDetail';
 import UserInfo from './pages/UserInfo';
 import UserEdit from './pages/UserEdit';
+import UserDelte from './pages/UserDelete';
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
         <Route path="/questions/:id" element={<QuestionDetail />} />
         <Route path="/userinfo" element={<UserInfo />} />
         <Route path="/useredit" element={<UserEdit />} />
+        <Route path="/userdelete" element={<UserDelte />} />
       </Routes>
       <Footer />
     </BrowserRouter>
