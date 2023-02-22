@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 import Logo from '../../images/logo.png';
-import SearchIcon from '@mui/icons-material/Search';
-// const isLogin = true;
+import SearchBarIcon from '../../images/Search.png';
+// import { useState , Link } from 'react';
+import { NavLink } from 'react-router-dom';
+
 const HeaderWrap = styled.div`
   align-items: center;
   box-sizing: border-box;
@@ -11,6 +13,7 @@ const HeaderWrap = styled.div`
     0 2px 8px rgba(0, 0, 0, 0.05);
   display: flex;
   height: 50px;
+  top: 0;
   position: sticky;
   left: 0;
   width: 100vw;
@@ -27,10 +30,9 @@ const HeaderContainer = styled.div`
 `;
 const HeaderLeft = styled.div`
   display: flex;
-  flex-direction: row;
   align-items: center;
   margin: 10px;
-  > img {
+  .Logo {
     box-sizing: content-box;
     width: 150px;
     height: 30px;
@@ -49,94 +51,181 @@ const HeaderLeft = styled.div`
     }
   }
 `;
-const HeaderMiddle = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0;
-`;
 const HeaderSearchContainer = styled.div`
-  display: flex;
   align-items: center;
-  padding: 0;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(187, 191, 195);
+  box-sizing: border-box;
+  border-radius: 3px;
+  display: flex;
+  height: 32px;
+  width: 80%;
   margin-right: 10px;
-  > input {
-    padding: 0 10px;
-    border: none;
-    margin-left: 5px;
-    outline: none;
-    width: 800px;
-    border-radius: 3px;
+  > img {
+    width: 18px;
+    margin-left: 10px;
   }
-  > .MuiSvgIcon-root {
-    color: gray;
-    width: 25px;
-    height: 25px;
+  &:focus-within {
+    outline: 3px solid #d6e9f7;
   }
 `;
-const HeaderRight = styled.div`
+const SearchBarInput = styled.input`
+  all: unset;
+  font-size: 14px;
+  width: 100%;
+  padding-left: 5px;
+`;
+const HeaderRight = styled.ol`
   display: flex;
   align-items: center;
   cursor: pointer;
   .Login {
-    background-color: #e1ecf4;
+    margin-right: 8px;
+    width: 58.25px;
+    height: 47px;
     display: flex;
-    padding: 5px 10px;
-    margin-right: 5px;
-    margin-left: 5px;
-    background-color: #e1ecf4;
-    width: 50px;
-    justify-content: center;
     align-items: center;
-    border-radius: 3px;
-    font-size: 12px;
-    border: 1px solid #0a95ff;
+    .LoginBtn {
+      background-color: #ebf4fb;
+      width: 100%;
+      height: 30px;
+      justify-content: space-around;
+      display: flex;
+      align-items: center;
+      border-radius: 4px;
+      border: 0.5px solid #8aa4b5;
+      color: #395d75;
+      :hover {
+        background-color: #b2d3eb;
+      }
+      :focus {
+        outline: 2px solid #d6e9f7;
+      }
+    }
   }
   .Signup {
-    color: white;
-    font-weight: 600;
+    width: 58.25px;
+    height: 47px;
     display: flex;
-    padding: 5px 10px;
-    background-color: #0a95ff;
-    width: 50px;
-    justify-content: center;
     align-items: center;
-    border-radius: 3px;
-    font-size: 12px;
+    .SignUpBtn {
+      background-color: #0a95ff;
+      width: 100%;
+      height: 30px;
+      justify-content: space-around;
+      display: flex;
+      align-items: center;
+      border-radius: 4px;
+      border: 0.5px solid #8aa4b5;
+      color: white;
+      :hover {
+        background-color: #0063c1;
+      }
+      :focus {
+        outline: 2px solid #d6e9f7;
+      }
+    }
   }
-  .HeaderUsersBox {
-    color: white;
-    background-color: gray;
-    width: 24px;
-    height: 24px;
-    align-items: center;
-    justify-content: center;
+  .HeaderRightBox {
     display: flex;
-    border-radius: 3px;
-    font-size: 10px;
-    font-weight: 800;
+    justify-content: center;
+    width: 60px;
+    height: 47px;
+    align-items: center;
+    :hover {
+      background-color: #dee7ec;
+    }
+    .HeaderUsersBox {
+      border-radius: 3px;
+      width: 24px;
+      height: 24px;
+      font-size: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      background-color: #8aa4b5;
+      color: white;
+      pointer-events: none;
+    }
+  }
+  .LogoutContainer {
+    border-radius: 5px;
+    :hover {
+      background-color: #0063c1;
+    }
+    :focus {
+      outline: 3px solid #d6e9f7;
+    }
+    .LogoutBtn {
+      width: 90px;
+      height: 26px;
+      border-radius: 5px;
+      align-items: center;
+      justify-content: center;
+      display: flex;
+      color: white;
+      background-color: #0a95ff;
+      border: 0.5px solid #8aa4b5;
+      font-weight: 400;
+      text-decoration: none;
+      :hover {
+        background-color: #0063c1;
+      }
+    }
   }
 `;
 
 const Header = () => {
+  // true = 로그인상태 ,false = 로그아웃상태
+  const isLogin = false;
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // const handleLogin = () => {
+  //   setIsLoggedIn(true);
+  // };
+
+  // const handleLogout = () => {
+  //   setIsLoggedIn(false);
+  // };
+
   return (
     <HeaderWrap>
       <HeaderContainer>
         <HeaderLeft>
-          <img src={Logo} alt="logo" />
+          <NavLink to="/">
+            <img src={Logo} alt="logo" className="Logo" />
+          </NavLink>
           <p>Products</p>
         </HeaderLeft>
-        <HeaderMiddle>
-          <HeaderSearchContainer>
-            <SearchIcon />
-            <input type="text" placeholder="Search..." />
-          </HeaderSearchContainer>
-        </HeaderMiddle>
-        <HeaderRight>
-          <div className="HeaderUsersBox">찬희</div>
-          <div className="Login">Login</div>
-          <div className="Signup">Singup</div>
-        </HeaderRight>
+        <HeaderSearchContainer>
+          <img src={SearchBarIcon} alt="Searchbar" />
+          <SearchBarInput placeholder="Search..." />
+        </HeaderSearchContainer>
+        {isLogin ? (
+          <HeaderRight>
+            <div className="HeaderRightBox">
+              <NavLink to="/userinfo" className="UserInfoBtn">
+                <li className="HeaderUsersBox">은수</li>
+              </NavLink>
+            </div>
+            <NavLink to="/" className="LogoutContainer">
+              <li className="LogoutBtn">Logout</li>
+            </NavLink>
+          </HeaderRight>
+        ) : (
+          <HeaderRight>
+            <li className="Login">
+              <NavLink to="/login" className="LoginBtn">
+                Log in
+              </NavLink>
+            </li>
+            <li className="Signup">
+              <NavLink to="/signup" className="SignUpBtn">
+                Sign up
+              </NavLink>
+            </li>
+          </HeaderRight>
+        )}
       </HeaderContainer>
     </HeaderWrap>
   );

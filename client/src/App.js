@@ -11,6 +11,7 @@ import QuestionDetail from './pages/QuestionDetail';
 import UserInfo from './pages/UserInfo';
 import UserEdit from './pages/UserEdit';
 import AnswerEdit from './pages/AnswerEdit';
+import UserDelte from './pages/UserDelete';
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
         <Route path="/posts/:id/edit" element={<AnswerEdit />} />
         <Route path="/userinfo" element={<UserInfo />} />
         <Route path="/useredit" element={<UserEdit />} />
+        <Route path="/userdelete" element={<UserDelte />} />
       </Routes>
       <Footer />
     </BrowserRouter>
