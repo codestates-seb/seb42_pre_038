@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import User from '../../images/avatar.png';
+import PropTypes from 'prop-types';
 const QuestionDetialMenuBox = styled.div`
   display: flex;
   margin: 50px 0;
@@ -52,12 +53,15 @@ const UserDetailSpan = styled.span`
   color: hsl(206deg 100% 40%);
 `;
 
-const QuestionDetailMenu = () => {
+const QuestionDetailMenu = ({ clickHandler }) => {
+  const gotoEdit = () => {
+    clickHandler();
+  };
   return (
     <QuestionDetialMenuBox>
       <MenuBox>
         <MenuSpan>Share</MenuSpan>
-        <MenuSpan>Edit</MenuSpan>
+        <MenuSpan onClick={gotoEdit}>Edit</MenuSpan>
         <MenuSpan>Follow</MenuSpan>
       </MenuBox>
       <UserInfoBox>
@@ -74,5 +78,7 @@ const QuestionDetailMenu = () => {
     </QuestionDetialMenuBox>
   );
 };
-
+QuestionDetailMenu.propTypes = {
+  clickHandler: PropTypes.func,
+};
 export default QuestionDetailMenu;
