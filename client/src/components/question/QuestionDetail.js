@@ -3,7 +3,7 @@ import AnswerCreate from '../answer/AnswerCreate';
 import AnswerList from '../answer/AnswerList';
 import QuestionDetailMenu from '../ui/QuestionDetailMenu';
 import Vote from '../ui/Vote';
-
+import { useNavigate } from 'react-router-dom';
 const QuestionDetailWrap = styled.div`
   display: flex;
   flex-direction: column;
@@ -33,6 +33,10 @@ const QuestionDetailContentBox = styled.div`
 const AnswerBox = styled.div``;
 
 const QuestionDetail = () => {
+  const navigate = useNavigate();
+  const clickHandler = () => {
+    navigate('/questions/1/edit');
+  };
   return (
     <QuestionDetailWrap>
       <QuestionDetailContainer>
@@ -48,7 +52,7 @@ const QuestionDetail = () => {
             custom Swift implementation where the #if conditional is implemented
             in a .swift source file?
           </QuestionDetailContentP>
-          <QuestionDetailMenu />
+          <QuestionDetailMenu clickHandler={clickHandler} />
         </QuestionDetailContentBox>
       </QuestionDetailContainer>
       <AnswerBox>

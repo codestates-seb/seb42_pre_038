@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import AnswerDetailMenu from '../ui/AnswerDetailMenu';
 import Vote from '../ui/Vote';
@@ -19,6 +20,10 @@ const AnswerDetailContentBox = styled.div`
 const AnswerDetailContentP = styled.p``;
 
 const AnswerItem = () => {
+  const navigate = useNavigate();
+  const clickHandler = () => {
+    navigate('/posts/1/edit');
+  };
   return (
     <AnswerItemWrap>
       <AnswerItemContainer>
@@ -28,7 +33,7 @@ const AnswerItem = () => {
             Your regex is looking for the literal string word. You should use
             f-strings to use the value stored in the variable named word:
           </AnswerDetailContentP>
-          <AnswerDetailMenu />
+          <AnswerDetailMenu clickHandler={clickHandler} />
         </AnswerDetailContentBox>
       </AnswerItemContainer>
     </AnswerItemWrap>
