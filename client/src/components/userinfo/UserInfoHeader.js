@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const UserInfoHeaderWrap = styled.div`
   width: 1067px;
   position: relative;
-  margin-bottom: var(--su16);
+  margin-bottom: 0;
 `;
 
 const UserInfoItem = styled.div`
