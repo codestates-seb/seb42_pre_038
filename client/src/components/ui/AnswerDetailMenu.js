@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import User from '../../images/avatar.png';
+import PropTypes from 'prop-types';
+
 const QuestionDetialMenuBox = styled.div`
   display: flex;
   margin-top: 24px;
@@ -10,7 +12,7 @@ const MenuBox = styled.div`
 const MenuSpan = styled.span`
   cursor: pointer;
   margin: calc(var(--su8) / 2);
-  color: var(--_an-a-fc, inherit);
+  color: hsl(210deg 8% 45%);
   &:hover {
     color: hsl(210deg 8% 55%);
   }
@@ -51,12 +53,15 @@ const UserDetailSpan = styled.span`
   font-size: 13px;
 `;
 
-const AnswerDetailMenu = () => {
+const AnswerDetailMenu = ({ clickHandler }) => {
+  const gotoEdit = () => {
+    clickHandler();
+  };
   return (
     <QuestionDetialMenuBox>
       <MenuBox>
         <MenuSpan>Share</MenuSpan>
-        <MenuSpan>Edit</MenuSpan>
+        <MenuSpan onClick={gotoEdit}>Edit</MenuSpan>
         <MenuSpan>Follow</MenuSpan>
       </MenuBox>
       <UserInfoBox>
@@ -74,4 +79,7 @@ const AnswerDetailMenu = () => {
   );
 };
 
+AnswerDetailMenu.propTypes = {
+  clickHandler: PropTypes.func,
+};
 export default AnswerDetailMenu;
