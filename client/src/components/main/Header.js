@@ -13,7 +13,8 @@ const HeaderWrap = styled.div`
     0 2px 8px rgba(0, 0, 0, 0.05);
   display: flex;
   height: 50px;
-  position: sticky !important;
+  top: 0;
+  position: sticky;
   left: 0;
   width: 100vw;
   z-index: 100;
@@ -176,7 +177,7 @@ const HeaderRight = styled.ol`
 
 const Header = () => {
   // true = 로그인상태 ,false = 로그아웃상태
-  const isLogin = true;
+  const isLogin = false;
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // const handleLogin = () => {
