@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import robotSample from '../../images/robotSample.png';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import red_error from '../../images/red_question.svg';
 
 const UserEditProfileLayout = styled.div`
   box-sizing: border-box;
@@ -35,7 +36,7 @@ const EditProfileFormTitle = styled.div`
   font-size: 21px;
   margin-bottom: 8px;
 `;
-const EditProfileFormBox = styled.div`
+const EditProfileDivBox = styled.div`
   border: 1px solid #e3e6e8;
   padding: 24px;
   border-radius: 6px;
@@ -61,8 +62,14 @@ const ProfileImgContent = styled.div`
 
 const ProfileDisplayNameBox = styled.div`
   display: flex;
+  position: relative;
   flex-direction: column;
   margin-top: 10px;
+  img {
+    position: absolute;
+    right: 49%;
+    top: 51%;
+  }
   label {
     width: 94px;
     height: 20px;
@@ -74,35 +81,22 @@ const ProfileDisplayNameBox = styled.div`
     padding: 7.8px 9.1px;
     width: 421px;
     outline: none;
+    &.error {
+      border: 1px solid rgb(222, 79, 84);
+    }
   }
 `;
-const ProfileEmailAddressBox = styled(ProfileDisplayNameBox)``;
 
-const ProfileEmaillAddressInput = styled.div`
-  display: flex;
-  align-items: center;
-  input {
-    margin-right: 6px;
-  }
-  display: flex;
-  button {
-    padding: 10.4px;
-    margin: 0px;
-    font-weight: 400;
-    color: rgb(0, 166, 204);
-    border: 1px solid rgb(55, 159, 239);
-    background-color: white;
-    border-radius: 5px;
-    width: 49px;
-    height: 33px;
-    line-height: 5px;
-    cursor: pointer;
-  }
-`;
 const ProfileButtonBox = styled.div`
   display: flex;
   align-items: center;
   margin-top: 15px;
+  button:disabled {
+    background-color: #c0d7fc;
+    color: black;
+    font-weight: 1000;
+    border: none;
+  }
   .color {
     border: 1px solid rgb(55, 159, 239);
     background: #0a95ff;
@@ -123,33 +117,29 @@ const ProfileButtonBox = styled.div`
   }
 `;
 const UserInfoEditProfile = () => {
-  const [displayName, setDisplayName] = useState('');
-  const [emailAddress, setEmailAddress] = useState('');
-  // const [errorEmailAddress, setErrorEmailAddress] = useState(false);
+  const [displayName, setDisplayName] = useState('장은수');
+  const [errorDisplayName, setErrorDisplayName] = useState(false);
 
-  // useEffect(() => {
-  //   const regex =
-  //     /^(([^<>()\\[\].,;:\s@"]+(\.[^<>()\\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
-  //   if (emailAddress.length > 0 && regex.test(emailAddress)) {
-  //     setErrorEmailAddress(true);
-  //   } else {
-  //     setErrorEmailAddress(false);
-  //   }
-  // }, [emailAddress]);
+  useEffect(() => {
+    if (displayName.length > 0) {
+      setErrorDisplayName(false);
+    } else {
+      setErrorDisplayName(true);
+    }
+  }, [displayName]);
 
-  const handleButtonClick = (e) => {
-    setEmailAddress(e.target.value);
+  const handleChange = (e) => {
+    setDisplayName(e.target.value);
   };
-
   const handleCancle = () => {
     setDisplayName('');
-    setEmailAddress('');
+    setErrorDisplayName(false);
   };
 
   const handleSubmit = (e) => {
     e.preventdefault();
   };
-
+  //! check !//
   return (
     <UserEditProfileLayout>
       <UserEditProfileWrap>
@@ -158,7 +148,7 @@ const UserInfoEditProfile = () => {
         </EditProfileTopTitle>
         <EditProfileFormSection>
           <EditProfileFormTitle>Public information</EditProfileFormTitle>
-          <EditProfileFormBox onSubmit={handleSubmit}>
+          <EditProfileDivBox onSubmit={(e) => handleSubmit(e)}>
             <ProfileImgBox>
               <ProfileImgTitle>
                 <h3>Profile image</h3>
@@ -168,34 +158,26 @@ const UserInfoEditProfile = () => {
               </ProfileImgContent>
             </ProfileImgBox>
             <ProfileDisplayNameBox>
+              {!errorDisplayName ? (
+                <img src={red_error} alt="red_error" />
+              ) : null}
               <label htmlFor="displayName">Display name</label>
               <input
                 name="DisplayName"
+                className={errorDisplayName ? 'error' : null}
                 id="displayName"
                 value={displayName}
                 placeholder="form: user.username"
-                onChange={(e) => setDisplayName(e.target.value)}
+                onChange={(e) => handleChange(e)}
               />
             </ProfileDisplayNameBox>
-            <ProfileEmailAddressBox>
-              <label htmlFor="emailAddress">Email address</label>
-              <ProfileEmaillAddressInput>
-                <input
-                  id="emailAddress"
-                  value={emailAddress}
-                  placeholder="form: user.userEmail"
-                  onChange={(e) => setEmailAddress(e.target.value)}
-                />
-                <button onClick={handleButtonClick}>Save</button>
-              </ProfileEmaillAddressInput>
-            </ProfileEmailAddressBox>
             <ProfileButtonBox>
-              <button className="color" type="submit" onClick={handleSubmit}>
+              <button className="color" type="submit" disabled={!displayName}>
                 Save profile
               </button>
               <button onClick={handleCancle}>Cancle</button>
             </ProfileButtonBox>
-          </EditProfileFormBox>
+          </EditProfileDivBox>
         </EditProfileFormSection>
       </UserEditProfileWrap>
     </UserEditProfileLayout>
