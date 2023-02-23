@@ -248,7 +248,7 @@ const QuestionCreate = () => {
         <QuestionCreateContainer>
           <QuestionCreateTopContainer>
             <QuestionCreateTopHeader>
-              <h1 className="Headline">Ask a pulic question</h1>
+              <h1 className="Headline">Ask a public question</h1>
             </QuestionCreateTopHeader>
             <QuestionCreateTopNoticeBox>
               <QuestionCreateTopNotice>
