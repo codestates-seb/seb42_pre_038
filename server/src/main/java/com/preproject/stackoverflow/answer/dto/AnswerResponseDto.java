@@ -1,13 +1,13 @@
 package com.preproject.stackoverflow.answer.dto;
 
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Builder // 여러 패턴의 생성자 생성
+@AllArgsConstructor
 @Getter
 @Setter
 public class AnswerResponseDto {
@@ -20,14 +20,12 @@ public class AnswerResponseDto {
 
     private LocalDateTime modifiedAt;
 
-    private int score; // vote
+    private int voteCount; // vote
 
     private Long questionId;
 
-    private Long memberId;
-
     private String name;
 
-    //private String profile;
+
 
 }

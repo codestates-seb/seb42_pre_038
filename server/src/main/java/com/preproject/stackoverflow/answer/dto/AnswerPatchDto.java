@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 @Setter
 public class AnswerPatchDto {
 
-    private long answerId;
+    private long questionId;
 
     @NotBlank // 답변 내용의 공백은 불가하다.
     private String answerContent;
