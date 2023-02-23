@@ -2,10 +2,9 @@
 
 import styled from 'styled-components';
 import stack_logo from '../images/stack_logo.svg';
-import { Link } from 'react-router-dom';
-// import { Navigate, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-// import axios from 'axios';
+import axios from 'axios';
 import google_logo from '../images/google_logo.svg';
 import github_logo from '../images/github_logo.svg';
 import facebook_logo from '../images/facebook_logo.svg';
@@ -203,54 +202,58 @@ const Login = () => {
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
   const [errormessage, setErrorMessage] = useState(false);
-  //* 유효성 검사 *//
-  const InputValueValid = () => {
-    if (loginEmail.length === 0 || loginPassword.length === 0) {
-      return setErrorMessage(!errormessage);
-    } else if (!loginEmail.includes('@')) {
-      return setErrorMessage(!errormessage);
-    }
-  };
 
+  const navigate = useNavigate();
+  //! 서버 배포 후 테스트 이메일, 패스워드 post 요청 후 토큰 받아와서 저장 !//
+  // Ajax function (Axios)
+  //* 유효성 검사 *//
   const handleSubmitButton = (e) => {
     e.preventdefault();
-    //! 서버 배포 후 테스트 이메일, 패스워드 post 요청 후 토큰 받아와서 저장 !//
-    // Ajax function (Axios)
-    // axios.defaults.withCredentials = true;
 
-    // if(!loginEmail || !loginPassword) {
-    //   setLoginPassword("");
-    //   setLoginEmail("");
-    //   window.alert('다시 입력해주세요 !')
-    //   return;
-    // }
+    axios.defaults.withCredentials = true;
 
-    // const header = {
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    // };
+    if (!loginEmail || !loginPassword) {
+      setLoginPassword('');
+      setLoginEmail('');
+      window.alert('다시 입력해주세요 !');
+      setErrorMessage(!errormessage);
+      return;
+    } else if (!loginEmail.includes('@')) {
+      setLoginPassword('');
+      setLoginEmail('');
+      window.alert('다시 입력해주세요 !');
+      setErrorMessage(!errormessage);
+      return;
+    }
 
-    // const reqbody = JSON.stringify({
-    //   username: loginEmail,
-    //   passwrod: loginPassword,
-    // });
+    const header = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
 
-    // return axios
-    //   .post('FILL_ME_IN', header, reqbody)
-    //   .then((res) => {
-    //     window.alert(`${res.data.username}님 환영합니다.`);
-    //     localStorage.setItem('token', JSON.stringify(res.headers);
-    //     navigate('/Questions');
-    //     window.location.reload();
-    //   })
-    //   .catch((err) => {
-    //     widdow.alert(
-    //       '로그인 정보가 일치하지 않습니다. 다시 입력해주세요!'
-    //     )
-    //     setLoginEmail('');
-    //     setLoginPassword('');
-    //   })
+    const reqbody = JSON.stringify({
+      email: loginEmail,
+      password: loginPassword,
+    });
+
+    return axios
+      .post(
+        'https://c045-218-236-76-177.jp.ngrok.io/api/members',
+        header,
+        reqbody
+      )
+      .then((res) => {
+        window.alert(`${res.data.name}님 환영합니다.`);
+        localStorage.setItem('token', JSON.stringify(res.headers));
+        navigate('/');
+        window.location.reload();
+      })
+      .catch(() => {
+        window.alert('로그인 정보가 일치하지 않습니다. 다시 입력해주세요!');
+        setLoginEmail('');
+        setLoginPassword('');
+      });
   };
 
   const handleButtonClick = () => {
@@ -272,13 +275,13 @@ const Login = () => {
             <img src={github_logo} alt="github_logo" />
             Log in with GitHub
           </GitHubButton>
-          <FacebookButton onClick={() => handleButtonClick()}>
+          <FacebookButton onFacebookButtonClick={() => handleButtonClick()}>
             <img src={facebook_logo} alt="facebook_logo" />
             Log in with Facebook
           </FacebookButton>
         </ButtonBox>
         {/* 유효성 검사 입력폼 */}
-        <FormSubmitWrap onSubmit={(e) => handleSubmitButton(e.target.value)}>
+        <FormSubmitWrap>
           <FormSubmitBox>
             <EmailBox>
               <label htmlFor="email">Email</label>
@@ -366,7 +369,7 @@ const Login = () => {
                 ></input>
               )}
             </PasswordBox>
-            <LoginSubmitButton onClick={() => InputValueValid(errormessage)}>
+            <LoginSubmitButton onClick={handleSubmitButton}>
               Log in
             </LoginSubmitButton>
           </FormSubmitBox>
