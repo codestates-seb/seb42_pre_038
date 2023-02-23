@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-// import React from 'react';
 import { Link } from 'react-router-dom';
 
 const NavLeftWrap = styled.nav`
@@ -8,7 +7,6 @@ const NavLeftWrap = styled.nav`
   font-size: 13px;
   text-align: left;
   color: rgb(35, 38, 41);
-  /* border: 1px solid green; */
   box-sizing: border-box;
   width: 173px;
   height: 1083px;
