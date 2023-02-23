@@ -1,127 +1,106 @@
 import styled from 'styled-components';
+import { NavLink, useNavigate } from 'react-router-dom';
 import PublicIcon from '@mui/icons-material/Public';
-import StarsIcon from '@mui/icons-material/Stars';
-import WorkIcon from '@mui/icons-material/Work';
 const LeftNavBarWrap = styled.div`
-  display: flex;
-  min-width: fit-content;
-  min-height: 85vh;
-`;
-const LeftNavBarContent = styled.div`
-  /* display: flex;
-  width: 100%;
-  justify-content: flex-start; */
+  width: 164px;
+  border-right: 1px solid #d6d9dc;
+  color: #91979e;
 `;
 const LeftNavBarBox = styled.div`
-  display: flex;
-  padding: 24px 0 10px 10px;
-  height: 100%;
-  flex: 0.5;
-  width: 164px;
-  border-right: 1px solid #ddd;
+  padding-inline-start: 20px;
+  position: sticky;
+  top: 0;
 `;
-const LeftNavBarContainer = styled.div`
-  /* margin: 10px 0; */
-  display: flex;
-  width: 100%;
+const LeftNavBarNav = styled.nav`
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
 `;
-const LeftNavBarOptions = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 200%;
-  /* margin: 10px 0; */
-  font-size: 14px;
-  a {
-    text-decoration: none;
-  }
-  a:hover {
-    color: #000;
-  }
-`;
-const LeftNavBarOption = styled.div`
-  /* padding: 15px 0; */
-  display: flex;
-  flex-direction: column;
-  padding: 4px;
-  margin-top: 16px;
-  > p {
+const LeftNavBarOl = styled.ol`
+  display: block;
+  list-style-type: decimal;
+  margin-block-start: 2em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  & .HomeDivBox {
     font-size: 14px;
+    font-weight: 600;
   }
-  .LinkBox {
+  .HomeBox {
     display: flex;
-    flex-direction: column;
-    margin: 10px 0;
-    > p {
-      margin: 10px 2px 0 20px;
-      font-size: 13px;
-    }
   }
-  .LinkTagBox {
+  .LeftNavBarItem {
     display: flex;
-    align-content: center;
-    padding: 5px 0;
-    width: 100%;
     align-items: center;
+    box-sizing: content-box;
+    width: 100%;
+    height: 26px;
+    padding-top: 4px;
+    padding-right: 4px;
+    padding-left: 8px;
+    padding-bottom: 4px;
+    cursor: pointer;
   }
-  .LinkTagBox:hover {
-    border-right: 5px solid #fea209;
+`;
+const PublicBar = styled.ol`
+  padding-left: 10px;
+  margin-top: 16px;
+  align-items: center;
+  .Item {
+    align-items: center;
+    padding-left: 20px;
   }
-  .LinkTagBox > .MuiSvgIcon-root {
-    font-size: 16px;
-    margin-right: 5px;
-    color: #fea209;
+  > li {
+    width: 100%;
+    height: 33px;
+    display: flex;
+  }
+  .QuestionsItem {
+    border: 0;
+    outline: 0;
+    background-color: white;
+    align-items: center;
+    display: flex;
+    margin: 10px 0;
+    cursor: pointer;
+    color: #91979e;
+    :hover {
+      color: black;
+    }
   }
 `;
 const LeftNavBar = () => {
+  const navigate = useNavigate();
+  // const CurrentLocation = useLocation().pathname;
+  const onClickHandler = () => {
+    navigate('/');
+  };
   return (
     <LeftNavBarWrap>
-      <LeftNavBarContent>
-        <LeftNavBarBox>
-          <LeftNavBarContainer>
-            <LeftNavBarOptions>
-              <LeftNavBarOption>
-                <a href="/">Home</a>
-              </LeftNavBarOption>
-              <LeftNavBarOption>
-                <a href="/">PUBLIC</a>
-                <div className="LinkBox">
-                  <div className="LinkTagBox">
-                    <PublicIcon />
-                    <a href="/questions">Question</a>
-                  </div>
-                  <p>Tags</p>
-                  <p>Users</p>
+      <LeftNavBarBox>
+        <LeftNavBarNav>
+          <LeftNavBarOl>
+            <li className="LeftNavBarItem">
+              <NavLink to="/" className="LeftNavBarLink">
+                <div className="HomeBox">
+                  <div className="HomeDivBox">Home</div>
                 </div>
-              </LeftNavBarOption>
-              <LeftNavBarOption>
-                <p>COLLECTIVES</p>
-                <div className="LinkBox">
-                  <div className="LinkTagBox">
-                    <StarsIcon />
-                    <p>Explore Collectives</p>
-                  </div>
-                </div>
-              </LeftNavBarOption>
-              <LeftNavBarOption>
-                <p>FIND A JOB</p>
-                <div className="LinkBox">
-                  <p>jobs</p>
-                  <p>Compaines</p>
-                </div>
-              </LeftNavBarOption>
-              <LeftNavBarOption>
-                <p>TEAMS</p>
-                <div className="LinkBox">
-                  <div className="LinkTagBox">
-                    <WorkIcon />
-                    <p>Compaines</p>
-                  </div>
-                </div>
-              </LeftNavBarOption>
-            </LeftNavBarOptions>
-          </LeftNavBarContainer>
-        </LeftNavBarBox>
-      </LeftNavBarContent>
+              </NavLink>
+            </li>
+            <PublicBar>
+              <li>Public</li>
+              <button className="QuestionsItem" onClick={onClickHandler}>
+                <PublicIcon className="PublicIcon" />
+                Questions
+              </button>
+              <li className="Item">Tags</li>
+              <li className="Item">Companies</li>
+            </PublicBar>
+          </LeftNavBarOl>
+        </LeftNavBarNav>
+      </LeftNavBarBox>
     </LeftNavBarWrap>
   );
 };
