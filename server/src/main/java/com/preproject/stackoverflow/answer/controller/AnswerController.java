@@ -9,6 +9,7 @@ import com.preproject.stackoverflow.answer.service.AnswerService;
 import com.preproject.stackoverflow.dto.SingleResponseDto;
 import com.preproject.stackoverflow.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.util.List;
 
 
 @RequiredArgsConstructor // 의존성 주입 (생성자 생성)
@@ -38,30 +40,42 @@ public class AnswerController {
     @PostMapping
     public ResponseEntity postAnswer(@Valid @RequestBody AnswerPostDto answerPostDto){
 
-        Answer answer = answerService.createAnswer(mapper.answerPostDtoToAnswer(answerPostDto));
+        long memberId = answerPostDto.getMemberId();
+        System.out.println(memberId);
+        Answer answer = answerService.createAnswer(mapper.answerPostDtoToAnswer(answerPostDto), memberId);
+
+
         return new ResponseEntity<>(
                 new SingleResponseDto<>(mapper.answerToAnswerResponseDto(answer)), HttpStatus.CREATED);
 
     }
+
+
 
     // Answer 수정
     @PatchMapping("/{answer-id}")
     public ResponseEntity patchAnswer(@PathVariable("answer-id") @Positive long answerId,
                                       @Valid @RequestBody AnswerPatchDto patchDto){
 
-        Answer answer = answerService.updateAnswer(mapper.answerPatchDtoToAnswer(patchDto));
+        Answer answer = answerService.updateAnswer(mapper.answerPatchDtoToAnswer(patchDto), answerId);
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(mapper.answerToAnswerResponseDto(answer)), HttpStatus.OK);
     }
 
     // Answer 조회
-    @GetMapping("/{answer-id}")
-    public ResponseEntity getAnswer(@PathVariable("answer-id") @Positive long answerId){
+    @GetMapping("/{question-id}")        // ("/{answer-id}")
+    public ResponseEntity getAnswers(@Positive @RequestParam int page,
+                                     @Positive @RequestParam int size,
+                                     @RequestParam int sort,
+                                     @PathVariable("question-id") @Positive Long questionId){
 
-        Answer answer = answerService.findAnswer(answerId);
+        Page<Answer> pageAnswers = answerService.findAnswers(page-1, size, sort, questionId);
+        List<Answer> answers = pageAnswers.getContent();
 
-        return new ResponseEntity<>(new SingleResponseDto<>(mapper.answerToAnswerResponseDto(answer)), HttpStatus.OK);
+
+        return new ResponseEntity<>(new MultiResponseDto<>(mapper.answersToAnswerResponseDto(answers),
+                pageAnswers), HttpStatus.OK);
     }
 
 
@@ -76,17 +90,19 @@ public class AnswerController {
 
     // Vote Up 기능
     @PostMapping("/voteUp/{answer-id}")
-    public ResponseEntity VoteUpAnswer(@PathVariable("answer-id") long answerId){
+    public ResponseEntity VoteUpAnswer(@PathVariable("answer-id") long answerId,
+                                       @RequestParam long memberId ){
 
-        Answer voteUp = answerService.voteUp(answerId);
+        Answer voteUp = answerService.voteUp(answerId, memberId);
 
         return new ResponseEntity<>(new SingleResponseDto<>(mapper.answerToAnswerResponseDto(voteUp)), HttpStatus.OK);
     }
 
     // Vote Down 기능
-    @PostMapping("/downVote/{answer-id}")
-    public ResponseEntity voteDownAnswer(@PathVariable("answer-id") long answerId){
-        Answer voteDown = answerService.voteDown(answerId);
+    @PostMapping("/voteDown/{answer-id}")
+    public ResponseEntity voteDownAnswer(@PathVariable("answer-id") long answerId,
+                                         @RequestParam long memberId){
+        Answer voteDown = answerService.voteDown(answerId, memberId);
 
         return new ResponseEntity<>(new SingleResponseDto<>(mapper.answerToAnswerResponseDto(voteDown)), HttpStatus.OK);
     }
