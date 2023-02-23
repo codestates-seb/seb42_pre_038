@@ -238,11 +238,7 @@ const Login = () => {
     });
 
     return axios
-      .post(
-        'https://c045-218-236-76-177.jp.ngrok.io/api/members',
-        header,
-        reqbody
-      )
+      .post('http://13.124.65.30:8080/api/members', header, reqbody)
       .then((res) => {
         window.alert(`${res.data.name}님 환영합니다.`);
         localStorage.setItem('token', JSON.stringify(res.headers));
