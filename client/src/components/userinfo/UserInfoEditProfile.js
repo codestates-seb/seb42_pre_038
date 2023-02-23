@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import robotSample from '../../images/robotSample.png';
 import { useState, useEffect } from 'react';
 import red_error from '../../images/red_question.svg';
+import axios from 'axios';
+// import { display } from '@mui/system';
 
 const UserEditProfileLayout = styled.div`
   box-sizing: border-box;
@@ -117,11 +119,11 @@ const ProfileButtonBox = styled.div`
   }
 `;
 const UserInfoEditProfile = () => {
-  const [displayName, setDisplayName] = useState('장은수');
+  const [displayName, setDisplayName] = useState('');
   const [errorDisplayName, setErrorDisplayName] = useState(false);
 
   useEffect(() => {
-    if (displayName.length > 0) {
+    if (displayName.length > 2) {
       setErrorDisplayName(false);
     } else {
       setErrorDisplayName(true);
@@ -137,7 +139,33 @@ const UserInfoEditProfile = () => {
   };
 
   const handleSubmit = (e) => {
-    e.preventdefault();
+    e.preventDefault();
+    if (!displayName) {
+      setDisplayName('');
+      setErrorDisplayName(false);
+      return;
+    }
+    const header = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    const data = {
+      name: displayName,
+    };
+
+    return axios
+      .patch('http://13.124.65.30:8080/api/members/1', data, header)
+      .then((res) => {
+        localStorage.setItem('token', JSON.stringify(res.headers));
+
+        // window.location.reload();
+      })
+      .catch(() => {
+        window.alert('다시 입력해주세요!');
+        setDisplayName('');
+        setErrorDisplayName(false);
+      });
   };
   //! check !//
   return (
@@ -148,7 +176,7 @@ const UserInfoEditProfile = () => {
         </EditProfileTopTitle>
         <EditProfileFormSection>
           <EditProfileFormTitle>Public information</EditProfileFormTitle>
-          <EditProfileDivBox onSubmit={(e) => handleSubmit(e)}>
+          <EditProfileDivBox>
             <ProfileImgBox>
               <ProfileImgTitle>
                 <h3>Profile image</h3>
@@ -158,21 +186,28 @@ const UserInfoEditProfile = () => {
               </ProfileImgContent>
             </ProfileImgBox>
             <ProfileDisplayNameBox>
-              {!errorDisplayName ? (
+              {errorDisplayName && displayName.length > 0 ? (
                 <img src={red_error} alt="red_error" />
               ) : null}
               <label htmlFor="displayName">Display name</label>
               <input
                 name="DisplayName"
-                className={errorDisplayName ? 'error' : null}
+                className={
+                  errorDisplayName && displayName.length > 0 ? 'error' : null
+                }
                 id="displayName"
                 value={displayName}
-                placeholder="form: user.username"
+                placeholder="장은수"
                 onChange={(e) => handleChange(e)}
               />
             </ProfileDisplayNameBox>
             <ProfileButtonBox>
-              <button className="color" type="submit" disabled={!displayName}>
+              <button
+                className="color"
+                type="submit"
+                disabled={!displayName}
+                onClick={handleSubmit}
+              >
                 Save profile
               </button>
               <button onClick={handleCancle}>Cancle</button>
