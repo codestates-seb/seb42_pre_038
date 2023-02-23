@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import userImgSample from '../../images/avatar.png';
 
 const UserInfoHeaderWrap = styled.div`
   width: 1067px;
@@ -35,7 +36,7 @@ const UserInfoHeader = () => {
           <div className="md:d-none js-usermini-avatar-container">
             <div className="bar-md bs-sm">
               <img
-                src="https://lh3.googleusercontent.com/a/AEdFTp7O0K54OYUvKOu82Somj9kcpfuKTwa0b7Ud102C=k-s256"
+                src={userImgSample}
                 alt="장은수's user avatar"
                 width="128"
                 height="128"
