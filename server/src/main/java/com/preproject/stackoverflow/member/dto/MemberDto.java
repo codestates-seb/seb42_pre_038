@@ -15,7 +15,7 @@ public class MemberDto {
         @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*\\W).{8,20}$", message = "비밀번호는 영문과 특수문자, 숫자를 포함하여 8자 이상이고 20자 이하여야 합니다.")
         private String password;
 
-        @Pattern(regexp = "^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$", message = "이름은 2자 이상 16자 이하, 영어 또는 숫자 또는 한글로 구성해야 합니다.")
+        @Pattern(regexp = "^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,}$", message = "이름은 2자 이상 16자 이하, 영어 또는 숫자 또는 한글로 구성해야 합니다.")
         private String name;
 
     }
@@ -26,7 +26,7 @@ public class MemberDto {
         @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*\\W).{8,20}$", message = "비밀번호는 영문과 특수문자, 숫자를 포함하여 8자 이상이고 20자 이하여야 합니다.")
         private String password;
 
-        @Pattern(regexp = "^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$", message = "이름은 2자 이상 16자 이하, 영어 또는 숫자 또는 한글로 구성해야 합니다.")
+        @Pattern(regexp = "^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,}$", message = "이름은 2자 이상 16자 이하, 영어 또는 숫자 또는 한글로 구성해야 합니다.")
         private String name;
 
     }
@@ -38,8 +38,6 @@ public class MemberDto {
         private String memberId;
 
         private String email;
-
-        private String password;
 
         private String name;
 
