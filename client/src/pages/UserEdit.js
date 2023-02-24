@@ -12,7 +12,6 @@ const UserInfoWrap = styled.div`
 
 const UserInfoProfileBox = styled.div`
   display: flex;
-  margin-top: 30px;
 `;
 
 const UserEdit = () => {
