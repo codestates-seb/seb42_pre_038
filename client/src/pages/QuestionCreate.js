@@ -1,10 +1,8 @@
-// import MenuIcon from '@mui/icons-material/Menu';
-// import Header from '../components/main/Header';
-
-// import { useState } from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-// import { ContainerBox } from './Home';
 import { MainBox } from './Home';
+import axios from 'axios';
 const QuestionCreateWrap = styled.div`
   background-color: rgb(248, 249, 249);
 `;
@@ -239,9 +237,143 @@ const QuestionDiscard = styled.div`
     }
   }
 `;
+// 모달창
+const ModalAside = styled.aside`
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(20, 0, 0, 0.5);
+  align-items: center;
+  justify-content: center;
+  display: flex;
+`;
+const ModalBox = styled.div`
+  border-radius: 5px;
+  box-sizing: content-box;
+  max-height: 100%;
+  max-width: 600px;
+  width: 410px;
+  height: 126px;
+  padding: 24px;
+  background-color: white;
+  transition: all ease 1s;
+  transform: rotate(45deg) 4s;
+  > p {
+    font-size: 12px;
+    margin-bottom: 24px;
+  }
+`;
+const ModalH1 = styled.h1`
+  color: #c12f32;
+  font-size: var(--fs-headline1);
+  font-weight: normal;
+  line-height: var(--lh-sm);
+  margin-bottom: var(--su16);
+`;
+const ModalBtnBox = styled.div`
+  display: flex;
+  align-items: center;
+`;
+const DiscardBtnBox = styled.div`
+  width: 115px;
+  height: 40px;
+  background-color: #fc7282;
+  border: 1px solid #9f4948;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+`;
+const DiscardBtn = styled.button`
+  background-color: #c42d32;
+  font-size: 12px;
+  color: white;
+  box-sizing: content-box;
+  width: 100%;
+  height: 18.5px;
+  padding: 10.4px;
+  border-style: none;
+  border-radius: 3px;
+  cursor: pointer;
+  :hover {
+    background-color: #b83239;
+  }
+  :focus {
+    outline: 4px solid #ffddd7;
+  }
+`;
+const CalcelBtn = styled.button`
+  border: none;
+  outline: none;
+  width: 38px;
+  height: 17px;
+  padding: 10.4px;
+  color: #747577;
+  background-color: white;
+  margin: 0 6px;
+  cursor: pointer;
+  border-radius: 5px;
+  :hover {
+    background-color: #f9f9f9;
+  }
+  :focus {
+    outline: 4px solid #eaeaea;
+  }
+`;
 const QuestionCreate = () => {
-  // const [textValue, setTextValue] = useState('');
+  /*타이틀*/
+  const [titleValue, setTitleValue] = useState('');
+  /*질문내용*/
+  const [contentValue, setContentValue] = useState('');
+  /*모달*/
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
 
+  /*타이틀벨류*/
+  const handleTitleInputChange = (e) => {
+    setTitleValue(e.target.value);
+    console.log(e.target.value);
+  };
+  /*질문벨류*/
+  const handleContentValueChange = (e) => {
+    setContentValue(e.target.value);
+    console.log(e.target.value);
+  };
+
+  const postQuestionData = () => {
+    // e.preventdefault();
+
+    const data = JSON.stringify({
+      title: titleValue,
+      content: contentValue,
+    });
+    const headers = {
+      'Content-Type': 'Application/json',
+      'Access-Control-Allow-Origin': '*',
+    };
+    return axios
+      .post(`http://13.124.65.30:8080/api/questions`, data, {
+        headers,
+      })
+      .then((response) => {
+        console.log(response);
+        alert('성공성공');
+        navigate('/');
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log('오류오류');
+        navigate('/questions/ask');
+      });
+  };
+  /*모달*/
+  const discardQuestionData = () => {
+    setIsModalOpen(!isModalOpen);
+  };
   return (
     <QuestionCreateWrap>
       <MainBox>
@@ -303,8 +435,10 @@ const QuestionCreate = () => {
                 <div className="InputBox">
                   <input
                     id="Askinput"
-                    type="AskInput"
+                    type="text"
                     placeholder="e.g. Is there an R funtion for finding the index of an element in a vector?"
+                    value={titleValue}
+                    onChange={handleTitleInputChange}
                   ></input>
                 </div>
               </QuestionCreateLabelBox>
@@ -325,10 +459,17 @@ const QuestionCreate = () => {
                     </ItemLabel>
                   </ItemBox>
                   {/* text */}
-                  <ProblemTextarea id="WriteProblem" />
+                  <ProblemTextarea
+                    id="WriteProblem"
+                    type="text"
+                    value={contentValue}
+                    onChange={handleContentValueChange}
+                  />
                   {/* Submit */}
                   <QuestionSubmitBox>
-                    <button className="Submit">Review your question</button>
+                    <button className="Submit" onClick={postQuestionData}>
+                      Review your question
+                    </button>
                   </QuestionSubmitBox>
                   {/* Submit */}
                 </ProblemTextContainer>
@@ -338,11 +479,31 @@ const QuestionCreate = () => {
           {/* Discard */}
           <QuestionDiscard>
             <div className="DiscardBox">
-              <button className="DiscardButton">Discard draft</button>
+              <button className="DiscardButton" onClick={discardQuestionData}>
+                Discard draft
+              </button>
             </div>
           </QuestionDiscard>
           {/* Discard */}
         </QuestionCreateContainer>
+        {/* Modal */}
+        {isModalOpen ? (
+          <ModalAside onClick={discardQuestionData}>
+            <ModalBox>
+              <ModalH1>Discard question</ModalH1>
+              <p>
+                Are you sure you want to discard this question? This cannot be
+                undone.
+              </p>
+              <ModalBtnBox>
+                <DiscardBtnBox>
+                  <DiscardBtn>Discard question</DiscardBtn>
+                </DiscardBtnBox>
+                <CalcelBtn onClick={discardQuestionData}>Cancel</CalcelBtn>
+              </ModalBtnBox>
+            </ModalBox>
+          </ModalAside>
+        ) : null}
       </MainBox>
     </QuestionCreateWrap>
   );
