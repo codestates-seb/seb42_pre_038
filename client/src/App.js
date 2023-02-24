@@ -12,6 +12,7 @@ import UserInfo from './pages/UserInfo';
 import UserEdit from './pages/UserEdit';
 import AnswerEdit from './pages/AnswerEdit';
 import UserDelte from './pages/UserDelete';
+import NotFound from './pages/NotFound';
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
         <Route path="/userinfo" element={<UserInfo />} />
         <Route path="/useredit" element={<UserEdit />} />
         <Route path="/userdelete" element={<UserDelte />} />
+        <Route path="*" element={<NotFound />}></Route>
       </Routes>
       <Footer />
     </BrowserRouter>
