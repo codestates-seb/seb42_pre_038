@@ -34,9 +34,11 @@ const AnswerBox = styled.div``;
 
 const QuestionDetail = () => {
   const navigate = useNavigate();
+
   const clickHandler = () => {
     navigate('/questions/1/edit');
   };
+
   return (
     <QuestionDetailWrap>
       <QuestionDetailContainer>

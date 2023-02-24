@@ -1,9 +1,10 @@
 import QuestionItem from './QuestionItem';
 import styled from 'styled-components';
 import Filter from '../ui/Filter';
-import { useNavigate } from 'react-router-dom';
 import AskQuestionButton from '../ui/MainButton';
 import Pagination from '../ui/Pagination';
+import { useNavigate } from 'react-router-dom';
+
 const QuestionContainerWrap = styled.div``;
 
 const QuestionListContainer = styled.div`
@@ -22,15 +23,16 @@ const QuestionListTitle = styled.h1`
 
 const QuestionList = () => {
   const navigate = useNavigate();
+
+  function goToAsk() {
+    navigate('/questions/ask');
+  }
+
   return (
     <QuestionContainerWrap>
       <QuestionListHeadBox>
         <QuestionListTitle>All Questions</QuestionListTitle>
-        <AskQuestionButton
-          onClick={() => {
-            navigate('/questions/ask');
-          }}
-        >
+        <AskQuestionButton ButtonProps={goToAsk}>
           Ask Questions
         </AskQuestionButton>
       </QuestionListHeadBox>
