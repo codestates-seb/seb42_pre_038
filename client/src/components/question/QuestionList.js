@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Filter from '../ui/Filter';
 import { useNavigate } from 'react-router-dom';
 import AskQuestionButton from '../ui/MainButton';
+import Pagination from '../ui/Pagination';
 const QuestionContainerWrap = styled.div``;
 
 const QuestionListContainer = styled.div`
@@ -40,6 +41,7 @@ const QuestionList = () => {
         <QuestionItem />
         <QuestionItem />
       </QuestionListContainer>
+      <Pagination />
     </QuestionContainerWrap>
   );
 };
