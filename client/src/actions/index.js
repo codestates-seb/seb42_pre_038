@@ -9,3 +9,5 @@ export const loginSuccess = (data) => ({
 export const logoutSuccess = () => ({
   type: LOGOUT,
 });
+
+export const testAction = () => ({});
