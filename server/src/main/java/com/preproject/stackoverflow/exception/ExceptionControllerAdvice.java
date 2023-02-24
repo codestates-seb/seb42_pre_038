@@ -1,5 +1,6 @@
 package com.preproject.stackoverflow.exception;
 
+import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,6 +49,15 @@ public class ExceptionControllerAdvice {
     public ErrorResponse handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
         log.error("handleHttpRequestMethodNotSupportedException", e);
         final ErrorResponse errorResponse = ErrorResponse.of(HttpStatus.METHOD_NOT_ALLOWED);
+
+        return errorResponse;
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorResponse handleJwtException(JwtException e) {
+        log.error("JwtException", e);
+        final ErrorResponse errorResponse = ErrorResponse.of(HttpStatus.UNAUTHORIZED);
 
         return errorResponse;
     }
