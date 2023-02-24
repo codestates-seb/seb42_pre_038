@@ -11,6 +11,7 @@ export const MainBox = styled.section`
 
 export const ContainerBox = styled.div`
   max-width: 1264px;
+  min-height: 100vh;
   display: flex;
   justify-content: space-between;
   margin: 0 auto;
@@ -20,7 +21,6 @@ const NotFoundWrap = styled.div`
   min-width: 100%;
   background-color: var(--black-050);
   position: relative;
-  width: 100%;
   flex: 1 0 auto;
   margin: 0 auto;
   text-align: left;
