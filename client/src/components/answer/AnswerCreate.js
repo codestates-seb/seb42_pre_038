@@ -1,5 +1,8 @@
 import styled from 'styled-components';
 import MainButton from '../ui/MainButton';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+
 const AnswerCreateWrap = styled.div``;
 const AnswerCountSpan = styled.h2`
   font-weight: 400;
@@ -8,14 +11,8 @@ const AnswerCountSpan = styled.h2`
   padding-top: 20px;
 `;
 
-const AnswerInputBox = styled.div``;
-const AnsweTextArea = styled.textarea`
-  height: 200px;
-  width: 100%;
-  padding: 10px;
-  line-height: 1.3;
-  font-size: 1.15384615rem;
-  tab-size: 4;
+const AnswerInputBox = styled.div`
+  height: 250px;
 `;
 
 const AnswerButtonBox = styled.div`
@@ -26,7 +23,8 @@ const AnswerCreate = () => {
     <AnswerCreateWrap>
       <AnswerCountSpan>Your Answer</AnswerCountSpan>
       <AnswerInputBox>
-        <AnsweTextArea></AnsweTextArea>
+        <ReactQuill />
+        {/* <AnsweTextArea></AnsweTextArea> */}
       </AnswerInputBox>
       <AnswerButtonBox>
         <MainButton>Post Your Answer</MainButton>
