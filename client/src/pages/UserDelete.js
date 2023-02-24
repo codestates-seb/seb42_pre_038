@@ -12,7 +12,6 @@ const UserInfoWrap = styled.div`
 
 const UserInfoProfileBox = styled.div`
   display: flex;
-  margin-top: 5px;
 `;
 
 const CustomLi = styled.li`
