@@ -1,30 +1,21 @@
 package com.preproject.stackoverflow.question.service;
 
 
-import com.preproject.stackoverflow.question.entity.Question;
-import com.preproject.stackoverflow.question.entity.QuestionVote;
 import com.preproject.stackoverflow.question.repository.QuestionRepository;
 import com.preproject.stackoverflow.question.repository.QuestionVoteRepository;
-import com.preproject.stackoverflow.audit.BaseTime;
 import com.preproject.stackoverflow.exception.CustomException;
 import com.preproject.stackoverflow.exception.ExceptionCode;
 import com.preproject.stackoverflow.member.entity.Member;
 import com.preproject.stackoverflow.member.repository.MemberRepository;
 import com.preproject.stackoverflow.member.service.MemberService;
-import com.preproject.stackoverflow.answer.entity.Answer;
 import com.preproject.stackoverflow.answer.repository.AnswerRepository;
-import com.preproject.stackoverflow.answer.service.AnswerService;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.awt.*;
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
