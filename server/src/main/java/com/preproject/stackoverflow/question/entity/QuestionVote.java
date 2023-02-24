@@ -18,7 +18,7 @@ public class QuestionVote {
     private Long voteId;
 
     @ManyToOne
-    @JoinColumn(name = "question_id")
+    @JoinColumn(name = "Question_id")
     private Question question;
 
     @ManyToOne
