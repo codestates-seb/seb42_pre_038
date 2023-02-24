@@ -53,6 +53,10 @@ public class Member extends BaseTime {
     @OneToMany(mappedBy = "member")
     private List<QuestionVote> answerVotes = new ArrayList<>();
 
+    public Member(String email) {
+        this.email = email;
+    }
+
     public enum MemberStatus {
         MEMBER_ACTIVE("활동중"),
         MEMBER_SLEEP("휴면 상태"),
