@@ -6,6 +6,7 @@ import com.preproject.stackoverflow.answer.dto.AnswerPostDto;
 import com.preproject.stackoverflow.answer.entity.Answer;
 import com.preproject.stackoverflow.answer.mapper.AnswerMapper;
 import com.preproject.stackoverflow.answer.service.AnswerService;
+import com.preproject.stackoverflow.dto.MultiResponseDto;
 import com.preproject.stackoverflow.dto.SingleResponseDto;
 import com.preproject.stackoverflow.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -67,10 +68,12 @@ public class AnswerController {
     @GetMapping("/{question-id}")        // ("/{answer-id}")
     public ResponseEntity getAnswers(@Positive @RequestParam int page,
                                      @Positive @RequestParam int size,
-                                     @RequestParam int sort,
+                                     @Positive @RequestParam("sort") int sort,
                                      @PathVariable("question-id") @Positive Long questionId){
 
-        Page<Answer> pageAnswers = answerService.findAnswers(page-1, size, sort, questionId);
+        System.out.println("하이하이하이하이하이하이하이하이하이하이하이하이1111111111111");
+        Page<Answer> pageAnswers = answerService.findAnswers(page, size, sort, questionId);
+        System.out.println("하이하이하이하이하이하이하이하이하이하이하이하이33333333333333333");
         List<Answer> answers = pageAnswers.getContent();
 
 
