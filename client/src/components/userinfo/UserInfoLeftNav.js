@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 const NavLeftWrap = styled.nav`
   display: block;
@@ -32,6 +33,21 @@ const NavLeftListBox = styled.ul`
       cursor: default;
     }
   }
+
+  .focused {
+    background-color: #da680b !important;
+    border-radius: 10px;
+    color: #ffffff;
+    text-decoration: none;
+    transition: 0.3s;
+    font-weight: bold;
+    font-size: 11px;
+    cursor: default;
+    :hover {
+      background-color: #ffffff !important;
+      cursor: default;
+    }
+  }
 `;
 
 const NavLeftListItem = styled.li`
@@ -45,32 +61,36 @@ const NavLeftListItem = styled.li`
     border-radius: 1000px;
     cursor: ${(props) => (props.isBold ? 'none' : 'pointer')};
   }
-  :visited {
-    background-color: #da680b;
-    border-radius: 10px;
-    color: #ffffff;
-    text-decoration: none;
-  }
 `;
 
 const NavLeftListItemLink = styled(Link)`
-  :hover {
+  &:hover {
     color: #000000;
   }
 `;
 
 const UserInfoLeftNav = () => {
+  const [currentTab, setCurrentTab] = useState(false);
+  const selectMenuHandler = () => {
+    setCurrentTab(true);
+  };
   return (
     <NavLeftWrap>
       <NavLeftListBox>
         <NavLeftListItem className="isBold">
           PERSONAL INFORMATION
         </NavLeftListItem>
-        <NavLeftListItem>
-          <NavLeftListItemLink to="/userInfo">Edit profile</NavLeftListItemLink>
+        <NavLeftListItem
+          className={currentTab && 'focused'}
+          onClick={() => selectMenuHandler()}
+        >
+          <NavLeftListItemLink to="/useredit">Edit profile</NavLeftListItemLink>
         </NavLeftListItem>
-        <NavLeftListItem>
-          <NavLeftListItemLink to="/userInfo">
+        <NavLeftListItem
+          className={currentTab && 'focused'}
+          onClick={() => selectMenuHandler()}
+        >
+          <NavLeftListItemLink to="/userdelete">
             Delete profile
           </NavLeftListItemLink>
         </NavLeftListItem>

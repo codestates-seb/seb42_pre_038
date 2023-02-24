@@ -9,6 +9,8 @@ import google_logo from '../images/google_logo.svg';
 import github_logo from '../images/github_logo.svg';
 import facebook_logo from '../images/facebook_logo.svg';
 import red_error from '../images/red_question.svg';
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from '../actions';
 
 const StyledLink = styled(Link).attrs()`
   color: rgba(0, 116, 204);
@@ -204,6 +206,10 @@ const Login = () => {
   const [errormessage, setErrorMessage] = useState(false);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  // Login.js eslint 미적용(.env 에러); //
+  // eslint-disable-next-line no-undef
+  const URI = process.env.REACT_APP_SERVER_URI;
   //! 서버 배포 후 테스트 이메일, 패스워드 post 요청 후 토큰 받아와서 저장 !//
   // Ajax function (Axios)
   //* 유효성 검사 *//
@@ -238,16 +244,21 @@ const Login = () => {
     });
 
     return axios
-      .post(
-        'https://c045-218-236-76-177.jp.ngrok.io/api/members',
-        header,
-        reqbody
-      )
+      .post(`${URI}auth/login`, header, reqbody)
       .then((res) => {
-        window.alert(`${res.data.name}님 환영합니다.`);
-        localStorage.setItem('token', JSON.stringify(res.headers));
+        const jwtToken = res.headers.authorization;
+        localStorage.setItem('token', jwtToken);
+        console.log(res.headers);
+        dispatch(loginSuccess(res.headers)); //!()부분 수정하기!//
         navigate('/');
         window.location.reload();
+        window.alert(`${res.data.name}님 환영합니다.`);
+        // console.log(res);
+        // const jwtToken = res.headers.authorization;
+        // localStorage.setItem('token', JSON.stringify(jwtToken));
+        // console.log(res.data.name);
+        // navigate('/');
+        // window.location.reload();
       })
       .catch(() => {
         window.alert('로그인 정보가 일치하지 않습니다. 다시 입력해주세요!');
