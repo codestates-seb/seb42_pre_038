@@ -259,11 +259,18 @@ const ModalBox = styled.div`
   height: 126px;
   padding: 24px;
   background-color: white;
-  transition: all ease 1s;
-  transform: rotate(45deg) 4s;
+  animation: slidefade 0.35s linear;
   > p {
     font-size: 12px;
     margin-bottom: 24px;
+  }
+  @keyframes slidefade {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
   }
 `;
 const ModalH1 = styled.h1`
@@ -373,6 +380,12 @@ const QuestionCreate = () => {
   /*모달*/
   const discardQuestionData = () => {
     setIsModalOpen(!isModalOpen);
+  };
+  const dataDiscard = () => {
+    setTitleValue('');
+    setContentValue('');
+    window.scrollTo(0, 0);
+    window.location.reload();
   };
   return (
     <QuestionCreateWrap>
@@ -497,7 +510,9 @@ const QuestionCreate = () => {
               </p>
               <ModalBtnBox>
                 <DiscardBtnBox>
-                  <DiscardBtn>Discard question</DiscardBtn>
+                  <DiscardBtn onClick={() => dataDiscard()}>
+                    Discard question
+                  </DiscardBtn>
                 </DiscardBtnBox>
                 <CalcelBtn onClick={discardQuestionData}>Cancel</CalcelBtn>
               </ModalBtnBox>
