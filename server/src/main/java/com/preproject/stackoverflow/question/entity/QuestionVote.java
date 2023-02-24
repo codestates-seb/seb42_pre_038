@@ -1,5 +1,6 @@
 package com.preproject.stackoverflow.question.entity;
 
+import com.preproject.stackoverflow.answer.entity.Answer;
 import com.preproject.stackoverflow.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
