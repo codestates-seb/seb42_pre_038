@@ -59,9 +59,9 @@ public class QuestionController {
     //Question 조회
     @GetMapping("/{question-id}")        // ("/{answer-id}")
     public ResponseEntity getQuestions(@Positive @RequestParam int page,
-                                     @Positive @RequestParam int size,
-                                     @RequestParam int sort,
-                                     @PathVariable("question-id") @Positive Long questionId){
+                                       @Positive @RequestParam int size,
+                                       @RequestParam int sort,
+                                       @PathVariable("question-id") @Positive Long questionId){
 
         Page<Question> pageQuestions = questionService.findQuestions(page-1, size, sort, questionId);
         List<Question> questions = pageQuestions.getContent();
@@ -96,5 +96,3 @@ public class QuestionController {
         return new ResponseEntity<>(new SingleResponseDto<>(mapper.questionToQuestionResponseDto(voteDown)),
                 HttpStatus.OK);
     }
-
-}
