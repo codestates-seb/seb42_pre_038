@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import userImgSample from '../../images/avatar.png';
+import PropTypes from 'prop-types';
 
 const UserInfoHeaderWrap = styled.div`
   width: 1067px;
@@ -28,7 +29,17 @@ const UserInfoTap = styled.div`
   margin: 20px 0 20px 0;
 `;
 
-const UserInfoHeader = () => {
+const UserInfoHeader = ({ userHeaderTap, setUserHeaderTap }) => {
+  const userInfoHandler = (e) => {
+    e.preventDefault();
+    setUserHeaderTap('userinfo');
+    console.log(userHeaderTap);
+  };
+  const userSettingHandler = (e) => {
+    e.preventDefault();
+    setUserHeaderTap('setting');
+    console.log(userHeaderTap);
+  };
   return (
     <UserInfoHeaderWrap>
       <UserInfoItem>
@@ -158,9 +169,14 @@ const UserInfoHeader = () => {
       <UserInfoTap className="d-flex ai-center jc-space-between fw-wrap mb16 js-user-header">
         <div className="flex--item s-navigation">
           <a
-            href="/users/21216624/%ec%9e%a5%ec%9d%80%ec%88%98?tab=profile"
-            className="s-navigation--item is-selected"
+            href="/userinfo"
+            className={
+              userHeaderTap === 'userinfo'
+                ? 's-navigation--item is-selected'
+                : 's-navigation--item'
+            }
             data-shortcut="P"
+            onClick={userInfoHandler}
           >
             Profile
           </a>
@@ -180,7 +196,15 @@ const UserInfoHeader = () => {
             Saves
           </a>
 
-          <a href="/users/preferences/21216624" className="s-navigation--item">
+          <a
+            href="/users/preferences/21216624"
+            className={
+              userHeaderTap === 'setting'
+                ? 's-navigation--item is-selected'
+                : 's-navigation--item'
+            }
+            onClick={userSettingHandler}
+          >
             Settings
           </a>
         </div>
@@ -191,5 +215,8 @@ const UserInfoHeader = () => {
     </UserInfoHeaderWrap>
   );
 };
-
+UserInfoHeader.propTypes = {
+  setUserHeaderTap: PropTypes.node.isRequired,
+  userHeaderTap: PropTypes.node.isRequired,
+};
 export default UserInfoHeader;
