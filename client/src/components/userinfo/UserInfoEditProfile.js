@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import red_error from '../../images/red_question.svg';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 // import { display } from '@mui/system';
 
 const UserEditProfileLayout = styled.div`
@@ -138,6 +139,7 @@ const EditDeleteProfileBox = styled.div`
   /* display: flex; */
 `;
 const UserInfoEditProfile = ({ EditDelete }) => {
+  const navigate = useNavigate();
   const [displayName, setDisplayName] = useState('');
   const [errorDisplayName, setErrorDisplayName] = useState(false);
 
@@ -185,6 +187,29 @@ const UserInfoEditProfile = ({ EditDelete }) => {
         setDisplayName('');
         setErrorDisplayName(false);
       });
+  };
+  // delete button area
+  // eslint-disable-next-line no-undef
+  const URI = process.env.REACT_APP_SERVER_URI;
+
+  const userDelete = (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem('token');
+    const memberId = localStorage.getItem('memberId');
+    console.log(token);
+    console.log(memberId);
+    const header = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
+    };
+
+    return axios.delete(`${URI}/api/members/${memberId}`, header).then(() => {
+      localStorage.clear();
+      alert('정상적으로 탈퇴되셨습니다');
+      navigate('/');
+    });
   };
   //! check !//
   return (
@@ -281,14 +306,11 @@ const UserInfoEditProfile = ({ EditDelete }) => {
                 deletion of those individual profiles.
               </p>
 
-              <form
-                className="js-delete-form"
-                action="/users/delete/21216624/submit"
-                method="post"
-              >
+              <form className="js-delete-form">
                 <button
                   className="s-btn s-btn__filled s-btn__danger js-delete-button"
                   disabled=""
+                  onClick={userDelete}
                 >
                   Delete profile
                 </button>
