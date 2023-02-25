@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 const NavLeftWrap = styled.nav`
@@ -33,7 +33,6 @@ const NavLeftListBox = styled.ul`
       cursor: default;
     }
   }
-
   .focused {
     background-color: #da680b !important;
     border-radius: 10px;
@@ -43,19 +42,12 @@ const NavLeftListBox = styled.ul`
     font-weight: bold;
     font-size: 11px;
     cursor: default;
-    :hover {
-      background-color: #ffffff !important;
-      cursor: default;
-    }
   }
 `;
 
 const NavLeftListItem = styled.li`
   font-size: 13px;
   padding: 6px 12px;
-  :link {
-    color: rgb(255, 255, 255);
-  }
   :hover {
     background-color: #e3e6e8;
     border-radius: 1000px;
@@ -70,9 +62,20 @@ const NavLeftListItemLink = styled(Link)`
 `;
 
 const UserInfoLeftNav = () => {
-  const [currentTab, setCurrentTab] = useState(false);
-  const selectMenuHandler = () => {
-    setCurrentTab(true);
+  const [editPage, setEditPage] = useState(false);
+  const [delPage, setDelPage] = useState(false);
+  const navigate = useNavigate();
+
+  const editHandler = () => {
+    setEditPage(!editPage);
+    setDelPage(false);
+    navigate('/useredit');
+  };
+
+  const delHandler = () => {
+    setDelPage(!delPage);
+    setEditPage(false);
+    navigate('/userdelete');
   };
   return (
     <NavLeftWrap>
@@ -81,18 +84,20 @@ const UserInfoLeftNav = () => {
           PERSONAL INFORMATION
         </NavLeftListItem>
         <NavLeftListItem
-          className={currentTab && 'focused'}
-          onClick={() => selectMenuHandler()}
+          className={editPage && 'focused'}
+          onClick={() => {
+            editHandler();
+          }}
         >
-          <NavLeftListItemLink to="/useredit">Edit profile</NavLeftListItemLink>
+          Edit profile
         </NavLeftListItem>
         <NavLeftListItem
-          className={currentTab && 'focused'}
-          onClick={() => selectMenuHandler()}
+          className={delPage && 'focused'}
+          onClick={() => {
+            delHandler();
+          }}
         >
-          <NavLeftListItemLink to="/userdelete">
-            Delete profile
-          </NavLeftListItemLink>
+          Delete profile
         </NavLeftListItem>
         <NavLeftListItem className="isBold">EMAIL SETTINGS</NavLeftListItem>
         <NavLeftListItem>
