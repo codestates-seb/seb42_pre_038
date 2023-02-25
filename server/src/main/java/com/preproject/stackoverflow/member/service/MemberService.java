@@ -6,7 +6,9 @@ import com.preproject.stackoverflow.member.dto.MemberDto;
 import com.preproject.stackoverflow.member.entity.Member;
 import com.preproject.stackoverflow.member.mapper.MemberMapper;
 import com.preproject.stackoverflow.member.repository.MemberRepository;
+import com.preproject.stackoverflow.security.utils.CustomAuthorityUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,11 +21,19 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final CustomAuthorityUtils authorityUtils;
 
     public Member registerMember(Member member) {
         verifyExistsEmail(member.getEmail());
 
         //패스워드 암호화 과정 필요
+        String encryptedPassword = passwordEncoder.encode(member.getPassword());
+        member.setPassword(encryptedPassword);
+
+        List<String> roles = authorityUtils.createRoles(member.getEmail());
+        member.setRoles(roles);
+
         Member savedMember = memberRepository.save(member);
 
         return savedMember;
