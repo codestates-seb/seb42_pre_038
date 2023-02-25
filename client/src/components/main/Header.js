@@ -2,7 +2,9 @@ import styled from 'styled-components';
 import Logo from '../../images/logo.png';
 import SearchBarIcon from '../../images/Search.png';
 // import { useState , Link } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutSuccess } from '../../actions';
 
 const HeaderWrap = styled.div`
   align-items: center;
@@ -177,16 +179,20 @@ const HeaderRight = styled.ol`
 
 const Header = () => {
   // true = 로그인상태 ,false = 로그아웃상태
-  const isLogin = false;
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const isLogin = true;
 
-  // const handleLogin = () => {
-  //   setIsLoggedIn(true);
-  // };
+  const userData = { name: '은수' };
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isLogin = useSelector((state) => state.isLogin);
+  // const userState = useSelector((state) => state.userData);
 
-  // const handleLogout = () => {
-  //   setIsLoggedIn(false);
-  // };
+  const handleLogout = () => {
+    dispatch(logoutSuccess());
+    window.scrollTo(0, 0);
+    window.location.reload();
+    navigate('/');
+  };
 
   return (
     <HeaderWrap>
@@ -205,11 +211,13 @@ const Header = () => {
           <HeaderRight>
             <div className="HeaderRightBox">
               <NavLink to="/userinfo" className="UserInfoBtn">
-                <li className="HeaderUsersBox">은수</li>
+                <li className="HeaderUsersBox">{userData.name}</li>
               </NavLink>
             </div>
             <NavLink to="/" className="LogoutContainer">
-              <li className="LogoutBtn">Logout</li>
+              <button className="LogoutBtn" onClick={handleLogout}>
+                Logout
+              </button>
             </NavLink>
           </HeaderRight>
         ) : (
