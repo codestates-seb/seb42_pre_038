@@ -16,6 +16,10 @@ public interface AnswerRepository extends JpaRepository<Answer, Long> {
     // Answer 테이블에서 Question 컬럼에서 QuestionId로 원하는 데이터 조회 및 페이징 하기 위한 쿼리 메서드.
     Page<Answer> findAllByQuestion(Question questionId, Pageable pageable);
 
+
+    // QuestionService.delete 에서 답변이 달려있는지 확인하기 위한 쿼리 메서드
+    Long countByQuestion(Question questionId);
+
     /*  Optional<Answer> findByMember_MemberId(Long memberId);
     Optional<Answer>  findByQuestion_QuestionId(Long questionId);
 */

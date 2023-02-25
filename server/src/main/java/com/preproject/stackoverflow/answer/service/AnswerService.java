@@ -37,26 +37,21 @@ public class AnswerService{
     private final MemberRepository memberRepository;
     private final MemberService memberService;
 
-    //private final QuestionService questionService;
+    private final QuestionService questionService;
 
 
     // Answer 등록
     public Answer createAnswer(Answer answer, long memberId){
-        System.out.println("아아아아");
-        Member member = memberService.getMember(memberId);
-        System.out.println(answer.getQuestion().getQuestionId());
-        System.out.println("아아아아");
-        //Question question = questionService.getQuestion(answer.getQuestion().getQuestionId());
 
-        Question question = new Question();
-        System.out.println("===========================");
-        System.out.println(question.getQuestionId());
-        question.setQuestionId(1L);
-        System.out.println(question.getQuestionId());
+        Member member = memberService.getMember(memberId);
+        Question question = questionService.findQuestion(answer.getQuestion().getQuestionId());
+
+        question.setAnswersCount(question.getAnswersCount() + 1);
+
         answer.addMember(member);
-        System.out.println("아아아아123123123");
+
         answer.addQuestion(question);
-        // question.plusAnswerCount(); 경민님 question에서 달릴거. 답변 갯수
+
 
         return answerRepository.save(answer);
     }
@@ -82,10 +77,9 @@ public class AnswerService{
     public Page<Answer> findAnswers(int page, int size, int sort, Long questionId){
 
 
-        Question question = new Question();
-        question.setQuestionId(1L);
 
-        // Quustion question = Question.findVerifiedMember(questionId);
+
+        Question question = questionService.findVerifiedQuestion(questionId);
         if(sort == 0) { // Newest 정렬
             Page<Answer> answerPage =
                     answerRepository.findAllByQuestion(question ,  PageRequest.of(page - 1, size, Sort.by("answerId").descending())); // newest 순
@@ -93,7 +87,6 @@ public class AnswerService{
 
         }else{ // voteCount 순 정렬
 
-            System.out.println("하이하이하이하이하이하이하이하이하이하이하이하이");
             Page<Answer> answerPage =
                     answerRepository.findAllByQuestion(question, PageRequest.of(page - 1, size, Sort.by("voteCount").descending())); // vote 순
             return answerPage;
@@ -108,10 +101,9 @@ public class AnswerService{
     public void deleteAnswer(long answerId){
         Answer findAnswer = findVerifiedAnswer(answerId);
 
-        // findAnswer 에서 QuestionId 뽑는다 -> Quetions에서 Answer 개수 수정
-
-        //Quesiton quesiton = questionService.findVerifiedQuestion(findAnswer.getQuestion().getQuestionId());
-        // quesiton.minusAnswerCount(); // 경민님 파트 상의
+        // Question에 달린 Answer가 삭제되므로, answerCount도 삭제 된다.
+        Question question = questionService.findQuestion(findAnswer.getQuestion().getQuestionId());
+        question.setAnswersCount(question.getAnswersCount() - 1);
 
         answerRepository.delete(findAnswer);
     }
