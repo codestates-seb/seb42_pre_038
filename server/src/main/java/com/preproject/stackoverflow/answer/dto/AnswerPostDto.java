@@ -7,12 +7,11 @@ import lombok.Setter;
 import javax.validation.constraints.NotBlank;
 
 @Getter
-@Setter
 public class AnswerPostDto {
 
-    private long memberId;
+    private Long memberId;
 
-    private long questionId;
+    private Long questionId;
 
     @NotBlank // 답변내용은 비어있으면 안된다.
     private String answerContent;

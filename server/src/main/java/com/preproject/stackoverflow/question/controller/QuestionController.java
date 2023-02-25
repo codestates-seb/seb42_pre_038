@@ -1,6 +1,7 @@
 package com.preproject.stackoverflow.question.controller;
 
 import com.preproject.stackoverflow.answer.entity.Answer;
+import com.preproject.stackoverflow.dto.MultiResponseDto;
 import com.preproject.stackoverflow.member.service.MemberService;
 import com.preproject.stackoverflow.question.dto.QuestionPostDto;
 import com.preproject.stackoverflow.question.mapper.QuestionMapper;
@@ -39,9 +40,10 @@ public class QuestionController {
     //Question 등록
     @PostMapping
     public ResponseEntity postQuestion(@Valid @RequestBody QuestionPostDto questionPostDto) {
-        long memberId = questionPostDto.getMemberId();
-        System.out.println(memberId);
-        Question question = questionService.createQuestion(mapper.questionPostDtoToQuestion(questionPostDto), memberId);
+
+
+        Question question = questionService.createQuestion(mapper.questionPostDtoToQuestion(questionPostDto));
+
         return new ResponseEntity<>(
                 new SingleResponseDto<>(mapper.questionToQuestionResponseDto(question)
                 ), HttpStatus.CREATED);
@@ -52,22 +54,34 @@ public class QuestionController {
     public ResponseEntity patchQuestion(@PathVariable("question-id") @Positive long questionId,
                                         @Valid @RequestBody QuestionPatchDto patchDto) {
         Question question = questionService.updateQuestion(mapper.questionPatchDtoToQuestion(patchDto), questionId);
+
         return new ResponseEntity<>(new SingleResponseDto<>(mapper.questionToQuestionResponseDto(question)),
                 HttpStatus.OK);
     }
 
-    //Question 조회
-    @GetMapping("/{question-id}")        // ("/{answer-id}")
+    @GetMapping("/{question-id}")
+    public ResponseEntity getQuestion(@PathVariable("question-id") @Positive long questionId) {
+
+        Question question = questionService.findQuestion(questionId);
+
+
+        return new ResponseEntity<>(mapper.questionToQuestionResponseDto(question), HttpStatus.OK);
+    }
+
+
+
+
+    //Question 페이지네이션
+    @GetMapping       // ("/{answer-id}")
     public ResponseEntity getQuestions(@Positive @RequestParam int page,
                                        @Positive @RequestParam int size,
-                                       @RequestParam int sort,
-                                       @PathVariable("question-id") @Positive Long questionId){
+                                       @RequestParam int sort) {
 
-        Page<Question> pageQuestions = questionService.findQuestions(page-1, size, sort, questionId);
+        Page<Question> pageQuestions = questionService.findQuestions(page - 1, size, sort);
         List<Question> questions = pageQuestions.getContent();
 
 
-        return new ResponseEntity<>(new MultiResponseDto<>(mapper.questionsToQeustionResponseDto(questions),
+        return new ResponseEntity<>(new MultiResponseDto<>(mapper.questionsToQuestionResponseDto(questions),
                 pageQuestions), HttpStatus.OK);
     }
 
@@ -75,7 +89,7 @@ public class QuestionController {
     @DeleteMapping("/{question-id}")
     public ResponseEntity deleteQuestion(@PathVariable("question-id") @Positive long questionId) {
         questionService.deleteQuestion(questionId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT)
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     //Vote up
@@ -90,9 +104,11 @@ public class QuestionController {
     //Vote down
     @PostMapping("/voteDown/{question-id}")
     public ResponseEntity voteDownQuestion(@PathVariable("question-id") long questionId,
-                                           @RequestParam long memberId){
+                                           @RequestParam long memberId) {
         Question voteDown = questionService.voteDown(questionId, memberId);
 
         return new ResponseEntity<>(new SingleResponseDto<>(mapper.questionToQuestionResponseDto(voteDown)),
                 HttpStatus.OK);
     }
+
+}

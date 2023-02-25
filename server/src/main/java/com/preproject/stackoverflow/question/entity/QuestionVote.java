@@ -1,6 +1,5 @@
 package com.preproject.stackoverflow.question.entity;
 
-import com.preproject.stackoverflow.answer.entity.Answer;
 import com.preproject.stackoverflow.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +17,7 @@ public class QuestionVote {
     private Long voteId;
 
     @ManyToOne
-    @JoinColumn(name = "Question_id")
+    @JoinColumn(name = "question_id")
     private Question question;
 
     @ManyToOne

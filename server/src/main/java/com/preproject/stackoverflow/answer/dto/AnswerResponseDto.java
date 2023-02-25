@@ -22,7 +22,7 @@ public class AnswerResponseDto {
 
     private int voteCount; // vote
 
-    private Long questionId;
+    private Long question;
 
     private String name;
 

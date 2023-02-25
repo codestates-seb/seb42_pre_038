@@ -37,19 +37,21 @@ public class AnswerService{
     private final MemberRepository memberRepository;
     private final MemberService memberService;
 
-    //private final QuestionService questionService;
+    private final QuestionService questionService;
 
 
     // Answer 등록
     public Answer createAnswer(Answer answer, long memberId){
-        System.out.println("아아아아");
+
         Member member = memberService.getMember(memberId);
-        System.out.println("아아아아");
-        //Question question = questionService.getQuestion(answer.getQuestion().getQuestionId());
+        Question question = questionService.findQuestion(answer.getQuestion().getQuestionId());
+
+        question.setAnswersCount(question.getAnswersCount() + 1);
+
         answer.addMember(member);
-        System.out.println("아아아아123123123");
-        //answer.addQuestion(question);
-        // question.plusAnswerCount(); 경민님 question에서 달릴거. 답변 갯수
+
+        answer.addQuestion(question);
+
 
         return answerRepository.save(answer);
     }
@@ -60,7 +62,7 @@ public class AnswerService{
         Answer findAnswer = findVerifiedAnswer(answerId);
 
 
-       findAnswer.setContent(answer.getContent());
+       findAnswer.setAnswerContent(answer.getAnswerContent());
 
         return answerRepository.save(findAnswer);
     }
@@ -76,14 +78,17 @@ public class AnswerService{
 
 
 
+
+        Question question = questionService.findVerifiedQuestion(questionId);
         if(sort == 0) { // Newest 정렬
             Page<Answer> answerPage =
-                    answerRepository.findByQuestion(questionId,  PageRequest.of(page - 1, size, Sort.by("answerId").descending())); // newest 순
+                    answerRepository.findAllByQuestion(question ,  PageRequest.of(page - 1, size, Sort.by("answerId").descending())); // newest 순
             return answerPage;
 
         }else{ // voteCount 순 정렬
+
             Page<Answer> answerPage =
-                    answerRepository.findByQuestion(questionId, PageRequest.of(page - 1, size, Sort.by("voteCount").descending())); // vote 순
+                    answerRepository.findAllByQuestion(question, PageRequest.of(page - 1, size, Sort.by("voteCount").descending())); // vote 순
             return answerPage;
 
         }
@@ -96,10 +101,9 @@ public class AnswerService{
     public void deleteAnswer(long answerId){
         Answer findAnswer = findVerifiedAnswer(answerId);
 
-        // findAnswer 에서 QuestionId 뽑는다 -> Quetions에서 Answer 개수 수정
-
-        //Quesiton quesiton = questionService.findVerifiedQuestion(findAnswer.getQuestion().getQuestionId());
-        // quesiton.minusAnswerCount(); // 경민님 파트 상의
+        // Question에 달린 Answer가 삭제되므로, answerCount도 삭제 된다.
+        Question question = questionService.findQuestion(findAnswer.getQuestion().getQuestionId());
+        question.setAnswersCount(question.getAnswersCount() - 1);
 
         answerRepository.delete(findAnswer);
     }
@@ -109,64 +113,75 @@ public class AnswerService{
     public Answer voteUp(long answerId, long memberId){
         Answer findAnswer = findVerifiedAnswer(answerId);
 
+        if (answerVoteRepository.findByMember_MemberId(memberId).isEmpty() == true){
+            // 보트 추가
+            AnswerVote answerVote = new AnswerVote();
 
+            // 연관관계 입력
+            answerVote.setAnswer(findAnswer(answerId));
+            answerVote.setMember(memberService.getMember(memberId));
+
+            // AnswerVote 데이터 DB에 저장
+            answerVoteRepository.save(answerVote);
+
+            // Answer 테이블에 voteCount(답변에 달린 Answer 수) 업데이트 및 저장
+            findAnswer.setVoteCount(findAnswer.getVoteCount() +1);
+            Answer updateAnswer = answerRepository.save(findAnswer);
+
+            return updateAnswer;
+
+        }else {
+            System.out.println("hi");
+            throw new CustomException(ExceptionCode.VOTE_EXISTS);
+
+
+        }
+
+        /*System.out.println("----------------");
         // 중복 보트 검사 ( if null이 아니라면 중복이기 때문에 Exception 발생)
         Optional.ofNullable(answerVoteRepository.findByMember_MemberId(memberId))
                 .ifPresent(Exception-> {throw new CustomException(ExceptionCode.VOTE_EXISTS);});
 
+*/
 
 
 
-        // 보트 추가
-        AnswerVote answerVote = new AnswerVote();
-
-        // 연관관계 입력
-        answerVote.setAnswer(findAnswer(answerId));
-        answerVote.setMember(memberService.getMember(memberId));
-
-        // AnswerVote 데이터 DB에 저장
-        answerVoteRepository.save(answerVote);
-
-        // Answer 테이블에 voteCount(답변에 달린 Answer 수) 업데이트 및 저장
-        findAnswer.setVoteCount(findAnswer.getVoteCount() +1);
-        Answer updateAnswer = answerRepository.save(findAnswer);
-
-        return updateAnswer;
     }
 
     // vote Down
     public Answer voteDown(long answerId, long memberId){
         Answer findAnswer = findVerifiedAnswer(answerId);
 
+        if (answerVoteRepository.findByMember_MemberId(memberId).isEmpty() == true){
 
-        // 중복 보트 검사
-        Optional.ofNullable(answerVoteRepository.findByMember_MemberId(memberId))
-                .ifPresent(Exception-> {throw new CustomException(ExceptionCode.VOTE_EXISTS);});
+            // 보트 추가
+            AnswerVote answerVote = new AnswerVote();
+            answerVote.setAnswer(findAnswer(answerId));
+            answerVote.setMember(memberService.getMember(memberId));
+
+            answerVoteRepository.save(answerVote);
+
+            // Answer 엔티티에 voteCount 수정
+
+            findAnswer.setVoteCount(findAnswer.getVoteCount() - 1);
+
+            // Answer 엔티티에  변견사항 저장
+            Answer updateAnswer = answerRepository.save(findAnswer);
+
+            return updateAnswer;
+
+        }else {
+            System.out.println("hi");
+            throw new CustomException(ExceptionCode.VOTE_EXISTS);
 
 
+        }
 
-
-        // 보트 추가
-        AnswerVote answerVote = new AnswerVote();
-        answerVote.setAnswer(findAnswer(answerId));
-        answerVote.setMember(memberService.getMember(memberId));
-
-        answerVoteRepository.save(answerVote);
-
-        // Answer 엔티티에 voteCount 수정
-
-        findAnswer.setVoteCount(findAnswer.getVoteCount() - 1);
-
-        // Answer 엔티티에  변견사항 저장
-        Answer updateAnswer = answerRepository.save(findAnswer);
-
-        return updateAnswer;
     }
 
 
     @Transactional(readOnly = true)
     public Answer findVerifiedAnswer(long answerId){
-        System.out.println("아아아아");
         Optional<Answer> optionalAnswer = answerRepository.findById(answerId);
         // 답변이 DB에 존재하는지 확인
         // orElseThrow -> 가져온 값이 null이면 제외
