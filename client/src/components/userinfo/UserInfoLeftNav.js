@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { Link } from 'react-router-dom';
+// import { useState } from 'react';
+import PropTypes from 'prop-types';
 
 const NavLeftWrap = styled.nav`
   display: block;
@@ -61,21 +62,27 @@ const NavLeftListItemLink = styled(Link)`
   }
 `;
 
-const UserInfoLeftNav = () => {
-  const [editPage, setEditPage] = useState(false);
-  const [delPage, setDelPage] = useState(false);
-  const navigate = useNavigate();
+const UserInfoLeftNav = ({ EditDelete, setEditDelete }) => {
+  // const [editPage, setEditPage] = useState(false);
+  // const [delPage, setDelPage] = useState(false);
+  // const navigate = useNavigate();
 
+  // const editHandler = () => {
+  //   setEditPage(!editPage);
+  //   setDelPage(false);
+  //   navigate('/useredit');
+  // };
+
+  // const delHandler = () => {
+  //   setDelPage(!delPage);
+  //   setEditPage(false);
+  //   navigate('/userdelete');
+  // };
   const editHandler = () => {
-    setEditPage(!editPage);
-    setDelPage(false);
-    navigate('/useredit');
+    setEditDelete('EditProfile');
   };
-
   const delHandler = () => {
-    setDelPage(!delPage);
-    setEditPage(false);
-    navigate('/userdelete');
+    setEditDelete('DeleteProfile');
   };
   return (
     <NavLeftWrap>
@@ -84,7 +91,7 @@ const UserInfoLeftNav = () => {
           PERSONAL INFORMATION
         </NavLeftListItem>
         <NavLeftListItem
-          className={editPage && 'focused'}
+          className={EditDelete === 'EditProfile' && 'focused'}
           onClick={() => {
             editHandler();
           }}
@@ -92,7 +99,7 @@ const UserInfoLeftNav = () => {
           Edit profile
         </NavLeftListItem>
         <NavLeftListItem
-          className={delPage && 'focused'}
+          className={EditDelete === 'DeleteProfile' && 'focused'}
           onClick={() => {
             delHandler();
           }}
@@ -139,6 +146,10 @@ const UserInfoLeftNav = () => {
       </NavLeftListBox>
     </NavLeftWrap>
   );
+};
+UserInfoLeftNav.propTypes = {
+  EditDelete: PropTypes.node.isRequired,
+  setEditDelete: PropTypes.node.isRequired,
 };
 
 export default UserInfoLeftNav;

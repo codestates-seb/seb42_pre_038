@@ -3,6 +3,7 @@ import robotSample from '../../images/robotSample.png';
 import { useState, useEffect } from 'react';
 import red_error from '../../images/red_question.svg';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 // import { display } from '@mui/system';
 
 const UserEditProfileLayout = styled.div`
@@ -118,7 +119,25 @@ const ProfileButtonBox = styled.div`
     cursor: pointer;
   }
 `;
-const UserInfoEditProfile = () => {
+
+// const UserInfoWrap = styled.div`
+//   display: flex;
+//   flex-direction: column;
+// `;
+
+const UserInfoProfileBox = styled.div`
+  /* display: flex; */
+`;
+
+const CustomLi = styled.li`
+  list-style-type: disc;
+  margin-left: 30px;
+  margin-bottom: 16.5px;
+`;
+const EditDeleteProfileBox = styled.div`
+  /* display: flex; */
+`;
+const UserInfoEditProfile = ({ EditDelete }) => {
   const [displayName, setDisplayName] = useState('');
   const [errorDisplayName, setErrorDisplayName] = useState(false);
 
@@ -169,54 +188,121 @@ const UserInfoEditProfile = () => {
   };
   //! check !//
   return (
-    <UserEditProfileLayout>
-      <UserEditProfileWrap>
-        <EditProfileTopTitle>
-          <h1>Edit your profile</h1>
-        </EditProfileTopTitle>
-        <EditProfileFormSection>
-          <EditProfileFormTitle>Public information</EditProfileFormTitle>
-          <EditProfileDivBox>
-            <ProfileImgBox>
-              <ProfileImgTitle>
-                <h3>Profile image</h3>
-              </ProfileImgTitle>
-              <ProfileImgContent>
-                <img src={robotSample} alt={'user.avater'} />
-              </ProfileImgContent>
-            </ProfileImgBox>
-            <ProfileDisplayNameBox>
-              {errorDisplayName && displayName.length > 0 ? (
-                <img src={red_error} alt="red_error" />
-              ) : null}
-              <label htmlFor="displayName">Display name</label>
-              <input
-                name="DisplayName"
-                className={
-                  errorDisplayName && displayName.length > 0 ? 'error' : null
-                }
-                id="displayName"
-                value={displayName}
-                placeholder="장은수"
-                onChange={(e) => handleChange(e)}
-              />
-            </ProfileDisplayNameBox>
-            <ProfileButtonBox>
-              <button
-                className="color"
-                type="submit"
-                disabled={!displayName}
-                onClick={handleSubmit}
+    <EditDeleteProfileBox>
+      {EditDelete === 'EditProfile' ? (
+        <UserEditProfileLayout>
+          <UserEditProfileWrap>
+            <EditProfileTopTitle>
+              <h1>Edit your profile</h1>
+            </EditProfileTopTitle>
+            <EditProfileFormSection>
+              <EditProfileFormTitle>Public information</EditProfileFormTitle>
+              <EditProfileDivBox>
+                <ProfileImgBox>
+                  <ProfileImgTitle>
+                    <h3>Profile image</h3>
+                  </ProfileImgTitle>
+                  <ProfileImgContent>
+                    <img src={robotSample} alt={'user.avater'} />
+                  </ProfileImgContent>
+                </ProfileImgBox>
+                <ProfileDisplayNameBox>
+                  {errorDisplayName && displayName.length > 0 ? (
+                    <img src={red_error} alt="red_error" />
+                  ) : null}
+                  <label htmlFor="displayName">Display name</label>
+                  <input
+                    name="DisplayName"
+                    className={
+                      errorDisplayName && displayName.length > 0
+                        ? 'error'
+                        : null
+                    }
+                    id="displayName"
+                    value={displayName}
+                    placeholder="장은수"
+                    onChange={(e) => handleChange(e)}
+                  />
+                </ProfileDisplayNameBox>
+                <ProfileButtonBox>
+                  <button
+                    className="color"
+                    type="submit"
+                    disabled={!displayName}
+                    onClick={handleSubmit}
+                  >
+                    Save profile
+                  </button>
+                  <button onClick={handleCancle}>Cancle</button>
+                </ProfileButtonBox>
+              </EditProfileDivBox>
+            </EditProfileFormSection>
+          </UserEditProfileWrap>
+        </UserEditProfileLayout>
+      ) : null}
+      {EditDelete === 'DeleteProfile' ? (
+        <UserInfoProfileBox>
+          <div
+            id="mainbar"
+            className="flex--item fl-grow1 user-show-new settings-page"
+            style={{ height: 'auto' }}
+          >
+            <div className="s-page-title mb24">
+              <h1 className="s-page-title--header m0 baw0 p0">
+                Delete Profile
+              </h1>
+            </div>
+            <div className="s-prose">
+              <p>
+                Before confirming that you would like your profile deleted,
+                we&apos;d like to take a moment to explain the implications of
+                deletion:
+              </p>
+              <ul>
+                <CustomLi>
+                  Deletion is irreversible, and you will have no way to regain
+                  any of your original content, should this deletion be carried
+                  out and you change your mind later on.
+                </CustomLi>
+                <CustomLi>
+                  Your questions and answers will remain on the site, but will
+                  be disassociated and anonymized (the author will be listed as
+                  &quot;user21216624) and will not indicate your authorship even
+                  if you later return to the site.
+                </CustomLi>
+              </ul>
+              <p></p>
+
+              <p>
+                Confirming deletion will only delete your profile on Stack
+                Overflow - it will not affect any of your other profiles on the
+                Stack Exchange network. If you want to delete multiple profiles,
+                you&apos;ll need to visit each site separately and request
+                deletion of those individual profiles.
+              </p>
+
+              <form
+                className="js-delete-form"
+                action="/users/delete/21216624/submit"
+                method="post"
               >
-                Save profile
-              </button>
-              <button onClick={handleCancle}>Cancle</button>
-            </ProfileButtonBox>
-          </EditProfileDivBox>
-        </EditProfileFormSection>
-      </UserEditProfileWrap>
-    </UserEditProfileLayout>
+                <button
+                  className="s-btn s-btn__filled s-btn__danger js-delete-button"
+                  disabled=""
+                >
+                  Delete profile
+                </button>
+              </form>
+            </div>
+          </div>
+        </UserInfoProfileBox>
+      ) : null}
+    </EditDeleteProfileBox>
   );
 };
 
+UserInfoEditProfile.propTypes = {
+  EditDelete: PropTypes.node.isRequired,
+  setEditDelete: PropTypes.node.isRequired,
+};
 export default UserInfoEditProfile;

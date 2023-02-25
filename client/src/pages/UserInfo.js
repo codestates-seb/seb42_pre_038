@@ -5,6 +5,7 @@ import { ContainerBox } from './Home';
 import { useState } from 'react';
 import UserInfoLeftNav from '../components/userinfo/UserInfoLeftNav';
 import UserInfoEditProfile from '../components/userinfo/UserInfoEditProfile';
+import PropTypes from 'prop-types';
 
 const UserInfoWrap = styled.div`
   max-width: 1100px;
@@ -38,7 +39,7 @@ const UserInfoProfileBox = styled.div`
 
 const UserInfo = () => {
   const [userHeaderTap, setUserHeaderTap] = useState('userinfo');
-
+  const [EditDelete, setEditDelete] = useState('EditProfile');
   return (
     <ContainerBox>
       <LeftNavBar />
@@ -88,8 +89,11 @@ const UserInfo = () => {
         ) : null}
         {userHeaderTap === 'setting' ? (
           <UserInfoProfileBox>
-            <UserInfoLeftNav />
-            <UserInfoEditProfile />
+            <UserInfoLeftNav
+              EditDelete={EditDelete}
+              setEditDelete={setEditDelete}
+            />
+            <UserInfoEditProfile EditDelete={EditDelete} />
           </UserInfoProfileBox>
         ) : null}
       </UserInfoWrap>
@@ -97,4 +101,8 @@ const UserInfo = () => {
   );
 };
 
+UserInfoLeftNav.propTypes = {
+  EditDelete: PropTypes.node.isRequired,
+  setEditDelete: PropTypes.node.isRequired,
+};
 export default UserInfo;
