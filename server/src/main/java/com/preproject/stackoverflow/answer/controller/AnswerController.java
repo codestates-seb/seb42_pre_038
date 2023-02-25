@@ -71,9 +71,9 @@ public class AnswerController {
                                      @Positive @RequestParam("sort") int sort,
                                      @PathVariable("question-id") @Positive Long questionId){
 
-        System.out.println("하이하이하이하이하이하이하이하이하이하이하이하이1111111111111");
+
         Page<Answer> pageAnswers = answerService.findAnswers(page, size, sort, questionId);
-        System.out.println("하이하이하이하이하이하이하이하이하이하이하이하이33333333333333333");
+
         List<Answer> answers = pageAnswers.getContent();
 
 
