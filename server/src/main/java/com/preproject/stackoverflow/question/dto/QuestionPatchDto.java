@@ -10,8 +10,9 @@ import javax.validation.constraints.NotBlank;
 
 public class QuestionPatchDto {
 
-    private long questionId;
+    @NotBlank(message = "질문 제목을 적어주세요")
+    private String title;
 
-    @NotBlank
-    private String questionContent;
+    @NotBlank(message = "질문 내용을 적어주세요")
+    private String content;
 }

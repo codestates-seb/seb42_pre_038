@@ -12,13 +12,16 @@ import java.time.LocalDateTime;
 public class QuestionResponseDto {
 
     private Long questionId;
-    private String questionContent;
+    private String title;
+    private String content;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-    private int score; // vote
+    private int voteCount; // vote
     private Long answerId;
     private Long memberId;
     private String name;
+    private String viewCount;
+    private int answersCount;
 
 
 }
