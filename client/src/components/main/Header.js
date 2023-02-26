@@ -184,11 +184,12 @@ const Header = () => {
   const userData = { name: '은수' };
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isLogin = useSelector((state) => state.isLogin);
+  const isLogin = useSelector((state) => state.loginInfoReducer.isLogin);
   // const userState = useSelector((state) => state.userData);
 
   const handleLogout = () => {
     dispatch(logoutSuccess());
+    localStorage.clear();
     window.scrollTo(0, 0);
     window.location.reload();
     navigate('/');
