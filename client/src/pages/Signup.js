@@ -369,7 +369,7 @@ const Signup = () => {
       },
     };
     const axiosInstance = axios.create({
-      baseURL: 'http://13.124.65.30:8080',
+      baseURL: 'http://13.125.238.94:8080',
       debug: true, // 디버깅 모드 활성화
     });
     if (userEmailValid && displayNameValid && userPasswordValid) {

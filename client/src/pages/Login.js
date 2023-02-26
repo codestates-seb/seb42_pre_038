@@ -1,8 +1,7 @@
 //* 로그인 페이지 *//
-
 import styled from 'styled-components';
 import stack_logo from '../images/stack_logo.svg';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
 import google_logo from '../images/google_logo.svg';
@@ -205,7 +204,27 @@ const Login = () => {
   const [loginPassword, setLoginPassword] = useState('');
   const [errormessage, setErrorMessage] = useState(false);
 
-  const navigate = useNavigate();
+  // const [isToken, setIsToken] = useState(null);
+
+  // useEffect(() => {
+  //   test();
+  // }, [isToken]);
+
+  // const header = {
+  //   headers: {
+  //     'Access-Control-Allow-Origin': '*',
+  //     'Content-Type': 'application/json',
+  //     Authorization: isToken,
+  //   },
+  // };
+  // const test = () => {
+  //   return axios
+  //     .get(`${URI}/api/auth/reissue`, header, { withCredentials: true })
+  //     .then((res) => {
+  //       console.log(res);
+  //     });
+  // };
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
   // Login.js eslint 미적용(.env 에러); //
   // eslint-disable-next-line no-undef
@@ -214,9 +233,8 @@ const Login = () => {
   // Ajax function (Axios)
   //* 유효성 검사 *//
   const handleSubmitButton = (e) => {
-    e.preventdefault();
-
-    axios.defaults.withCredentials = true;
+    e.preventDefault();
+    axios.defaults.withCredentials = false;
 
     if (!loginEmail || !loginPassword) {
       setLoginPassword('');
@@ -232,27 +250,33 @@ const Login = () => {
       return;
     }
 
-    const header = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
+    // const header = {
+    //   headers: {
+    //     'Access-Control-Allow-Origin': '*',
+    //     'Content-Type': 'application/json',
+    //   },
+    // };
 
-    const reqbody = JSON.stringify({
+    const reqbody = {
       email: loginEmail,
       password: loginPassword,
-    });
+    };
 
     return axios
-      .post(`${URI}auth/login`, header, reqbody)
+      .post(`${URI}/api/auth/login`, reqbody)
       .then((res) => {
         const jwtToken = res.headers.authorization;
-        localStorage.setItem('token', jwtToken);
+        const memberId = res.headers.memberid;
         console.log(res.headers);
+        localStorage.setItem('token', jwtToken);
+        localStorage.setItem('memberId', memberId);
+        console.log(jwtToken);
         dispatch(loginSuccess(res.headers)); //!()부분 수정하기!//
-        navigate('/');
-        window.location.reload();
-        window.alert(`${res.data.name}님 환영합니다.`);
+        // setIsToken(jwtToken);
+        // console.log(isToken);
+        // navigate('/');
+        // window.location.reload();
+        // window.alert(`${res.data.name}님 환영합니다.`);
         // console.log(res);
         // const jwtToken = res.headers.authorization;
         // localStorage.setItem('token', JSON.stringify(jwtToken));
