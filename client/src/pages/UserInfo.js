@@ -47,6 +47,7 @@ const UserInfo = () => {
         <UserInfoHeader
           userHeaderTap={userHeaderTap}
           setUserHeaderTap={setUserHeaderTap}
+          setEditDelete={setEditDelete}
         />
         {userHeaderTap === 'userinfo' ? (
           <UserInfoBody>
