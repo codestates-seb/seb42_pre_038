@@ -8,6 +8,8 @@ import com.preproject.stackoverflow.answer.mapper.AnswerMapper;
 import com.preproject.stackoverflow.answer.service.AnswerService;
 import com.preproject.stackoverflow.dto.MultiResponseDto;
 import com.preproject.stackoverflow.dto.SingleResponseDto;
+import com.preproject.stackoverflow.member.entity.Member;
+import com.preproject.stackoverflow.member.mapper.MemberMapper;
 import com.preproject.stackoverflow.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -36,6 +38,7 @@ public class AnswerController {
     private final AnswerService answerService;
     private final MemberService memberService;
     private final AnswerMapper mapper;
+    private final MemberMapper memberMapper;
 
     // Answer 등록
     @PostMapping
@@ -108,6 +111,15 @@ public class AnswerController {
         Answer voteDown = answerService.voteDown(answerId, memberId);
 
         return new ResponseEntity<>(new SingleResponseDto<>(mapper.answerToAnswerResponseDto(voteDown)), HttpStatus.OK);
+    }
+
+
+    @GetMapping("/profile/{member-Id}")
+    public ResponseEntity getProfile(@PathVariable("member-Id") long memberId){
+        System.out.println("하이");
+        List<Answer> members = answerService.getMembers(memberId);
+
+        return new ResponseEntity<>(new SingleResponseDto<>(mapper.answersToAnswerResponseDto(members)), HttpStatus.OK);
     }
 
 }

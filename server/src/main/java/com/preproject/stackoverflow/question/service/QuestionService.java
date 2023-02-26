@@ -20,6 +20,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -91,11 +92,6 @@ public class QuestionService {
             }
 
 
-
-
-
-
-
         }
 
         // Question 삭제
@@ -116,6 +112,17 @@ public class QuestionService {
 
 
 
+        }
+
+        public Page<Question> search(int page, int size, String keyword){
+
+
+
+            Page<Question> questions = questionRepository.findByTitleContaining(keyword, PageRequest.of(page-1 , size) );
+
+            //Page<Question> questionPage = questionRepository.findAll(PageRequest.of(page , size, Sort.by("createdAt").descending()));
+
+            return questions;
         }
 
         // vote Up
@@ -184,6 +191,14 @@ public class QuestionService {
             question.setViewCount(question.getViewCount() +1 );
         }
 
+    public List<Question> getMembers(Long memberId){
+
+
+        List<Question> members = questionRepository.findTop5ByMember_MemberIdOrderByCreatedAtDesc(memberId);
+
+        return members;
+    }
+
 
         @Transactional(readOnly = true)
         public Question findVerifiedQuestion(long questionId){
@@ -195,6 +210,8 @@ public class QuestionService {
 
             return findQuestion;
         }
+
+
 
 
 }

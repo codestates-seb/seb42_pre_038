@@ -13,7 +13,7 @@ public class QuestionPostDto {
 
 
     // 수동 매핑 해야할듯 ㅠ
-    //private long memberId;
+    private long memberId;
 
     @NotBlank(message = "질문 제목을 적어주세요")
     private String title;
