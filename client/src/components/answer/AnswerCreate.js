@@ -15,6 +15,9 @@ const AnswerButtonBox = styled.div`
   padding: 20px 0 15px 0;
 `;
 const AnswerCreate = () => {
+  const goYouAnswer = () => {
+    console.log('post answer');
+  };
   const modules = {
     toolbar: {
       container: [
@@ -48,7 +51,7 @@ const AnswerCreate = () => {
       <AnswerCountSpan>Your Answer</AnswerCountSpan>
       <ReactQuill modules={modules} />
       <AnswerButtonBox>
-        <MainButton>Post Your Answer</MainButton>
+        <MainButton ButtonProps={goYouAnswer}>Post Your Answer</MainButton>
       </AnswerButtonBox>
     </AnswerCreateWrap>
   );

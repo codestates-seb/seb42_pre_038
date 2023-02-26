@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import LeftNavBar from '../components/main/LeftNavBar';
 import RightSideBar from '../components/main/RightSideBar';
@@ -57,6 +58,12 @@ const QuestionDetailBox = styled.div`
 `;
 
 const QuestionDetail = () => {
+  const navigate = useNavigate();
+
+  const goToAsk = () => {
+    navigate('/questions/ask');
+  };
+
   return (
     <>
       <ContainerBox>
@@ -69,7 +76,9 @@ const QuestionDetail = () => {
                 a multiplatform project?
               </QuestionTitleH1>
               <QuestionDetailButtonBox>
-                <AskQuestionButton>Ask Questions</AskQuestionButton>
+                <AskQuestionButton ButtonProps={goToAsk}>
+                  Ask Questions
+                </AskQuestionButton>
               </QuestionDetailButtonBox>
             </QuestionTitleBox>
             <QuestionDetailInfoBox>

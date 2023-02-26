@@ -24,12 +24,14 @@ const MainButtonWrap = styled.button`
     background-color: hsl(206, 100%, 40%);
   }
 `;
-const MainButton = ({ children }) => {
-  return <MainButtonWrap>{children}</MainButtonWrap>;
+
+const MainButton = ({ children, ButtonProps }) => {
+  return <MainButtonWrap onClick={ButtonProps}>{children}</MainButtonWrap>;
 };
 
 MainButton.propTypes = {
   children: PropTypes.node.isRequired,
+  ButtonProps: PropTypes.func,
 };
 
 export default MainButton;
