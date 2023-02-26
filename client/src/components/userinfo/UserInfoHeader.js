@@ -122,7 +122,8 @@ const UserInfoHeader = ({ userHeaderTap, setUserHeaderTap }) => {
         <div className="ps-absolute t0 r0 d-flex gs6 fw-wrap">
           <a
             className="flex--item s-btn s-btn__outlined s-btn__muted s-btn__icon s-btn__sm"
-            href="/users/edit/21216624"
+            href="!#"
+            onClick={userSettingHandler}
           >
             <svg
               aria-hidden="true"
