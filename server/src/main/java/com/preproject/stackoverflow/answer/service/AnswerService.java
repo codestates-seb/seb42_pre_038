@@ -179,6 +179,17 @@ public class AnswerService{
 
     }
 
+    public List<Answer> getMembers(Long memberId){
+
+        System.out.println("멤버 아이디로 answer 객체 가져오기");
+        //Answer newAnswer = answerRepository.findByMember_MemberId(memberId);
+
+        System.out.println("리스트로 가져오기");
+        List<Answer> members = answerRepository.findTop5ByMember_MemberIdOrderByCreatedAtDesc(memberId);
+
+        return members;
+    }
+
 
     @Transactional(readOnly = true)
     public Answer findVerifiedAnswer(long answerId){
