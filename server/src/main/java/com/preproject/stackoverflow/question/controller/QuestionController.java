@@ -67,8 +67,18 @@ public class QuestionController {
 
         return new ResponseEntity<>(mapper.questionToQuestionResponseDto(question), HttpStatus.OK);
     }
+    // 서치 기능 : title 로만.
+    @GetMapping("/search")
+    public ResponseEntity getSearch(@RequestParam int page,
+                                    @RequestParam int size,
+                                    @RequestParam String keyword){
 
+        Page<Question> pageQuestions = questionService.search(page, size, keyword);
+        List<Question> questions = pageQuestions.getContent();
 
+        return new ResponseEntity<>(new MultiResponseDto<>(mapper.questionsToQuestionResponseDto(questions),
+                pageQuestions), HttpStatus.OK);
+    }
 
 
     //Question 페이지네이션
@@ -109,6 +119,14 @@ public class QuestionController {
 
         return new ResponseEntity<>(new SingleResponseDto<>(mapper.questionToQuestionResponseDto(voteDown)),
                 HttpStatus.OK);
+    }
+
+    @GetMapping("/profile/{member-Id}")
+    public ResponseEntity getProfile(@PathVariable("member-Id") long memberId){
+
+        List<Question> Questions = questionService.getMembers(memberId);
+
+        return new ResponseEntity<>(new SingleResponseDto<>(mapper.questionsToQuestionResponseDto(Questions)), HttpStatus.OK);
     }
 
 }
