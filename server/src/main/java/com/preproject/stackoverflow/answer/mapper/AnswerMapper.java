@@ -17,7 +17,6 @@ import java.util.List;
 public interface AnswerMapper {
 
     @Mapping(source = "memberId", target = "member.memberId")
-    @Mapping(source = "name", target = "member.name")
     @Mapping(source = "questionId", target = "question.questionId")
     Answer answerPostDtoToAnswer(AnswerPostDto answerPostDto);
 
