@@ -27,7 +27,6 @@ public interface AnswerMapper {
         answer.setMember(member);
         answer.setQuestion(question);
         answer.setAnswerContent(answerPostDto.getAnswerContent());
-        System.out.println(answer.getQuestion());
 
         return answer;
 
