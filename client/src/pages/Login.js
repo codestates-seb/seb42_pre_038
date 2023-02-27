@@ -268,19 +268,22 @@ const Login = () => {
         // 밑에 3개를 한번에 변수에 담고 접근하게만 만들어서 뿌리면 코드가 더 간결할꺼같다..
         const jwtToken = res.headers.authorization;
         const memberId = res.headers.memberid;
-        const name = res.headers.name;
-        console.log(res.headers);
+        // const name = res.headers.name;
+        // console.log(name);
+        // console.log(res.headers);
         localStorage.setItem('token', jwtToken);
         localStorage.setItem('memberId', memberId);
-        console.log(jwtToken);
+        // localStorage.setItem('name', name);
+        // console.log(localStorage);
 
         const data = {
-          isLogin: true,
           memberId: memberId,
-          displayName: name,
+          // displayName: name,
         };
-
+        // console.log(res.headers.data.name);
         dispatch(loginSuccess(data)); //!()부분 수정하기!//
+        navigate('/');
+
         // setIsToken(jwtToken);
         // console.log(isToken);
         // navigate('/');
@@ -290,7 +293,7 @@ const Login = () => {
         // const jwtToken = res.headers.authorization;
         // localStorage.setItem('token', JSON.stringify(jwtToken));
         // console.log(res.data.name);
-        navigate('/');
+        // navigate('/');
         // window.location.reload();
       })
       .catch(() => {
