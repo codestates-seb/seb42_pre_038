@@ -265,13 +265,22 @@ const Login = () => {
     return axios
       .post(`${URI}/api/auth/login`, reqbody)
       .then((res) => {
+        // 밑에 3개를 한번에 변수에 담고 접근하게만 만들어서 뿌리면 코드가 더 간결할꺼같다..
         const jwtToken = res.headers.authorization;
         const memberId = res.headers.memberid;
+        const name = res.headers.name;
         console.log(res.headers);
         localStorage.setItem('token', jwtToken);
         localStorage.setItem('memberId', memberId);
         console.log(jwtToken);
-        dispatch(loginSuccess()); //!()부분 수정하기!//
+
+        const data = {
+          isLogin: true,
+          memberId: memberId,
+          displayName: name,
+        };
+
+        dispatch(loginSuccess(data)); //!()부분 수정하기!//
         // setIsToken(jwtToken);
         // console.log(isToken);
         // navigate('/');
