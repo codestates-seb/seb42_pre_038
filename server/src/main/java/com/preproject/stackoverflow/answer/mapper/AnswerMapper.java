@@ -16,49 +16,17 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface AnswerMapper {
 
-    default Answer answerPostDtoToAnswer(AnswerPostDto answerPostDto){
-        Answer answer = new Answer();
-        Member member = new Member();
-        Question question = new Question();
+    @Mapping(source = "memberId", target = "member.memberId")
+    @Mapping(source = "name", target = "member.name")
+    @Mapping(source = "questionId", target = "question.questionId")
+    Answer answerPostDtoToAnswer(AnswerPostDto answerPostDto);
 
-        member.setMemberId(answerPostDto.getMemberId());
-        question.setQuestionId(answerPostDto.getQuestionId());
+    Answer answerPatchDtoToAnswer(AnswerPatchDto answerPatchDto);
 
-        answer.setMember(member);
-        answer.setQuestion(question);
-        answer.setAnswerContent(answerPostDto.getAnswerContent());
-        System.out.println(answer.getQuestion());
-
-        return answer;
-
-    }
-
-    default Answer answerPatchDtoToAnswer(AnswerPatchDto answerPatchDto){
-        Answer answer = new Answer();
-        //Question question = new Question();
-
-        answer.setAnswerContent(answerPatchDto.getAnswerContent());
-
-        return answer;
-    }
-
-    default AnswerResponseDto answerToAnswerResponseDto(Answer answer){
-
-        Long questionId = answer.getQuestion().getQuestionId();
-
-        Long answerId = answer.getAnswerId();
-        LocalDateTime createdAt = answer.getCreatedAt();
-        LocalDateTime modifiedAt = answer.getModifiedAt();
-        int voteCount = answer.getVoteCount();
-        String answerContent = answer.getAnswerContent();
-        String name = null;
-        AnswerResponseDto answerResponseDto = new AnswerResponseDto(answerId, (String)answerContent, createdAt, modifiedAt, voteCount, (Long)questionId, (String)name);
-
-        return answerResponseDto;
-
-    }
+    @Mapping(source = "member.memberId", target = "memberId")
+    @Mapping(source = "question.questionId", target = "questionId")
+    AnswerResponseDto answerToAnswerResponseDto(Answer answer);
 
     List<AnswerResponseDto> answersToAnswerResponseDto(List<Answer> answers);
-
 
 }
