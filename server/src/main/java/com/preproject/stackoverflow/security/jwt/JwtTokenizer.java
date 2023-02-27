@@ -47,7 +47,7 @@ public class JwtTokenizer {
 
     public String delegateAccessToken(Member member) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("email", member.getEmail());
+        claims.put("username", member.getEmail());
         claims.put("roles", member.getRoles());
 
         String subject = member.getEmail();
@@ -97,7 +97,6 @@ public class JwtTokenizer {
 
     public Jws<Claims> getClaims(String jws, String base64EncodedSecretKey) {
         Key key = getKeyFromBase64EncodedKey(base64EncodedSecretKey);
-
         Jws<Claims> claims = Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()

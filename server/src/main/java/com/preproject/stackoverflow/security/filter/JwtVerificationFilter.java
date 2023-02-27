@@ -1,17 +1,12 @@
 package com.preproject.stackoverflow.security.filter;
 
-import com.preproject.stackoverflow.member.entity.Member;
-import com.preproject.stackoverflow.member.repository.MemberRepository;
 import com.preproject.stackoverflow.security.jwt.JwtTokenizer;
 import com.preproject.stackoverflow.security.redis.service.RedisService;
 import com.preproject.stackoverflow.security.userdetails.MemberDetailsService;
-import com.preproject.stackoverflow.security.utils.CookieUtil;
 import com.preproject.stackoverflow.security.utils.CustomAuthorityUtils;
 import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,7 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class JwtVerificationFilter extends OncePerRequestFilter {
@@ -44,6 +38,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
             if (!Objects.isNull(accessToken) && accessToken.startsWith("Bearer") || requestURI.equals("/api/auth/reissue")) {
                 if (requestURI.equals("/api/auth/reissue")) {
                     String refreshToken = jwtTokenizer.getRefreshTokenToRequest(request);
+
                     setAuthenticationToContextByNewAccessToken(refreshToken);
                 } else {
                     Map<String, Object> claims = verifyJws(request);
@@ -77,7 +72,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     }
 
     private void setAuthenticationToContext(Map<String, Object> claims) {
-        String email = (String) claims.get("email");
+        String email = (String) claims.get("username");
         List<GrantedAuthority> authorities = authorityUtils.createAuthorities((List) claims.get("roles"));
         Authentication authentication = new UsernamePasswordAuthenticationToken(email, null, authorities);
         SecurityContextHolder.getContext().setAuthentication(authentication);
