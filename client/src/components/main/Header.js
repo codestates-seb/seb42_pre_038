@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import Logo from '../../images/logo.png';
 import SearchBarIcon from '../../images/Search.png';
-// import { useState , Link } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { logoutSuccess } from '../../actions';
-import { useEffect } from 'react';
-
+import { useDispatch } from 'react-redux';
+import { loginSuccess, logoutSuccess } from '../../actions';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+// import axios from 'axios';
 const HeaderWrap = styled.div`
   align-items: center;
   box-sizing: border-box;
@@ -180,17 +180,52 @@ const HeaderRight = styled.ol`
 
 const Header = () => {
   // true = 로그인상태 ,false = 로그아웃상태
-  // const isLogin = true;
-
-  const userData = { name: '은수' };
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isLogin = useSelector((state) => state.loginInfoReducer.isLogin);
-  // const userState = useSelector((state) => state.userData);
-
+  // const isLogin = useSelector((state) => state.loginInfoReducer.isLogin);
+  // const userData = useSelector((state) => state.loginInfoReducer.displayName);
+  // const userName = userData ? userData.slice(1, 3) : null;
+  const memberId = localStorage.getItem('memberId');
+  const [headerName, setHeaderName] = useState('');
+  //검색
+  const [searchValue, setSearchValue] = useState('');
+  //토큰
+  const jwtToken = localStorage.getItem('token');
+  // eslint-disable-next-line no-undef
+  const URI = process.env.REACT_APP_SERVER_URI;
+  // const [resultValure, setSesultValure] = useState([]);
+  //검색벨류
+  const handleSearchValueChange = (e) => {
+    setSearchValue(e.target.value);
+    console.log(e.target.value);
+  };
+  const header = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: jwtToken,
+    },
+  };
   useEffect(() => {
-    console.log(isLogin);
-  }, [isLogin]);
+    if (jwtToken) {
+      dispatch(loginSuccess());
+    }
+    axios
+      .get(`${URI}/api/members/${memberId}`, header)
+      .then((response) => {
+        let name = response.data.data.name;
+        setHeaderName(name.slice(1, 3));
+        console.log(`name`, headerName);
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error.response.status);
+        if (error.response.status === 401) {
+          window.scrollTo(0, 0);
+          localStorage.clear();
+          navigate('/');
+        }
+      });
+  }, []);
 
   const handleLogout = () => {
     dispatch(logoutSuccess());
@@ -198,6 +233,12 @@ const Header = () => {
     window.scrollTo(0, 0);
     window.location.reload();
     navigate('/');
+  };
+  const handleSearch = (e) => {
+    if (e.key === 'Enter') {
+      alert('엔터');
+      axios.get(`${URI}/api/questions`);
+    }
   };
 
   return (
@@ -211,13 +252,18 @@ const Header = () => {
         </HeaderLeft>
         <HeaderSearchContainer>
           <img src={SearchBarIcon} alt="Searchbar" />
-          <SearchBarInput placeholder="Search..." />
+          <SearchBarInput
+            placeholder="Search..."
+            value={searchValue}
+            onChange={handleSearchValueChange}
+            onKeyDown={handleSearch}
+          />
         </HeaderSearchContainer>
-        {isLogin ? (
+        {jwtToken ? (
           <HeaderRight>
             <div className="HeaderRightBox">
               <NavLink to="/userinfo" className="UserInfoBtn">
-                <li className="HeaderUsersBox">{userData.name}</li>
+                <li className="HeaderUsersBox">{headerName}</li>
               </NavLink>
             </div>
             <NavLink to="/" className="LogoutContainer">
