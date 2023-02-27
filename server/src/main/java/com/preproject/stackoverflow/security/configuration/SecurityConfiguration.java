@@ -15,6 +15,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
@@ -25,6 +26,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 
 @Configuration
+@EnableWebSecurity(debug = true)
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 //    @Value("${spring.security.oauth2.client.registration.google.clientId}")
@@ -62,6 +64,14 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.PATCH, "/*/members/**").hasRole("USER")
                         .antMatchers(HttpMethod.GET, "/*/members/**").hasRole("USER")
                         .antMatchers(HttpMethod.DELETE, "/*/members/**").hasRole("USER")
+                        .antMatchers(HttpMethod.POST, "/*/questions").hasRole("USER")
+                        .antMatchers(HttpMethod.PATCH, "/*/questions/**").hasRole("USER")
+                        .antMatchers(HttpMethod.GET, "/*/questions/**").permitAll()
+                        .antMatchers(HttpMethod.DELETE, "/*/questions/**").hasRole("USER")
+                        .antMatchers(HttpMethod.POST, "/*/answers").permitAll()
+                        .antMatchers(HttpMethod.PATCH, "/*/answers/**").hasRole("USER")
+                        .antMatchers(HttpMethod.GET, "/*/answers/**").permitAll()
+                        .antMatchers(HttpMethod.DELETE, "/*/answers/**").hasRole("USER")
                         .anyRequest().permitAll()
                 );
 
@@ -78,6 +88,9 @@ public class SecurityConfiguration {
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
+        configuration.addAllowedHeader("Authorization");
+        configuration.addExposedHeader("Authorization");
+        configuration.validateAllowCredentials();
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
