@@ -21,6 +21,7 @@ public class QuestionResponseDto {
     private Long memberId;
     private int viewCount;
     private int answersCount;
+    private String name;
 
 
 }
