@@ -306,10 +306,6 @@ const FooterBox = styled.div`
   }
 `;
 
-const handleButtonClick = () => {
-  alert('hi');
-};
-
 const Signup = () => {
   const [displayName, setDisplayName] = useState('장은수');
   const [displayNameValid, setDisplayNameValid] = useState(false);
@@ -422,15 +418,15 @@ const Signup = () => {
         </SignupLeftBox>
         <SignupRightBox>
           <ButtonBox>
-            <GoggleButton onClick={() => handleButtonClick}>
+            <GoggleButton>
               <img src={google_logo} alt="google_logo" />
               Log in with Google
             </GoggleButton>
-            <GitHubButton onClick={() => handleButtonClick}>
+            <GitHubButton>
               <img src={github_logo} alt="github_logo" />
               Log in with GitHub
             </GitHubButton>
-            <FacebookButton onClick={handleButtonClick}>
+            <FacebookButton>
               <img
                 src={facebook_logo}
                 alt="facebook_logo"
@@ -466,7 +462,9 @@ const Signup = () => {
                 ) : null}
                 <label htmlFor="email">Email</label>
                 <input
-                  className={!userEmailValid && userEmail.length > 0 && 'error'}
+                  className={
+                    !userEmailValid && userEmail.length > 0 ? 'error' : null
+                  }
                   id="email"
                   required
                   value={userEmail}
@@ -474,7 +472,7 @@ const Signup = () => {
                 ></input>
                 <div
                   className={
-                    !userEmailValid && userEmail.length > 0 && 'visible'
+                    !userEmailValid && userEmail.length > 0 ? 'visible' : null
                   }
                 >
                   Email must have valid email form.
@@ -494,12 +492,16 @@ const Signup = () => {
                   onChange={(e) => setUserPassword(e.target.value)}
                   required
                   className={
-                    !userPasswordValid && userPassword.length > 0 && 'boder'
+                    !userPasswordValid && userPassword.length > 0
+                      ? 'boder'
+                      : null
                   }
                 ></input>
                 <div
                   className={
-                    !userPasswordValid && userPassword.length > 0 && 'error'
+                    !userPasswordValid && userPassword.length > 0
+                      ? 'error'
+                      : null
                   }
                 >
                   Password must have valid email form.
