@@ -5,6 +5,7 @@ import SearchBarIcon from '../../images/Search.png';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutSuccess } from '../../actions';
+import { useEffect } from 'react';
 
 const HeaderWrap = styled.div`
   align-items: center;
@@ -184,13 +185,18 @@ const Header = () => {
   const userData = { name: '은수' };
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isLogin = useSelector((state) => state.isLogin);
+  const isLogin = useSelector((state) => state.loginInfoReducer.isLogin);
   // const userState = useSelector((state) => state.userData);
+
+  useEffect(() => {
+    console.log(isLogin);
+  }, [isLogin]);
 
   const handleLogout = () => {
     dispatch(logoutSuccess());
-    window.scrollTo(0, 0);
-    window.location.reload();
+    localStorage.clear();
+    // window.scrollTo(0, 0);
+    // window.location.reload();
     navigate('/');
   };
 
