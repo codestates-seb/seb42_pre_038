@@ -1,9 +1,9 @@
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 
-export const loginSuccess = () => ({
+export const loginSuccess = (data) => ({
   type: LOGIN,
-  // payload: data,
+  payload: data,
 });
 
 export const logoutSuccess = () => ({
