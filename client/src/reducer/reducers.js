@@ -9,7 +9,7 @@ const loginInfoReducer = (state = initialstate, action) => {
     case LOGIN:
       return {
         isLogin: true,
-        ...action.payload,
+        // ...action.payload,
       };
     case LOGOUT:
       return {
