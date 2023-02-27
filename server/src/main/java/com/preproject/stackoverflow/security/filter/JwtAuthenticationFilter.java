@@ -8,6 +8,7 @@ import com.preproject.stackoverflow.security.redis.service.RedisService;
 import com.preproject.stackoverflow.security.utils.CookieUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,6 +21,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,9 +59,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         Cookie refresh = CookieUtil.createCookie("Refresh", refreshToken);
         response.addCookie(refresh);
         response.setHeader("Authorization", "Bearer " + accessToken);
-
+        response.setHeader("memberId", member.getMemberId().toString());
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
+        response.setHeader("displayName", member.getName());
         this.getSuccessHandler().onAuthenticationSuccess(request, response, authResult);
     }
-
 
 }
