@@ -7,7 +7,10 @@ import com.preproject.stackoverflow.member.entity.Member;
 import com.preproject.stackoverflow.member.mapper.MemberMapper;
 import com.preproject.stackoverflow.member.repository.MemberRepository;
 import com.preproject.stackoverflow.security.utils.CustomAuthorityUtils;
+import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,16 +44,14 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public Member getMember(Long memberId) {
-        //본인 계정일 때만 확인할 수 있어야함 Security 적용 후 구현
+        verifyLoginMember(memberId);
         Member member = findVerifiedMember(memberId);
 
         return member;
     }
 
     public Member updateMember(Member member) {
-        //본인 계정일 때만 확인할 수 있어야 함 Security 적용 후 구현
-        //token 에서 id 파싱 후 그 계정에 해당하는 정보 업데이트
-
+        verifyLoginMember(member.getMemberId());
         Member verifiedMember = findVerifiedMember(member.getMemberId());
 
         Optional.ofNullable(member.getName()).ifPresent(name -> verifiedMember.setName(name));
@@ -61,7 +62,7 @@ public class MemberService {
     }
 
     public void deleteMember(Long memberId) {
-        verifyLoginMember(null, memberId);
+        verifyLoginMember(memberId);
 
         memberRepository.deleteById(memberId);
     }
@@ -74,7 +75,7 @@ public class MemberService {
         }
     }
 
-    private Member findVerifiedMember(Long memberId) {
+    public Member findVerifiedMember(Long memberId) {
         Optional<Member> member = memberRepository.findById(memberId);
         Member verifiedMember = member.orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
 
@@ -82,8 +83,17 @@ public class MemberService {
         return verifiedMember;
     }
 
-    private void verifyLoginMember(Long loginMemberId, Long memberId) {
-        //token 을 이용한 본인 확인 메서드 구현
+    public void verifyLoginMember(Long memberId) {
+        if(!getLoginMemberId().equals(memberId)) {
+            throw new CustomException(ExceptionCode.MISMATCHED_MEMBER_EXCEPTION);
+        }
+    }
+
+    private Long getLoginMemberId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Member member = memberRepository.findByEmail(authentication.getName()).get();
+
+        return member.getMemberId();
     }
 
 }
