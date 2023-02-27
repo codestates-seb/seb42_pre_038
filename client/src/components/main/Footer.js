@@ -101,7 +101,7 @@ const Footer = () => {
             <ul className="-list js-primary-footer-links">
               <li>
                 <a
-                  href="/questions"
+                  href="/"
                   className="js-gps-track -link"
                   data-gps-track="footer.click({ location: 1, link: 16})"
                 >
