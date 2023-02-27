@@ -11,9 +11,9 @@ import javax.validation.constraints.NotBlank;
 
 public class QuestionPostDto {
 
+    private long memberId;
 
-    // 수동 매핑 해야할듯 ㅠ
-    //private long memberId;
+    private String name;
 
     @NotBlank(message = "질문 제목을 적어주세요")
     private String title;
