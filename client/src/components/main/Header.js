@@ -195,8 +195,8 @@ const Header = () => {
   const handleLogout = () => {
     dispatch(logoutSuccess());
     localStorage.clear();
-    // window.scrollTo(0, 0);
-    // window.location.reload();
+    window.scrollTo(0, 0);
+    window.location.reload();
     navigate('/');
   };
 

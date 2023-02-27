@@ -1,7 +1,7 @@
 //* 로그인 페이지 *//
 import styled from 'styled-components';
 import stack_logo from '../images/stack_logo.svg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
 import google_logo from '../images/google_logo.svg';
@@ -224,7 +224,7 @@ const Login = () => {
   //       console.log(res);
   //     });
   // };
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   // Login.js eslint 미적용(.env 에러); //
   // eslint-disable-next-line no-undef
@@ -271,7 +271,7 @@ const Login = () => {
         localStorage.setItem('token', jwtToken);
         localStorage.setItem('memberId', memberId);
         console.log(jwtToken);
-        dispatch(loginSuccess(res.headers)); //!()부분 수정하기!//
+        dispatch(loginSuccess()); //!()부분 수정하기!//
         // setIsToken(jwtToken);
         // console.log(isToken);
         // navigate('/');
@@ -281,7 +281,7 @@ const Login = () => {
         // const jwtToken = res.headers.authorization;
         // localStorage.setItem('token', JSON.stringify(jwtToken));
         // console.log(res.data.name);
-        // navigate('/');
+        navigate('/');
         // window.location.reload();
       })
       .catch(() => {

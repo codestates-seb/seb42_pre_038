@@ -368,13 +368,15 @@ const Signup = () => {
         'Content-Type': 'application/json',
       },
     };
+    // eslint-disable-next-line no-undef
+    const URI = process.env.REACT_APP_SERVER_URI;
     const axiosInstance = axios.create({
-      baseURL: 'http://13.125.238.94:8080',
+      baseURL: `${URI}`,
       debug: true, // 디버깅 모드 활성화
     });
     if (userEmailValid && displayNameValid && userPasswordValid) {
       axiosInstance
-        .post('api/members', data, header)
+        .post('/api/members', data, header)
         .then((res) => {
           window.alert(`${res.data.name}님 환영합니다.`);
           navigate('/');

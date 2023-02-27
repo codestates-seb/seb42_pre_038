@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import userImgSample from '../../images/avatar.png';
 import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const UserInfoHeaderWrap = styled.div`
   width: 1067px;
@@ -29,17 +31,38 @@ const UserInfoTap = styled.div`
   margin: 20px 0 20px 0;
 `;
 
-const UserInfoHeader = ({ userHeaderTap, setUserHeaderTap }) => {
+const UserInfoHeader = ({ userHeaderTap, setUserHeaderTap, setEditDelete }) => {
   const userInfoHandler = (e) => {
     e.preventDefault();
     setUserHeaderTap('userinfo');
+    setEditDelete('EditProfile');
     console.log(userHeaderTap);
   };
   const userSettingHandler = (e) => {
     e.preventDefault();
     setUserHeaderTap('setting');
+    setEditDelete('EditProfile');
     console.log(userHeaderTap);
   };
+
+  // eslint-disable-next-line no-undef
+  const URI = process.env.REACT_APP_SERVER_URI;
+
+  const [displayName, setDisplayName] = useState('');
+  const memberId = localStorage.getItem('memberId');
+  const token = localStorage.getItem('token');
+  const header = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token,
+    },
+  };
+  useEffect(() => {
+    axios.get(`${URI}/api/members/${memberId}`, header).then((res) => {
+      setDisplayName(res.data.name);
+      console.log(res.data.name);
+    });
+  }, []);
   return (
     <UserInfoHeaderWrap>
       <UserInfoItem>
@@ -58,7 +81,9 @@ const UserInfoHeader = ({ userHeaderTap, setUserHeaderTap }) => {
         </UserImgLink>
         <UserNameBox className="flex--item">
           <div className="d-flex ai-center fw-wrap gs8 wmx4">
-            <div className="flex--item mb12 fs-headline2 lh-xs">장은수</div>
+            <div className="flex--item mb12 fs-headline2 lh-xs">
+              {displayName}
+            </div>
             <div className="flex--item">
               <div className="d-flex ai-center fw-nowrap gs4"></div>
             </div>
@@ -122,7 +147,8 @@ const UserInfoHeader = ({ userHeaderTap, setUserHeaderTap }) => {
         <div className="ps-absolute t0 r0 d-flex gs6 fw-wrap">
           <a
             className="flex--item s-btn s-btn__outlined s-btn__muted s-btn__icon s-btn__sm"
-            href="/users/edit/21216624"
+            href="!#"
+            onClick={userSettingHandler}
           >
             <svg
               aria-hidden="true"
@@ -218,5 +244,6 @@ const UserInfoHeader = ({ userHeaderTap, setUserHeaderTap }) => {
 UserInfoHeader.propTypes = {
   setUserHeaderTap: PropTypes.node.isRequired,
   userHeaderTap: PropTypes.node.isRequired,
+  setEditDelete: PropTypes.node.isRequired,
 };
 export default UserInfoHeader;
