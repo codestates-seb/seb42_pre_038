@@ -11,7 +11,8 @@ const loginInfoReducer = (state = initialstate, action) => {
     case LOGIN:
       return {
         isLogin: true,
-        // ...action.payload,
+        ...action.payload,
+        // displayName: action.payload.displayName,
       };
     case LOGOUT:
       return {
