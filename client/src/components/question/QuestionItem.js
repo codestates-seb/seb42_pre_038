@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const QuestionItemWrap = styled.div`
   display: flex;
@@ -74,19 +75,19 @@ const QuestionContentUserSpan = styled.span`
   margin: 2px;
 `;
 
-const QuestionItem = () => {
+const QuestionItem = ({ question }) => {
   return (
     <QuestionItemWrap>
       <QuestionItemBox>
         <QuestionStatsBox>
-          <StatsSpan>0 votes</StatsSpan>
-          <StatsSpan>0 answers</StatsSpan>
-          <StatsSpan>3 views</StatsSpan>
+          <StatsSpan>{question.voteCount} votes</StatsSpan>
+          <StatsSpan>{question.answersCount} answers</StatsSpan>
+          <StatsSpan>{question.viewCount} views</StatsSpan>
         </QuestionStatsBox>
         <QuestionContent>
           <QuestionContentTitle>
-            <QuestionContentA href="/questions/1">
-              Angular FormBuilder is undefined in unit tests
+            <QuestionContentA href={`/questions/${question.questionId}`}>
+              {question.title}
             </QuestionContentA>
           </QuestionContentTitle>
           <QuestionContentBox>
@@ -106,7 +107,7 @@ const QuestionItem = () => {
             <QuestionContentUserBox>
               <QuestionContentUserImg></QuestionContentUserImg>
               <QuestionContentUserSpan>
-                <a href="/">ForestG</a>
+                <a href="/">{question.name}</a>
               </QuestionContentUserSpan>
               <QuestionContentUserSpan>
                 <strong>17K</strong>
@@ -121,5 +122,7 @@ const QuestionItem = () => {
     </QuestionItemWrap>
   );
 };
-
+QuestionItem.propTypes = {
+  question: PropTypes.object,
+};
 export default QuestionItem;

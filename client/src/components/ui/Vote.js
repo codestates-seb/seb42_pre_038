@@ -1,3 +1,4 @@
+import { PropTypes } from 'prop-types';
 import { AiFillCaretUp, AiFillCaretDown } from 'react-icons/ai';
 import { FiBookmark } from 'react-icons/fi';
 import { IoTimerOutline } from 'react-icons/io5';
@@ -26,12 +27,12 @@ const QuestionDetailIcons = styled.div`
     margin-right: 3px;
   }
 `;
-const Vote = () => {
+const Vote = ({ voteCount }) => {
   return (
     <div>
       <QuestionDetailIcons>
         <AiFillCaretUp size={40} className="icon upIcon" />
-        <VoteCountSpan>0</VoteCountSpan>
+        <VoteCountSpan>{voteCount}</VoteCountSpan>
         <AiFillCaretDown size={40} className="icon downIcon" />
         <FiBookmark size={20} className="icon bookmarkIcon" />
         <IoTimerOutline size={20} className="icon timerIcon" />
@@ -40,4 +41,7 @@ const Vote = () => {
   );
 };
 
+Vote.propTypes = {
+  voteCount: PropTypes.number,
+};
 export default Vote;

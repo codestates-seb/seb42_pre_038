@@ -4,6 +4,8 @@ import Filter from '../ui/Filter';
 import AskQuestionButton from '../ui/MainButton';
 import Pagination from '../ui/Pagination';
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { getAllQuestion } from '../../api/answerAPI';
 
 const QuestionContainerWrap = styled.div``;
 
@@ -28,6 +30,17 @@ const QuestionList = () => {
     navigate('/questions/ask');
   }
 
+  const [isQuestion, setQuestion] = useState([]);
+  //question 조회
+  useEffect(() => {
+    async function getQuestionFun() {
+      const res = await getAllQuestion();
+      setQuestion(res.data);
+    }
+    getQuestionFun();
+  }, []);
+
+  console.log(isQuestion);
   return (
     <QuestionContainerWrap>
       <QuestionListHeadBox>
@@ -38,10 +51,10 @@ const QuestionList = () => {
       </QuestionListHeadBox>
       <Filter />
       <QuestionListContainer>
-        <QuestionItem />
-        <QuestionItem />
-        <QuestionItem />
-        <QuestionItem />
+        {isQuestion &&
+          isQuestion.map((que) => (
+            <QuestionItem key={que.questionId} question={que} />
+          ))}
       </QuestionListContainer>
       <Pagination />
     </QuestionContainerWrap>

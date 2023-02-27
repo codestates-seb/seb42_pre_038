@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { MainBox } from './Home';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 const QuestionCreateWrap = styled.div`
   background-color: rgb(248, 249, 249);
 `;
@@ -164,16 +167,16 @@ const ItemLabel = styled.label`
     margin: 2px 0;
   }
 `;
-const ProblemTextarea = styled.textarea`
-  width: 801.6px;
-  height: 255.863px;
-  margin-bottom: 30px;
-  scroll-behavior: auto;
-  :focus {
-    /* border: 3px solid #caedff; */
-    outline: 3px solid #caedff;
-  }
-`;
+// const ProblemTextarea = styled.textarea`
+//   width: 801.6px;
+//   height: 255.863px;
+//   margin-bottom: 30px;
+//   scroll-behavior: auto;
+//   :focus {
+//     /* border: 3px solid #caedff; */
+//     outline: 3px solid #caedff;
+//   }
+// `;
 const QuestionSubmitBox = styled.div`
   height: 37.5px;
   width: 142.8px;
@@ -330,6 +333,16 @@ const CalcelBtn = styled.button`
     outline: 4px solid #eaeaea;
   }
 `;
+const CustomReactQuill = styled(ReactQuill)`
+  width: 801.6px;
+  height: 255.863px;
+  margin-bottom: 60px;
+  scroll-behavior: auto;
+  :focus {
+    /* border: 3px solid #caedff; */
+    outline: 3px solid #caedff;
+  }
+`;
 const QuestionCreate = () => {
   /*타이틀*/
   const [titleValue, setTitleValue] = useState('');
@@ -337,8 +350,9 @@ const QuestionCreate = () => {
   const [contentValue, setContentValue] = useState('');
   /*모달*/
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const userData = useSelector((state) => state.loginInfoReducer.displayName);
   const navigate = useNavigate();
-
+  const jwtToken = localStorage.getItem('token');
   /*타이틀벨류*/
   const handleTitleInputChange = (e) => {
     setTitleValue(e.target.value);
@@ -346,29 +360,33 @@ const QuestionCreate = () => {
   };
   /*질문벨류*/
   const handleContentValueChange = (e) => {
-    setContentValue(e.target.value);
-    console.log(e.target.value);
+    setContentValue(e);
+    console.log(e);
   };
-
+  // eslint-disable-next-line no-undef
+  const URI = process.env.REACT_APP_SERVER_URI;
   const postQuestionData = () => {
     // e.preventdefault();
-
     const data = JSON.stringify({
+      memberId: localStorage.getItem('memberId'),
+      name: userData,
       title: titleValue,
       content: contentValue,
     });
     const headers = {
       'Content-Type': 'Application/json',
       'Access-Control-Allow-Origin': '*',
+      'Authorization ': `${jwtToken}`,
     };
     return axios
-      .post(`http://13.124.65.30:8080/api/questions`, data, {
+      .post(`${URI}/api/questions`, data, {
         headers,
       })
       .then((response) => {
         console.log(response);
         alert('성공성공');
         navigate('/');
+        window.scrollTo(0, 0);
         window.location.reload();
       })
       .catch((error) => {
@@ -386,6 +404,33 @@ const QuestionCreate = () => {
     setContentValue('');
     window.scrollTo(0, 0);
     window.location.reload();
+  };
+  const modules = {
+    toolbar: {
+      container: [
+        [{ header: [1, 2, 3, 4, 5, 6, false] }],
+        [{ font: [] }],
+        [{ align: [] }],
+        ['image'],
+        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+        [{ list: 'ordered' }, { list: 'bullet' }, 'link'],
+        [
+          {
+            color: [
+              '#000000',
+              '#e60000',
+              '#ff9900',
+              '#ffff00',
+              '#008a00',
+              '#0066cc',
+              '#9933ff',
+              'custom-color',
+            ],
+          },
+          { background: [] },
+        ],
+      ],
+    },
   };
   return (
     <QuestionCreateWrap>
@@ -472,9 +517,14 @@ const QuestionCreate = () => {
                     </ItemLabel>
                   </ItemBox>
                   {/* text */}
-                  <ProblemTextarea
+                  {/* <ProblemTextarea
                     id="WriteProblem"
                     type="text"
+                    value={contentValue}
+                    onChange={handleContentValueChange}
+                  /> */}
+                  <CustomReactQuill
+                    modules={modules}
                     value={contentValue}
                     onChange={handleContentValueChange}
                   />

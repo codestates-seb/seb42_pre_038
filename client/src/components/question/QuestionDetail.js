@@ -4,6 +4,8 @@ import AnswerList from '../answer/AnswerList';
 import QuestionDetailMenu from '../ui/QuestionDetailMenu';
 import Vote from '../ui/Vote';
 import { useNavigate } from 'react-router-dom';
+import { PropTypes } from 'prop-types';
+
 const QuestionDetailWrap = styled.div`
   display: flex;
   flex-direction: column;
@@ -19,7 +21,7 @@ const QuestionDetailContainer = styled.div`
   grid-template-columns: max-content 1fr;
 `;
 
-const QuestionDetailContentP = styled.p`
+const QuestionDetailContent = styled.div`
   font-size: 15px;
   line-height: 1.5;
 `;
@@ -32,7 +34,7 @@ const QuestionDetailContentBox = styled.div`
 `;
 const AnswerBox = styled.div``;
 
-const QuestionDetail = () => {
+const QuestionDetail = ({ queDetail }) => {
   const navigate = useNavigate();
 
   const clickHandler = () => {
@@ -42,18 +44,12 @@ const QuestionDetail = () => {
   return (
     <QuestionDetailWrap>
       <QuestionDetailContainer>
-        <Vote />
+        <Vote voteCount={queDetail && queDetail.voteCount} />
         <QuestionDetailContentBox>
-          <QuestionDetailContentP>
-            However, there is no BuildConfig equivalent for iOS, and obviously I
-            cant write #if DEBUG in Kotlin like I would in Swift. Is my only
-            option to call a custom Swift implementation where the #if
-            conditional is implemented in a .swift source file? However, there
-            is no BuildConfig equivalent for iOS, and obviously I cant write #if
-            DEBUG in Kotlin like I would in Swift. Is my only option to call a
-            custom Swift implementation where the #if conditional is implemented
-            in a .swift source file?
-          </QuestionDetailContentP>
+          <QuestionDetailContent
+            dangerouslySetInnerHTML={{ __html: queDetail && queDetail.content }}
+          />
+
           <QuestionDetailMenu clickHandler={clickHandler} />
         </QuestionDetailContentBox>
       </QuestionDetailContainer>
@@ -67,4 +63,7 @@ const QuestionDetail = () => {
   );
 };
 
+QuestionDetail.propTypes = {
+  queDetail: PropTypes.object,
+};
 export default QuestionDetail;
