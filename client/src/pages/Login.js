@@ -204,26 +204,6 @@ const Login = () => {
   const [loginPassword, setLoginPassword] = useState('');
   const [errormessage, setErrorMessage] = useState(false);
 
-  // const [isToken, setIsToken] = useState(null);
-
-  // useEffect(() => {
-  //   test();
-  // }, [isToken]);
-
-  // const header = {
-  //   headers: {
-  //     'Access-Control-Allow-Origin': '*',
-  //     'Content-Type': 'application/json',
-  //     Authorization: isToken,
-  //   },
-  // };
-  // const test = () => {
-  //   return axios
-  //     .get(`${URI}/api/auth/reissue`, header, { withCredentials: true })
-  //     .then((res) => {
-  //       console.log(res);
-  //     });
-  // };
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // Login.js eslint 미적용(.env 에러); //
@@ -266,42 +246,27 @@ const Login = () => {
       .post(`${URI}/api/auth/login`, reqbody)
       .then((res) => {
         // 밑에 3개를 한번에 변수에 담고 접근하게만 만들어서 뿌리면 코드가 더 간결할꺼같다..
+        console.log(res.headers);
         const jwtToken = res.headers.authorization;
         const memberId = res.headers.memberid;
-        const name = res.headers.name;
-        console.log(res.headers);
         localStorage.setItem('token', jwtToken);
         localStorage.setItem('memberId', memberId);
-        console.log(jwtToken);
+        // const name = res.headers.name;
+        // localStorage.setItem('name', name);
 
         const data = {
-          isLogin: true,
+          // isLogin: true,
           memberId: memberId,
-          displayName: name,
+          // displayName: name,
         };
-
         dispatch(loginSuccess(data)); //!()부분 수정하기!//
-        // setIsToken(jwtToken);
-        // console.log(isToken);
-        // navigate('/');
-        // window.location.reload();
-        // window.alert(`${res.data.name}님 환영합니다.`);
-        // console.log(res);
-        // const jwtToken = res.headers.authorization;
-        // localStorage.setItem('token', JSON.stringify(jwtToken));
-        // console.log(res.data.name);
         navigate('/');
-        // window.location.reload();
       })
       .catch(() => {
         window.alert('로그인 정보가 일치하지 않습니다. 다시 입력해주세요!');
         setLoginEmail('');
         setLoginPassword('');
       });
-  };
-
-  const handleButtonClick = () => {
-    alert('hi');
   };
 
   return (
@@ -311,15 +276,15 @@ const Login = () => {
           <img src={stack_logo} alt="LogoIcon" />
         </Logo>
         <ButtonBox>
-          <GoggleButton onClick={() => handleButtonClick()}>
+          <GoggleButton>
             <img src={google_logo} alt="google_logo" />
             Log in with Google
           </GoggleButton>
-          <GitHubButton onClick={() => handleButtonClick()}>
+          <GitHubButton>
             <img src={github_logo} alt="github_logo" />
             Log in with GitHub
           </GitHubButton>
-          <FacebookButton onFacebookButtonClick={() => handleButtonClick()}>
+          <FacebookButton>
             <img src={facebook_logo} alt="facebook_logo" />
             Log in with Facebook
           </FacebookButton>

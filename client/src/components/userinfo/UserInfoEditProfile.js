@@ -5,7 +5,6 @@ import red_error from '../../images/red_question.svg';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
-// import { display } from '@mui/system';
 
 const UserEditProfileLayout = styled.div`
   box-sizing: border-box;
@@ -121,27 +120,19 @@ const ProfileButtonBox = styled.div`
   }
 `;
 
-// const UserInfoWrap = styled.div`
-//   display: flex;
-//   flex-direction: column;
-// `;
-
-const UserInfoProfileBox = styled.div`
-  /* display: flex; */
-`;
+const UserInfoProfileBox = styled.div``;
 
 const CustomLi = styled.li`
   list-style-type: disc;
   margin-left: 30px;
   margin-bottom: 16.5px;
 `;
-const EditDeleteProfileBox = styled.div`
-  /* display: flex; */
-`;
+const EditDeleteProfileBox = styled.div``;
 const UserInfoEditProfile = ({ EditDelete }) => {
-  const navigate = useNavigate();
   const [displayName, setDisplayName] = useState('');
   const [errorDisplayName, setErrorDisplayName] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (displayName.length > 2) {
@@ -151,6 +142,7 @@ const UserInfoEditProfile = ({ EditDelete }) => {
     }
   }, [displayName]);
 
+  const patchName = localStorage.getItem('name');
   const handleChange = (e) => {
     setDisplayName(e.target.value);
   };
@@ -169,7 +161,7 @@ const UserInfoEditProfile = ({ EditDelete }) => {
 
     const token = localStorage.getItem('token');
     const memberId = localStorage.getItem('memberId');
-
+    // const userName = localStorage.getItem('name');
     const header = {
       headers: {
         'Content-Type': 'application/json',
@@ -183,10 +175,9 @@ const UserInfoEditProfile = ({ EditDelete }) => {
     return axios
       .patch(`${URI}/api/members/${memberId}`, data, header)
       .then((res) => {
-        localStorage.setItem('token', JSON.stringify(res.headers));
-        console.log(res.data.name);
-        setDisplayName(res.data.name);
-        // window.location.reload();
+        console.log(res.data.data.name);
+        localStorage.setItem('name', res.data.data.name);
+        window.location.reload();
       })
       .catch(() => {
         window.alert('다시 입력해주세요!');
@@ -251,7 +242,7 @@ const UserInfoEditProfile = ({ EditDelete }) => {
                     }
                     id="displayName"
                     value={displayName}
-                    placeholder={displayName}
+                    placeholder={patchName}
                     onChange={(e) => handleChange(e)}
                   />
                 </ProfileDisplayNameBox>
