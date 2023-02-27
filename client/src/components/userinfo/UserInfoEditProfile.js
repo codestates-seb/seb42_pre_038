@@ -121,23 +121,14 @@ const ProfileButtonBox = styled.div`
   }
 `;
 
-// const UserInfoWrap = styled.div`
-//   display: flex;
-//   flex-direction: column;
-// `;
-
-const UserInfoProfileBox = styled.div`
-  /* display: flex; */
-`;
+const UserInfoProfileBox = styled.div``;
 
 const CustomLi = styled.li`
   list-style-type: disc;
   margin-left: 30px;
   margin-bottom: 16.5px;
 `;
-const EditDeleteProfileBox = styled.div`
-  /* display: flex; */
-`;
+const EditDeleteProfileBox = styled.div``;
 const UserInfoEditProfile = ({ EditDelete }) => {
   const navigate = useNavigate();
   const [displayName, setDisplayName] = useState('');
@@ -150,6 +141,22 @@ const UserInfoEditProfile = ({ EditDelete }) => {
       setErrorDisplayName(true);
     }
   }, [displayName]);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const memberId = localStorage.getItem('memberId');
+
+    const header = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
+    };
+
+    axios.get(`{URI}/api/members/${memberId}`, header).then((res) => {
+      setDisplayName(res.data.name);
+    });
+  }, []);
 
   const handleChange = (e) => {
     setDisplayName(e.target.value);
@@ -167,6 +174,7 @@ const UserInfoEditProfile = ({ EditDelete }) => {
       return;
     }
 
+    //! name 부분 빼오기 !//
     const token = localStorage.getItem('token');
     const memberId = localStorage.getItem('memberId');
 
@@ -183,9 +191,18 @@ const UserInfoEditProfile = ({ EditDelete }) => {
     return axios
       .patch(`${URI}/api/members/${memberId}`, data, header)
       .then((res) => {
-        localStorage.setItem('token', JSON.stringify(res.headers));
-        console.log(res.data.name);
-        setDisplayName(res.data.name);
+        // localStorage.setItem(
+        //   'token',
+        //   JSON.stringify(res.headers.authorization)
+        // );
+        // localStorage.setItem('name', JSON.stringify(res.headers.memberid));
+
+        localStorage.setItem('token', res.headers.authorization);
+        localStorage.setItem('name', displayName);
+        const name = localStorage.getItem('name');
+        setDisplayName(name);
+
+        // console.log(res.data.name);
         // window.location.reload();
       })
       .catch(() => {
