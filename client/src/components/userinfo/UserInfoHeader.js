@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+// import { useDispatch } from 'react-redux';
+// import { loginSuccess } from '../../actions';
 
 const UserInfoHeaderWrap = styled.div`
   width: 1067px;
@@ -47,7 +49,7 @@ const UserInfoHeader = ({ userHeaderTap, setUserHeaderTap, setEditDelete }) => {
   };
 
   const navigate = useNavigate();
-
+  // const dispatch = useDispatch();
   // eslint-disable-next-line no-undef
   const URI = process.env.REACT_APP_SERVER_URI;
 
@@ -60,12 +62,15 @@ const UserInfoHeader = ({ userHeaderTap, setUserHeaderTap, setEditDelete }) => {
       Authorization: token,
     },
   };
+
   useEffect(() => {
     axios
       .get(`${URI}/api/members/${memberId}`, header)
       .then((res) => {
         setDisplayName(res.data.data.name);
         console.log(res);
+        localStorage.setItem('name', res.data.data.name);
+        // dispatch(loginSuccess(res.data.data.name));
       })
       // 여기서 서버코드 401을 받으면 로컬스토리지 비우고 로그인페이지로 이동시킨다.
       .catch((error) => {
@@ -255,8 +260,8 @@ const UserInfoHeader = ({ userHeaderTap, setUserHeaderTap, setEditDelete }) => {
   );
 };
 UserInfoHeader.propTypes = {
-  setUserHeaderTap: PropTypes.node.isRequired,
-  userHeaderTap: PropTypes.node.isRequired,
-  setEditDelete: PropTypes.node.isRequired,
+  setUserHeaderTap: PropTypes.string.isRequired,
+  userHeaderTap: PropTypes.string.isRequired,
+  setEditDelete: PropTypes.string.isRequired,
 };
 export default UserInfoHeader;

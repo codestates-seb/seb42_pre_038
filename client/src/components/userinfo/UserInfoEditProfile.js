@@ -5,7 +5,6 @@ import red_error from '../../images/red_question.svg';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
-// import { display } from '@mui/system';
 
 const UserEditProfileLayout = styled.div`
   box-sizing: border-box;
@@ -130,9 +129,10 @@ const CustomLi = styled.li`
 `;
 const EditDeleteProfileBox = styled.div``;
 const UserInfoEditProfile = ({ EditDelete }) => {
-  const navigate = useNavigate();
   const [displayName, setDisplayName] = useState('');
   const [errorDisplayName, setErrorDisplayName] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (displayName.length > 2) {
@@ -142,22 +142,7 @@ const UserInfoEditProfile = ({ EditDelete }) => {
     }
   }, [displayName]);
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    const memberId = localStorage.getItem('memberId');
-
-    const header = {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token,
-      },
-    };
-
-    axios.get(`{URI}/api/members/${memberId}`, header).then((res) => {
-      setDisplayName(res.data.name);
-    });
-  }, []);
-
+  const patchName = localStorage.getItem('name');
   const handleChange = (e) => {
     setDisplayName(e.target.value);
   };
@@ -174,10 +159,9 @@ const UserInfoEditProfile = ({ EditDelete }) => {
       return;
     }
 
-    //! name 부분 빼오기 !//
     const token = localStorage.getItem('token');
     const memberId = localStorage.getItem('memberId');
-
+    // const userName = localStorage.getItem('name');
     const header = {
       headers: {
         'Content-Type': 'application/json',
@@ -191,19 +175,9 @@ const UserInfoEditProfile = ({ EditDelete }) => {
     return axios
       .patch(`${URI}/api/members/${memberId}`, data, header)
       .then((res) => {
-        // localStorage.setItem(
-        //   'token',
-        //   JSON.stringify(res.headers.authorization)
-        // );
-        // localStorage.setItem('name', JSON.stringify(res.headers.memberid));
-
-        localStorage.setItem('token', res.headers.authorization);
-        localStorage.setItem('name', displayName);
-        const name = localStorage.getItem('name');
-        setDisplayName(name);
-
-        // console.log(res.data.name);
-        // window.location.reload();
+        console.log(res.data.data.name);
+        localStorage.setItem('name', res.data.data.name);
+        window.location.reload();
       })
       .catch(() => {
         window.alert('다시 입력해주세요!');
@@ -268,7 +242,7 @@ const UserInfoEditProfile = ({ EditDelete }) => {
                     }
                     id="displayName"
                     value={displayName}
-                    placeholder={displayName}
+                    placeholder={patchName}
                     onChange={(e) => handleChange(e)}
                   />
                 </ProfileDisplayNameBox>
