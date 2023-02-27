@@ -378,7 +378,8 @@ const Signup = () => {
       axiosInstance
         .post('/api/members', data, header)
         .then((res) => {
-          window.alert(`${res.data.name}님 환영합니다.`);
+          console.log(res.headers);
+          window.alert('회원가입에 성공하였습니다');
           navigate('/');
         })
         .catch((err) => {
