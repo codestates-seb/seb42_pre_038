@@ -20,6 +20,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -30,171 +31,147 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
     private final QuestionVoteRepository questionVoteRepository;
     private final AnswerRepository answerRepository;
-    private final MemberRepository memberRepository;
     private final MemberService memberService;
 
-    //private final QuestionService questionService;
+    public Question createQuestion(Question question) {
+        memberService.findVerifiedMember(question.getMember().getMemberId());
+        memberService.verifyLoginMember(question.getMember().getMemberId());
 
-    //Question 등록
-        public Question createQuestion(Question question) {
+        return questionRepository.save(question);
+    }
 
+    public Question updateQuestion(Question question) {
+        memberService.findVerifiedMember(question.getMember().getMemberId());
+        memberService.verifyLoginMember(question.getMember().getMemberId());
+        Question findQuestion = findVerifiedQuestion(question.getQuestionId());
 
+        Optional.ofNullable(question.getTitle()).ifPresent(findQuestion::setTitle);
+        Optional.ofNullable(question.getContent()).ifPresent(findQuestion::setContent);
 
-            return questionRepository.save(question);
-        }
+        return questionRepository.save(findQuestion);
+    }
 
-        // Question 수정
+    public Question findQuestion(long questionId) {
+        updateView(questionId);
+        return findVerifiedQuestion(questionId);
+    }
 
-        public Question updateQuestion(Question question, Long questionId){
-            Question findQuestion = findVerifiedQuestion(questionId);
+    // Question 목록 조회  // vote 순인지 newest 순인지 알것
+    public Page<Question> findQuestions(int page, int size, int sort) {
+        // Newest 정렬
+        if (sort == 0) {
+            Page<Question> questionPage = questionRepository.findAll(PageRequest.of(page, size, Sort.by("createdAt").descending()));
+            return questionPage;
 
+        // Active 순 (LastModified , 마지막 수정 날짜 순)
+        } else if (sort == 1) {
+            Page<Question> questionPage = questionRepository.findAll(PageRequest.of(page, size, Sort.by("modifiedAt").descending()));
+            return questionPage;
 
-            findQuestion.setTitle(question.getTitle());
-            findQuestion.setContent(question.getContent());
-            System.out.println(findQuestion.getTitle());
-            return questionRepository.save(findQuestion);
-        }
-
-        // Question 조회 (viewCount)
-        public Question findQuestion(long questionId){
-
-            updateView(questionId);
-            return findVerifiedQuestion(questionId);
-        }
-
-        // Question 목록 조회  // vote 순인지 newest 순인지 알것
-        public Page<Question> findQuestions(int page, int size, int sort){
-
-
-            // Newest 정렬
-
-            if(sort == 0){
-                Page<Question> questionPage = questionRepository.findAll(PageRequest.of(page , size, Sort.by("createdAt").descending()));
-                return questionPage;
-
-            // Active 순 (LastModified , 마지막 수정 날짜 순)
-
-            }else if(sort == 1){
-
-                Page<Question> questionPage = questionRepository.findAll(PageRequest.of(page , size, Sort.by("modifiedAt").descending()));
-                return questionPage;
-
-            // Unanswered 순
-            }else if(sort == 2){
-                Page<Question> questionPage = questionRepository.findAll(PageRequest.of(page , size, Sort.by("answersCount").ascending()));
-                return questionPage;
+        // Unanswered 순
+        } else if (sort == 2) {
+            Page<Question> questionPage = questionRepository.findAll(PageRequest.of(page, size, Sort.by("answersCount").ascending()));
+            return questionPage;
 
             // voteCount 순
-            }else{
-                Page<Question> questionPage = questionRepository.findAll(PageRequest.of(page , size, Sort.by("voteCount").descending()));
-                return questionPage;
-            }
-
-
-
-
-
-
-
+        } else {
+            Page<Question> questionPage = questionRepository.findAll(PageRequest.of(page, size, Sort.by("voteCount").descending()));
+            return questionPage;
         }
+    }
 
-        // Question 삭제
-        public void deleteQuestion(long questionId){
-            Question findQuestion = findVerifiedQuestion(questionId);
+    // Question 삭제
+    public void deleteQuestion(long questionId) {
+        Question findQuestion = findVerifiedQuestion(questionId);
+        memberService.findVerifiedMember(findQuestion.getMember().getMemberId());
+        memberService.verifyLoginMember(findQuestion.getMember().getMemberId());
+        // 만약 답변이 없다면 -> 삭제
+        if (answerRepository.countByQuestion(findQuestion) == 0) {
+            questionRepository.deleteById(questionId);
 
-                // 만약 답변이 없다면 -> 삭제
-            if(answerRepository.countByQuestion(findQuestion) == 0){
-
-                questionRepository.deleteById(questionId);
-
-                // 만약 답변이 있다면 -> 삭제 불가
-            }else{
-
-               throw new CustomException(ExceptionCode.QUESTION_EXIST_ANSWER);
-            }
-
-
-
-
+        // 만약 답변이 있다면 -> 삭제 불가
+        } else {
+            throw new CustomException(ExceptionCode.QUESTION_EXIST_ANSWER);
         }
+    }
 
-        // vote Up
-        public Question voteUp(long questionId, long memberId){
-                Question findQuestion = findVerifiedQuestion(questionId);
+    public Page<Question> search(int page, int size, String keyword) {
+        Page<Question> questions = questionRepository.findByTitleContaining(keyword, PageRequest.of(page - 1, size));
 
-            if (questionVoteRepository.findByMember_MemberId(memberId).isEmpty() == true){
-                // 보트 추가
-                QuestionVote questionVote = new QuestionVote();
+        return questions;
+    }
 
-                // 연관관계 입력
-                questionVote.setQuestion(findQuestion(questionId));
-                questionVote.setMember(memberService.getMember(memberId));
+    // vote Up
+    public Question voteUp(long questionId, long memberId) {
+        Question findQuestion = findVerifiedQuestion(questionId);
+        memberService.findVerifiedMember(findQuestion.getMember().getMemberId());
+        memberService.verifyLoginMember(findQuestion.getMember().getMemberId());
+        if (questionVoteRepository.findByMember_MemberId(memberId).isEmpty() == true) {
+            // 보트 추가
+            QuestionVote questionVote = new QuestionVote();
 
-                // QuestionVote 데이터 DB에 저장
-                questionVoteRepository.save(questionVote);
+            // 연관관계 입력
+            questionVote.setQuestion(findQuestion(questionId));
+            questionVote.setMember(memberService.getMember(memberId));
 
-                // Question 테이블에 voteCount(답변에 달린 Answer 수) 업데이트 및 저장
-                findQuestion.setVoteCount(findQuestion.getVoteCount() +1);
-                Question updateAnswer = questionRepository.save(findQuestion);
+            // QuestionVote 데이터 DB에 저장
+            questionVoteRepository.save(questionVote);
 
-                return updateAnswer;
+            // Question 테이블에 voteCount(답변에 달린 Answer 수) 업데이트 및 저장
+            findQuestion.setVoteCount(findQuestion.getVoteCount() + 1);
+            Question updateQuestion = questionRepository.save(findQuestion);
 
-            }else {
-
-                throw new CustomException(ExceptionCode.VOTE_EXISTS);
-
-            }
+            return updateQuestion;
+        } else {
+            throw new CustomException(ExceptionCode.VOTE_EXISTS);
         }
+    }
 
-        // vote Down
-        public Question voteDown(long questionId, long memberId){
-            Question findQuestion = findVerifiedQuestion(questionId);
+    // vote Down
+    public Question voteDown(long questionId, long memberId) {
+        Question findQuestion = findVerifiedQuestion(questionId);
+        memberService.findVerifiedMember(findQuestion.getMember().getMemberId());
+        memberService.verifyLoginMember(findQuestion.getMember().getMemberId());
+        if (questionVoteRepository.findByMember_MemberId(memberId).isEmpty() == true) {
+            // 보트 추가
+            QuestionVote questionVote = new QuestionVote();
 
-            if (questionVoteRepository.findByMember_MemberId(memberId).isEmpty() == true){
-                // 보트 추가
-                QuestionVote questionVote = new QuestionVote();
+            // 연관관계 입력
+            questionVote.setQuestion(findQuestion(questionId));
+            questionVote.setMember(memberService.getMember(memberId));
 
-                // 연관관계 입력
-                questionVote.setQuestion(findQuestion(questionId));
-                questionVote.setMember(memberService.getMember(memberId));
+            // QuestionVote 데이터 DB에 저장
+            questionVoteRepository.save(questionVote);
 
-                // QuestionVote 데이터 DB에 저장
-                questionVoteRepository.save(questionVote);
+            // Question 테이블에 voteCount(답변에 달린 Answer 수) 업데이트 및 저장
+            findQuestion.setVoteCount(findQuestion.getVoteCount() - 1);
+            Question updateAnswer = questionRepository.save(findQuestion);
 
-                // Question 테이블에 voteCount(답변에 달린 Answer 수) 업데이트 및 저장
-                findQuestion.setVoteCount(findQuestion.getVoteCount() - 1);
-                Question updateAnswer = questionRepository.save(findQuestion);
+            return updateAnswer;
 
-                return updateAnswer;
-
-            }else {
-
-                throw new CustomException(ExceptionCode.VOTE_EXISTS);
-
-
-            }
+        } else {
+            throw new CustomException(ExceptionCode.VOTE_EXISTS);
         }
+    }
 
+    public void updateView(Long questionId) {
+        Question question = findVerifiedQuestion(questionId);
+        question.setViewCount(question.getViewCount() + 1);
+    }
 
-        // Question 조회수 로직
-        @Transactional
-        public void updateView(Long questionId){
-            Question question = findVerifiedQuestion(questionId);
+    public List<Question> getMembers(Long memberId) {
+        memberService.findVerifiedMember(memberId);
+        memberService.verifyLoginMember(memberId);
+        List<Question> members = questionRepository.findTop5ByMember_MemberIdOrderByCreatedAtDesc(memberId);
 
-            question.setViewCount(question.getViewCount() +1 );
-        }
+        return members;
+    }
 
+    public Question findVerifiedQuestion(long questionId) {
+        Optional<Question> optionalQuestion = questionRepository.findById(questionId);
+        Question findQuestion = optionalQuestion.orElseThrow(() -> new CustomException(ExceptionCode.QUESTION_NOT_FOUND));
 
-        @Transactional(readOnly = true)
-        public Question findVerifiedQuestion(long questionId){
-
-            Optional<Question> optionalQuestion = questionRepository.findById(questionId);
-
-            Question findQuestion = optionalQuestion.orElseThrow(() ->
-                    new CustomException(ExceptionCode.QUESTION_NOT_FOUND));
-
-            return findQuestion;
-        }
-
+        return findQuestion;
+    }
 
 }
