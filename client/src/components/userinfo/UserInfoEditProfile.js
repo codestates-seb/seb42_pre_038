@@ -166,9 +166,14 @@ const UserInfoEditProfile = ({ EditDelete }) => {
       setErrorDisplayName(false);
       return;
     }
+
+    const token = localStorage.getItem('token');
+    const memberId = localStorage.getItem('memberId');
+
     const header = {
       headers: {
         'Content-Type': 'application/json',
+        Authorization: token,
       },
     };
     const data = {
@@ -176,10 +181,11 @@ const UserInfoEditProfile = ({ EditDelete }) => {
     };
 
     return axios
-      .patch('http://13.124.65.30:8080/api/members/1', data, header)
+      .patch(`${URI}/api/members/${memberId}`, data, header)
       .then((res) => {
         localStorage.setItem('token', JSON.stringify(res.headers));
-
+        console.log(res.data.name);
+        setDisplayName(res.data.name);
         // window.location.reload();
       })
       .catch(() => {
@@ -194,7 +200,7 @@ const UserInfoEditProfile = ({ EditDelete }) => {
 
   const userDelete = (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('Authorization');
     const memberId = localStorage.getItem('memberId');
     console.log(token);
     console.log(memberId);
@@ -245,7 +251,7 @@ const UserInfoEditProfile = ({ EditDelete }) => {
                     }
                     id="displayName"
                     value={displayName}
-                    placeholder="장은수"
+                    placeholder={displayName}
                     onChange={(e) => handleChange(e)}
                   />
                 </ProfileDisplayNameBox>
@@ -325,6 +331,6 @@ const UserInfoEditProfile = ({ EditDelete }) => {
 
 UserInfoEditProfile.propTypes = {
   EditDelete: PropTypes.node.isRequired,
-  setEditDelete: PropTypes.node.isRequired,
+  // setEditDelete: PropTypes.node.isRequired,
 };
 export default UserInfoEditProfile;
