@@ -33,22 +33,18 @@ import java.util.Optional;
 public class AnswerService{
     private final AnswerRepository answerRepository;
     private final AnswerVoteRepository answerVoteRepository;
-    private final QuestionRepository questionRepository;
-    private final MemberRepository memberRepository;
     private final MemberService memberService;
 
     private final QuestionService questionService;
 
 
     // Answer 등록
-    public Answer createAnswer(Answer answer, long memberId){
-
-        Member member = memberService.getMember(memberId);
+    public Answer createAnswer(Answer answer){
+        memberService.findVerifiedMember(answer.getMember().getMemberId());
+        memberService.verifyLoginMember(answer.getMember().getMemberId());
         Question question = questionService.findQuestion(answer.getQuestion().getQuestionId());
 
         question.setAnswersCount(question.getAnswersCount() + 1);
-
-        answer.addMember(member);
 
         answer.addQuestion(question);
 
@@ -58,8 +54,10 @@ public class AnswerService{
 
     // Answer 수정
 
-    public Answer updateAnswer(Answer answer, Long answerId){
-        Answer findAnswer = findVerifiedAnswer(answerId);
+    public Answer updateAnswer(Answer answer){
+        memberService.findVerifiedMember(answer.getMember().getMemberId());
+        memberService.verifyLoginMember(answer.getMember().getMemberId());
+        Answer findAnswer = findVerifiedAnswer(answer.getAnswerId());
 
 
        findAnswer.setAnswerContent(answer.getAnswerContent());
@@ -76,9 +74,6 @@ public class AnswerService{
     // Answer 목록 조회  // vote 순인지 newest 순인지 알것
     public Page<Answer> findAnswers(int page, int size, int sort, Long questionId){
 
-
-
-
         Question question = questionService.findVerifiedQuestion(questionId);
         if(sort == 0) { // Newest 정렬
             Page<Answer> answerPage =
@@ -90,17 +85,17 @@ public class AnswerService{
             Page<Answer> answerPage =
                     answerRepository.findAllByQuestion(question, PageRequest.of(page - 1, size, Sort.by("voteCount").descending())); // vote 순
             return answerPage;
-
         }
-
 
     }
 
 
     // Answer 삭제
     public void deleteAnswer(long answerId){
-        Answer findAnswer = findVerifiedAnswer(answerId);
 
+        Answer findAnswer = findVerifiedAnswer(answerId);
+        memberService.findVerifiedMember(findAnswer.getMember().getMemberId());
+        memberService.verifyLoginMember(findAnswer.getMember().getMemberId());
         // Question에 달린 Answer가 삭제되므로, answerCount도 삭제 된다.
         Question question = questionService.findQuestion(findAnswer.getQuestion().getQuestionId());
         question.setAnswersCount(question.getAnswersCount() - 1);
@@ -112,7 +107,8 @@ public class AnswerService{
     // vote Up
     public Answer voteUp(long answerId, long memberId){
         Answer findAnswer = findVerifiedAnswer(answerId);
-
+        memberService.findVerifiedMember(findAnswer.getMember().getMemberId());
+        memberService.verifyLoginMember(findAnswer.getMember().getMemberId());
         if (answerVoteRepository.findByMember_MemberId(memberId).isEmpty() == true){
             // 보트 추가
             AnswerVote answerVote = new AnswerVote();
@@ -133,8 +129,6 @@ public class AnswerService{
         }else {
             System.out.println("hi");
             throw new CustomException(ExceptionCode.VOTE_EXISTS);
-
-
         }
 
         /*System.out.println("----------------");
@@ -143,15 +137,13 @@ public class AnswerService{
                 .ifPresent(Exception-> {throw new CustomException(ExceptionCode.VOTE_EXISTS);});
 
 */
-
-
-
     }
 
     // vote Down
     public Answer voteDown(long answerId, long memberId){
         Answer findAnswer = findVerifiedAnswer(answerId);
-
+        memberService.findVerifiedMember(findAnswer.getMember().getMemberId());
+        memberService.verifyLoginMember(findAnswer.getMember().getMemberId());
         if (answerVoteRepository.findByMember_MemberId(memberId).isEmpty() == true){
 
             // 보트 추가
@@ -179,6 +171,18 @@ public class AnswerService{
 
     }
 
+    public List<Answer> getMembers(Long memberId){
+        memberService.findVerifiedMember(memberId);
+        memberService.verifyLoginMember(memberId);
+        System.out.println("멤버 아이디로 answer 객체 가져오기");
+        //Answer newAnswer = answerRepository.findByMember_MemberId(memberId);
+
+        System.out.println("리스트로 가져오기");
+        List<Answer> members = answerRepository.findTop5ByMember_MemberIdOrderByCreatedAtDesc(memberId);
+
+        return members;
+    }
+
 
     @Transactional(readOnly = true)
     public Answer findVerifiedAnswer(long answerId){
@@ -191,7 +195,5 @@ public class AnswerService{
 
         return findAnswer;
     }
-
-
 
 }
