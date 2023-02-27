@@ -36,7 +36,6 @@ public class Question extends BaseTime {
     @Column(nullable = false)
     private int answersCount = 0;
 
-
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
