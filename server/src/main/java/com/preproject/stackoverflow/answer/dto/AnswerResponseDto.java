@@ -22,10 +22,10 @@ public class AnswerResponseDto {
 
     private int voteCount; // vote
 
-    private Long question;
+    private Long memberId;
+
+    private Long questionId;
 
     private String name;
-
-
 
 }
