@@ -3,6 +3,7 @@ import userImgSample from '../../images/avatar.png';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const UserInfoHeaderWrap = styled.div`
   width: 1067px;
@@ -45,6 +46,8 @@ const UserInfoHeader = ({ userHeaderTap, setUserHeaderTap, setEditDelete }) => {
     console.log(userHeaderTap);
   };
 
+  const navigate = useNavigate();
+
   // eslint-disable-next-line no-undef
   const URI = process.env.REACT_APP_SERVER_URI;
 
@@ -58,10 +61,20 @@ const UserInfoHeader = ({ userHeaderTap, setUserHeaderTap, setEditDelete }) => {
     },
   };
   useEffect(() => {
-    axios.get(`${URI}/api/members/${memberId}`, header).then((res) => {
-      setDisplayName(res.data.name);
-      console.log(res.data.name);
-    });
+    axios
+      .get(`${URI}/api/members/${memberId}`, header)
+      .then((res) => {
+        setDisplayName(res.data.data.name);
+        console.log(res);
+      })
+      // 여기서 서버코드 401을 받으면 로컬스토리지 비우고 로그인페이지로 이동시킨다.
+      .catch((error) => {
+        console.log(error.response.status);
+        if (error.response.status === 401) {
+          localStorage.clear();
+          navigate('/login');
+        }
+      });
   }, []);
   return (
     <UserInfoHeaderWrap>
