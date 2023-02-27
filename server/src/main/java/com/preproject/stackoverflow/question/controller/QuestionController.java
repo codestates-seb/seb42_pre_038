@@ -107,12 +107,4 @@ public class QuestionController {
         return new ResponseEntity<>(new SingleResponseDto<>(mapper.questionsToQuestionResponseDto(Questions)), HttpStatus.OK);
     }
 
-    @GetMapping("/profile/{member-Id}")
-    public ResponseEntity getProfile(@PathVariable("member-Id") long memberId){
-
-        List<Question> Questions = questionService.getMembers(memberId);
-
-        return new ResponseEntity<>(new SingleResponseDto<>(mapper.questionsToQuestionResponseDto(Questions)), HttpStatus.OK);
-    }
-
 }

@@ -36,52 +36,35 @@ import java.util.List;
 public class AnswerController {
 
     private final AnswerService answerService;
-    private final MemberService memberService;
     private final AnswerMapper mapper;
-    private final MemberMapper memberMapper;
 
     // Answer 등록
     @PostMapping
     public ResponseEntity postAnswer(@Valid @RequestBody AnswerPostDto answerPostDto){
 
-        long memberId = answerPostDto.getMemberId();
-        System.out.println(memberId);
-        Answer answer = answerService.createAnswer(mapper.answerPostDtoToAnswer(answerPostDto), memberId);
+        Answer answer = mapper.answerPostDtoToAnswer(answerPostDto);
+        answerService.createAnswer(answer);
 
-
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.answerToAnswerResponseDto(answer)), HttpStatus.CREATED);
-
+        return new ResponseEntity<>(new SingleResponseDto<>(mapper.answerToAnswerResponseDto(answer)), HttpStatus.CREATED);
     }
-
-
 
     // Answer 수정
     @PatchMapping("/{answer-id}")
-    public ResponseEntity patchAnswer(@PathVariable("answer-id") @Positive long answerId,
-                                      @Valid @RequestBody AnswerPatchDto patchDto){
+    public ResponseEntity patchAnswer(@PathVariable("answer-id") @Positive long answerId, @Valid @RequestBody AnswerPatchDto patchDto){
+        Answer answer = mapper.answerPatchDtoToAnswer(patchDto);
+        answer.setAnswerId(answerId);
+        answerService.updateAnswer(answer);
 
-        Answer answer = answerService.updateAnswer(mapper.answerPatchDtoToAnswer(patchDto), answerId);
-
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.answerToAnswerResponseDto(answer)), HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResponseDto<>(mapper.answerToAnswerResponseDto(answer)), HttpStatus.OK);
     }
 
     // Answer 조회
     @GetMapping("/{question-id}")        // ("/{answer-id}")
-    public ResponseEntity getAnswers(@Positive @RequestParam int page,
-                                     @Positive @RequestParam int size,
-                                     @Positive @RequestParam("sort") int sort,
-                                     @PathVariable("question-id") @Positive Long questionId){
-
-
+    public ResponseEntity getAnswers(@Positive @RequestParam int page, @Positive @RequestParam int size, @Positive @RequestParam("sort") int sort, @PathVariable("question-id") @Positive Long questionId){
         Page<Answer> pageAnswers = answerService.findAnswers(page, size, sort, questionId);
-
         List<Answer> answers = pageAnswers.getContent();
 
-
-        return new ResponseEntity<>(new MultiResponseDto<>(mapper.answersToAnswerResponseDto(answers),
-                pageAnswers), HttpStatus.OK);
+        return new ResponseEntity<>(new MultiResponseDto<>(mapper.answersToAnswerResponseDto(answers), pageAnswers), HttpStatus.OK);
     }
 
 
@@ -96,8 +79,7 @@ public class AnswerController {
 
     // Vote Up 기능
     @PostMapping("/voteUp/{answer-id}")
-    public ResponseEntity VoteUpAnswer(@PathVariable("answer-id") long answerId,
-                                       @RequestParam long memberId ){
+    public ResponseEntity VoteUpAnswer(@PathVariable("answer-id") long answerId, @RequestParam long memberId ){
 
         Answer voteUp = answerService.voteUp(answerId, memberId);
 
@@ -106,17 +88,15 @@ public class AnswerController {
 
     // Vote Down 기능
     @PostMapping("/voteDown/{answer-id}")
-    public ResponseEntity voteDownAnswer(@PathVariable("answer-id") long answerId,
-                                         @RequestParam long memberId){
+    public ResponseEntity voteDownAnswer(@PathVariable("answer-id") long answerId, @RequestParam long memberId){
         Answer voteDown = answerService.voteDown(answerId, memberId);
 
         return new ResponseEntity<>(new SingleResponseDto<>(mapper.answerToAnswerResponseDto(voteDown)), HttpStatus.OK);
     }
 
 
-    @GetMapping("/profile/{member-Id}")
+    @PostMapping("/profile/{member-Id}")
     public ResponseEntity getProfile(@PathVariable("member-Id") long memberId){
-        System.out.println("하이");
         List<Answer> members = answerService.getMembers(memberId);
 
         return new ResponseEntity<>(new SingleResponseDto<>(mapper.answersToAnswerResponseDto(members)), HttpStatus.OK);

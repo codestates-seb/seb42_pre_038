@@ -31,7 +31,7 @@ public class Answer extends BaseTime {
     @Column//(nullable = false)
     private int voteCount = 0;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
 
