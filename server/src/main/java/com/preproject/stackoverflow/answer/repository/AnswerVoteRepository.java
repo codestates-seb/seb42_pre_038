@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface AnswerVoteRepository extends JpaRepository<AnswerVote, Long> {
 
-    List<AnswerVote> findByMember_MemberId(long memberId);
+    List<AnswerVote> findByMember_MemberIdAndAnswer_AnswerId(long memberId, long answerId);
 
     AnswerVote findByMember(long memberId);
 

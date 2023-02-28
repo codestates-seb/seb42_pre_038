@@ -109,7 +109,7 @@ public class AnswerService{
         Answer findAnswer = findVerifiedAnswer(answerId);
         memberService.findVerifiedMember(findAnswer.getMember().getMemberId());
         memberService.verifyLoginMember(findAnswer.getMember().getMemberId());
-        if (answerVoteRepository.findByMember_MemberId(memberId).isEmpty() == true){
+        if (answerVoteRepository.findByMember_MemberIdAndAnswer_AnswerId(memberId, answerId).isEmpty() == true){
             // 보트 추가
             AnswerVote answerVote = new AnswerVote();
 
@@ -144,7 +144,7 @@ public class AnswerService{
         Answer findAnswer = findVerifiedAnswer(answerId);
         memberService.findVerifiedMember(findAnswer.getMember().getMemberId());
         memberService.verifyLoginMember(findAnswer.getMember().getMemberId());
-        if (answerVoteRepository.findByMember_MemberId(memberId).isEmpty() == true){
+        if (answerVoteRepository.findByMember_MemberIdAndAnswer_AnswerId(memberId, answerId).isEmpty() == true){
 
             // 보트 추가
             AnswerVote answerVote = new AnswerVote();

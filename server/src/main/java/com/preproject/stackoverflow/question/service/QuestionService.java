@@ -106,7 +106,7 @@ public class QuestionService {
         Question findQuestion = findVerifiedQuestion(questionId);
         memberService.findVerifiedMember(findQuestion.getMember().getMemberId());
         memberService.verifyLoginMember(findQuestion.getMember().getMemberId());
-        if (questionVoteRepository.findByMember_MemberId(memberId).isEmpty() == true) {
+        if (questionVoteRepository.findByMember_MemberIdAndQuestion_QuestionId(memberId, questionId).isEmpty() == true) {
             // 보트 추가
             QuestionVote questionVote = new QuestionVote();
 
@@ -132,7 +132,7 @@ public class QuestionService {
         Question findQuestion = findVerifiedQuestion(questionId);
         memberService.findVerifiedMember(findQuestion.getMember().getMemberId());
         memberService.verifyLoginMember(findQuestion.getMember().getMemberId());
-        if (questionVoteRepository.findByMember_MemberId(memberId).isEmpty() == true) {
+        if (questionVoteRepository.findByMember_MemberIdAndQuestion_QuestionId(memberId, questionId).isEmpty() == true) {
             // 보트 추가
             QuestionVote questionVote = new QuestionVote();
 
