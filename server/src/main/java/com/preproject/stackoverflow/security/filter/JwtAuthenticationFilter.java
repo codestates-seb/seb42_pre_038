@@ -52,10 +52,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         redisService.setValues(member.getEmail(), refreshToken);
         System.out.println(member.getName());
-        Cookie refresh = CookieUtil.createCookie("Refresh", refreshToken);
-        response.addCookie(refresh);
+//        Cookie refresh = CookieUtil.createCookie("Refresh", refreshToken);
+//        response.addCookie(refresh);
+        CookieUtil.createCookie(response, refreshToken);
+        String memberId = member.getMemberId().toString();
         response.setHeader("Authorization", "Bearer " + accessToken);
-        response.setHeader("memberId", member.getMemberId().toString());
+        response.setHeader("memberId", memberId.toString());
         response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
