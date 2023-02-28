@@ -60,7 +60,7 @@ public class AnswerService{
         Answer findAnswer = findVerifiedAnswer(answer.getAnswerId());
 
 
-       findAnswer.setAnswerContent(answer.getAnswerContent());
+        findAnswer.setAnswerContent(answer.getAnswerContent());
 
         return answerRepository.save(findAnswer);
     }
