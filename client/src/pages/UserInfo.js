@@ -6,6 +6,8 @@ import { useState } from 'react';
 import UserInfoLeftNav from '../components/userinfo/UserInfoLeftNav';
 import UserInfoEditProfile from '../components/userinfo/UserInfoEditProfile';
 import PropTypes from 'prop-types';
+import UserProfileItem from '../components/userinfo/UserProfileItem';
+import { useParams } from 'react-router-dom';
 
 const UserInfoWrap = styled.div`
   max-width: 1100px;
@@ -40,6 +42,9 @@ const UserInfoProfileBox = styled.div`
 const UserInfo = () => {
   const [userHeaderTap, setUserHeaderTap] = useState('userinfo');
   const [EditDelete, setEditDelete] = useState('EditProfile');
+
+  const { id } = useParams();
+  console.log(id);
   return (
     <ContainerBox>
       <LeftNavBar />
@@ -72,7 +77,10 @@ const UserInfo = () => {
                 <div className="grid--item">
                   <div className="fs-title mb8">Qeustions</div>
                   <div className="s-empty-state p32 bg-black-025 bar-md ba bc-black-075 ta-center">
-                    <p className="mx-auto wmx3 mb0">{}</p>
+                    <p className="mx-auto wmx3 mb0"></p>
+                    <UserProfileItem />
+                    <UserProfileItem />
+                    <UserProfileItem />
                   </div>
                 </div>
 
@@ -81,7 +89,12 @@ const UserInfo = () => {
                     <div className="flex--item fs-title">Answers</div>
                   </div>
                   <div className="s-empty-state p32 bg-black-025 bar-md ba bc-black-075 ta-center">
-                    <p className="mx-auto wmx3 mb0">{}</p>
+                    <p className="mx-auto wmx3 mb0"></p>
+                    <ul>
+                      <li>1</li>
+                      <li>2</li>
+                      <li>3</li>
+                    </ul>
                   </div>
                 </div>
               </div>

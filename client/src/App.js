@@ -26,7 +26,7 @@ const App = () => {
         <Route path="/questions/:id" element={<QuestionDetail />} />
         <Route path="/questions/:id/edit" element={<QuestionEdit />} />
         <Route path="/posts/:id/edit" element={<AnswerEdit />} />
-        <Route path="/userinfo" element={<UserInfo />} />
+        <Route path="/userinfo/:id" element={<UserInfo />} />
         {/* <Route path="/useredit" element={<UserEdit />} />
         <Route path="/userdelete" element={<UserDelte />} /> */}
         <Route path="*" element={<NotFound />}></Route>
