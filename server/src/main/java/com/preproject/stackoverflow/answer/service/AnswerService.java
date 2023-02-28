@@ -47,7 +47,7 @@ public class AnswerService{
         question.setAnswersCount(question.getAnswersCount() + 1);
 
         answer.addQuestion(question);
-
+        System.out.println(answer.getMember().getName());
 
         return answerRepository.save(answer);
     }
@@ -107,8 +107,8 @@ public class AnswerService{
     // vote Up
     public Answer voteUp(long answerId, long memberId){
         Answer findAnswer = findVerifiedAnswer(answerId);
-        memberService.findVerifiedMember(findAnswer.getMember().getMemberId());
-        memberService.verifyLoginMember(findAnswer.getMember().getMemberId());
+        memberService.findVerifiedMember(memberId);
+        memberService.verifyLoginMember(memberId);
         if (answerVoteRepository.findByMember_MemberId(memberId).isEmpty() == true){
             // 보트 추가
             AnswerVote answerVote = new AnswerVote();
@@ -142,8 +142,8 @@ public class AnswerService{
     // vote Down
     public Answer voteDown(long answerId, long memberId){
         Answer findAnswer = findVerifiedAnswer(answerId);
-        memberService.findVerifiedMember(findAnswer.getMember().getMemberId());
-        memberService.verifyLoginMember(findAnswer.getMember().getMemberId());
+        memberService.findVerifiedMember(memberId);
+        memberService.verifyLoginMember(memberId);
         if (answerVoteRepository.findByMember_MemberId(memberId).isEmpty() == true){
 
             // 보트 추가
@@ -174,10 +174,7 @@ public class AnswerService{
     public List<Answer> getMembers(Long memberId){
         memberService.findVerifiedMember(memberId);
         memberService.verifyLoginMember(memberId);
-        System.out.println("멤버 아이디로 answer 객체 가져오기");
-        //Answer newAnswer = answerRepository.findByMember_MemberId(memberId);
 
-        System.out.println("리스트로 가져오기");
         List<Answer> members = answerRepository.findTop5ByMember_MemberIdOrderByCreatedAtDesc(memberId);
 
         return members;
