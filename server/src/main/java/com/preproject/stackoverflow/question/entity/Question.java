@@ -40,7 +40,7 @@ public class Question extends BaseTime {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "question", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @OneToMany(mappedBy = "question", cascade = {CascadeType.PERSIST})
     private List<Answer> answers = new ArrayList<>();
 
     @OneToMany(mappedBy = "question", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
