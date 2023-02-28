@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import robotSample from '../../images/robotSample.png';
+// import robotSample from '../../images/robotSample.png';
 import { useState, useEffect } from 'react';
 import red_error from '../../images/red_question.svg';
 import axios from 'axios';
@@ -57,9 +57,18 @@ const ProfileImgTitle = styled.div`
   }
 `;
 const ProfileImgContent = styled.div`
-  img {
+  li {
     width: 164px;
     height: 164px;
+    background-color: #8aa4b5;
+    font-weight: bold;
+    font-size: 50px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+    color: white;
+    justify-content: space-around;
   }
 `;
 
@@ -225,7 +234,7 @@ const UserInfoEditProfile = ({ EditDelete }) => {
                     <h3>Profile image</h3>
                   </ProfileImgTitle>
                   <ProfileImgContent>
-                    <img src={robotSample} alt={'user.avater'} />
+                    <li>{patchName.slice(1, 3)}</li>
                   </ProfileImgContent>
                 </ProfileImgBox>
                 <ProfileDisplayNameBox>
