@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 @Setter
 
 public class QuestionPatchDto {
+    private long memberId;
 
     @NotBlank(message = "질문 제목을 적어주세요")
     private String title;
