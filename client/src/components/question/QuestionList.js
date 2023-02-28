@@ -6,6 +6,7 @@ import Paging from '../ui/Pagination';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getAllQuestion } from '../../api/answerAPI';
+import PropTypes from 'prop-types';
 
 const QuestionContainerWrap = styled.div``;
 
@@ -23,7 +24,7 @@ const QuestionListTitle = styled.h1`
   font-weight: normal;
 `;
 
-const QuestionList = () => {
+const QuestionList = ({ searchValue }) => {
   const navigate = useNavigate();
 
   function goToAsk() {
@@ -37,21 +38,25 @@ const QuestionList = () => {
   //Pagenation
   const [page, setPage] = useState(1);
   const [count, setCount] = useState(1);
-
+  // Search Filter
+  const filteredQuestionData = isQuestion.filter((question) => {
+    return question.title.toLowerCase().includes(searchValue.toLowerCase());
+  });
   //question, pagination 조회 및 렌더링
   useEffect(() => {
     async function PaginationFilter() {
       const res = await getAllQuestion(page, filterOption);
-      console.log(res);
+      // console.log(res);
       setQuestion(res.data);
       setPage(res.pageInfo.page);
-      console.log(res.pageInfo.totalElements);
+      // console.log(res.pageInfo.totalElements);
       setCount(res.pageInfo.totalElements);
     }
     PaginationFilter();
   }, [page, count, filterOption]);
 
   console.log(isQuestion);
+  console.log('tesesetes', filteredQuestionData);
   return (
     <QuestionContainerWrap>
       <QuestionListHeadBox>
@@ -62,14 +67,20 @@ const QuestionList = () => {
       </QuestionListHeadBox>
       <Filter setFilterOption={setFilterOption} />
       <QuestionListContainer>
-        {isQuestion &&
-          isQuestion.map((que) => (
-            <QuestionItem key={que.questionId} question={que} />
-          ))}
+        {filteredQuestionData.length > 0
+          ? filteredQuestionData.map((que) => (
+              <QuestionItem key={que.questionId} question={que} />
+            ))
+          : isQuestion.map((que) => (
+              <QuestionItem key={que.questionId} question={que} />
+            ))}
       </QuestionListContainer>
       <Paging page={page} count={count} setPage={setPage} />
     </QuestionContainerWrap>
   );
+};
+QuestionList.propTypes = {
+  searchValue: PropTypes.string.isRequired,
 };
 
 export default QuestionList;
