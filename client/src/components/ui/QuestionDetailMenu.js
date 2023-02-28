@@ -53,7 +53,7 @@ const UserDetailSpan = styled.span`
   color: hsl(206deg 100% 40%);
 `;
 
-const QuestionDetailMenu = ({ clickHandler }) => {
+const QuestionDetailMenu = ({ clickHandler, question }) => {
   const gotoEdit = () => {
     clickHandler();
   };
@@ -72,7 +72,7 @@ const QuestionDetailMenu = ({ clickHandler }) => {
           <UserImg src={User} />
         </UserDetailImgBox>
         <UserDetailBox>
-          <UserDetailSpan>Grzegorz Adam Hankiewicz</UserDetailSpan>
+          <UserDetailSpan>{question && question.name}</UserDetailSpan>
         </UserDetailBox>
       </UserInfoBox>
     </QuestionDetialMenuBox>
@@ -80,5 +80,6 @@ const QuestionDetailMenu = ({ clickHandler }) => {
 };
 QuestionDetailMenu.propTypes = {
   clickHandler: PropTypes.func,
+  question: PropTypes.object,
 };
 export default QuestionDetailMenu;

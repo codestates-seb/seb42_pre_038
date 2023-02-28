@@ -3,8 +3,9 @@ import AnswerCreate from '../answer/AnswerCreate';
 import AnswerList from '../answer/AnswerList';
 import QuestionDetailMenu from '../ui/QuestionDetailMenu';
 import Vote from '../ui/Vote';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
+import { postVoteUp } from '../../api/answerAPI';
 
 const QuestionDetailWrap = styled.div`
   display: flex;
@@ -36,21 +37,35 @@ const AnswerBox = styled.div``;
 
 const QuestionDetail = ({ queDetail }) => {
   const navigate = useNavigate();
+  const { id } = useParams();
 
   const clickHandler = () => {
-    navigate('/questions/1/edit');
+    navigate(`/questions/${id}/edit`);
+  };
+
+  const postQuestionVoteUp = async () => {
+    const res = await postVoteUp(id);
+    if (res) {
+      window.location.reload();
+    }
   };
 
   return (
     <QuestionDetailWrap>
       <QuestionDetailContainer>
-        <Vote voteCount={queDetail && queDetail.voteCount} />
+        <Vote
+          voteCount={queDetail && queDetail.voteCount}
+          question={queDetail}
+          VoteFun={postQuestionVoteUp}
+        />
         <QuestionDetailContentBox>
           <QuestionDetailContent
             dangerouslySetInnerHTML={{ __html: queDetail && queDetail.content }}
           />
-
-          <QuestionDetailMenu clickHandler={clickHandler} />
+          <QuestionDetailMenu
+            clickHandler={clickHandler}
+            question={queDetail}
+          />
         </QuestionDetailContentBox>
       </QuestionDetailContainer>
       <AnswerBox>

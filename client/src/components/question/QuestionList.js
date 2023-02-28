@@ -34,7 +34,7 @@ const QuestionList = () => {
   //question 조회
   useEffect(() => {
     async function getQuestionFun() {
-      const res = await getAllQuestion();
+      const res = await getAllQuestion('sortByNewest');
       setQuestion(res.data);
     }
     getQuestionFun();
@@ -49,7 +49,7 @@ const QuestionList = () => {
           Ask Questions
         </AskQuestionButton>
       </QuestionListHeadBox>
-      <Filter />
+      <Filter isQuestion={isQuestion} setQuestion={setQuestion} />
       <QuestionListContainer>
         {isQuestion &&
           isQuestion.map((que) => (
