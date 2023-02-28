@@ -1,7 +1,21 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { getAllQuestion } from '../../api/answerAPI';
+import PropTypes from 'prop-types';
 
 const FilterWrap = styled.div``;
-const Filter = () => {
+const Filter = ({ isQuestion, setQuestion }) => {
+  const [filterOption, setFilterOption] = useState(0);
+
+  useEffect(() => {
+    async function getQuestionFun() {
+      const res = await getAllQuestion(filterOption);
+      console.log(res);
+      setQuestion(res.data);
+      console.log(isQuestion);
+    }
+    getQuestionFun();
+  }, [filterOption]);
   return (
     <FilterWrap>
       <div className="d-flex ai-center mb16">
@@ -10,41 +24,29 @@ const Filter = () => {
           <div className=" d-flex s-btn-group js-filter-btn">
             <a
               className="js-sort-preference-change flex--item s-btn s-btn__muted s-btn__outlined"
-              href="?tab=bounties"
-              data-nav-xhref=""
-              title="Questions with an active bounty"
-              data-value="bounties"
-              data-shortcut="B"
+              href="javacsript:void(0)"
+              onClick={() => setFilterOption(3)}
             >
-              <span className="bounty-indicator-tab">123</span> Score
+              Score
             </a>
             <a
               className="js-sort-preference-change flex--item s-btn s-btn__muted s-btn__outlined"
-              href="?tab=hot"
-              data-nav-xhref=""
-              title="Questions with the most views, most answers, and highest score over the last few days"
-              data-value="hot"
-              data-shortcut="H"
+              href="javacsript:void(0)"
+              onClick={() => setFilterOption(0)}
             >
               Newest
             </a>
             <a
               className="js-sort-preference-change flex--item s-btn s-btn__muted s-btn__outlined"
-              href="?tab=week"
-              data-nav-xhref=""
-              title="Questions with the most views, most answers, and highest score this week"
-              data-value="week"
-              data-shortcut="W"
+              href="javacsript:void(0)"
+              onClick={() => setFilterOption(2)}
             >
               Unanswered
             </a>
             <a
               className="js-sort-preference-change flex--item s-btn s-btn__muted s-btn__outlined"
-              href="?tab=month"
-              data-nav-xhref=""
-              title="Questions with the most views, most answers, and highest score this month"
-              data-value="month"
-              data-shortcut="M"
+              href="javacsript:void(0)"
+              onClick={() => setFilterOption(1)}
             >
               Active
             </a>
@@ -54,5 +56,8 @@ const Filter = () => {
     </FilterWrap>
   );
 };
-
+Filter.propTypes = {
+  isQuestion: PropTypes.object,
+  setQuestion: PropTypes.func,
+};
 export default Filter;

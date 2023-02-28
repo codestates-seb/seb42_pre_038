@@ -12,6 +12,7 @@ const AnswerCountSpan = styled.h2`
 const AnswerList = () => {
   const [isAnswer, setAnswer] = useState();
   const { id } = useParams();
+
   //answer 조회
   useEffect(() => {
     async function getAnswerFun() {
@@ -19,8 +20,8 @@ const AnswerList = () => {
       setAnswer(res.data);
     }
     getAnswerFun();
-  }, []);
-  console.log(isAnswer);
+  }, [id]);
+
   return (
     <>
       <AnswerCountSpan>

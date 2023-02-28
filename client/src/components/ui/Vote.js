@@ -27,11 +27,11 @@ const QuestionDetailIcons = styled.div`
     margin-right: 3px;
   }
 `;
-const Vote = ({ voteCount }) => {
+const Vote = ({ voteCount, VoteFun }) => {
   return (
     <div>
       <QuestionDetailIcons>
-        <AiFillCaretUp size={40} className="icon upIcon" />
+        <AiFillCaretUp size={40} className="icon upIcon" onClick={VoteFun} />
         <VoteCountSpan>{voteCount}</VoteCountSpan>
         <AiFillCaretDown size={40} className="icon downIcon" />
         <FiBookmark size={20} className="icon bookmarkIcon" />
@@ -43,5 +43,6 @@ const Vote = ({ voteCount }) => {
 
 Vote.propTypes = {
   voteCount: PropTypes.number,
+  VoteFun: PropTypes.func,
 };
 export default Vote;
