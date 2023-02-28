@@ -1,21 +1,8 @@
-import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { getAllQuestion } from '../../api/answerAPI';
 import PropTypes from 'prop-types';
 
 const FilterWrap = styled.div``;
-const Filter = ({ isQuestion, setQuestion }) => {
-  const [filterOption, setFilterOption] = useState(0);
-
-  useEffect(() => {
-    async function getQuestionFun() {
-      const res = await getAllQuestion(filterOption);
-      console.log(res);
-      setQuestion(res.data);
-      console.log(isQuestion);
-    }
-    getQuestionFun();
-  }, [filterOption]);
+const Filter = ({ setFilterOption }) => {
   return (
     <FilterWrap>
       <div className="d-flex ai-center mb16">
@@ -57,7 +44,6 @@ const Filter = ({ isQuestion, setQuestion }) => {
   );
 };
 Filter.propTypes = {
-  isQuestion: PropTypes.object,
-  setQuestion: PropTypes.func,
+  setFilterOption: PropTypes.func,
 };
 export default Filter;

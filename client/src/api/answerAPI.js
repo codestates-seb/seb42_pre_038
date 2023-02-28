@@ -17,11 +17,11 @@ export const getAllAnswer = async (questionId) => {
   }
 };
 
-export const getAllQuestion = async (filterOption) => {
+export const getAllQuestion = async (page, filterOption) => {
   try {
     const res = await axios({
       method: 'get',
-      url: `${URI}/api/questions/?page=1&size=10&sort=${filterOption}`,
+      url: `${URI}/api/questions/?page=${page}&size=10&sort=${filterOption}`,
     });
     console.log('questions 성공');
     return res.data;
