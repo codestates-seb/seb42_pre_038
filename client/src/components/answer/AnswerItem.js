@@ -25,18 +25,18 @@ const AnswerDetailContent = styled.div``;
 const AnswerItem = ({ answer }) => {
   const navigate = useNavigate();
   const clickHandler = () => {
-    navigate('/posts/1/edit');
+    navigate(`/posts/${answer.answerId}/edit`);
   };
   console.log(answer);
   return (
     <AnswerItemWrap>
       <AnswerItemContainer>
-        <Vote />
+        <Vote voteCount={answer && answer.voteCount} />
         <AnswerDetailContentBox>
           <AnswerDetailContent
             dangerouslySetInnerHTML={{ __html: answer.answerContent }}
           ></AnswerDetailContent>
-          <AnswerDetailMenu clickHandler={clickHandler} />
+          <AnswerDetailMenu clickHandler={clickHandler} answer={answer} />
         </AnswerDetailContentBox>
       </AnswerItemContainer>
     </AnswerItemWrap>

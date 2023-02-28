@@ -53,7 +53,7 @@ const UserDetailSpan = styled.span`
   font-size: 13px;
 `;
 
-const AnswerDetailMenu = ({ clickHandler }) => {
+const AnswerDetailMenu = ({ clickHandler, answer }) => {
   const gotoEdit = () => {
     clickHandler();
   };
@@ -72,7 +72,7 @@ const AnswerDetailMenu = ({ clickHandler }) => {
           <UserImg src={User}></UserImg>
         </UserDetailImgBox>
         <UserDetailBox>
-          <UserDetailSpan>Grzegorz Adam Hankiewicz</UserDetailSpan>
+          <UserDetailSpan>{answer.name}</UserDetailSpan>
         </UserDetailBox>
       </UserInfoBox>
     </QuestionDetialMenuBox>
@@ -81,5 +81,6 @@ const AnswerDetailMenu = ({ clickHandler }) => {
 
 AnswerDetailMenu.propTypes = {
   clickHandler: PropTypes.func,
+  answer: PropTypes.object,
 };
 export default AnswerDetailMenu;
