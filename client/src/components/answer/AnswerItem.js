@@ -25,9 +25,9 @@ const AnswerDetailContent = styled.div``;
 const AnswerItem = ({ answer }) => {
   const navigate = useNavigate();
   const clickHandler = () => {
-    navigate(`/posts/${answer.answerId}/edit`);
+    navigate(`/answers/${answer.answerId}/edit`, { state: answer });
   };
-  console.log(answer);
+
   return (
     <AnswerItemWrap>
       <AnswerItemContainer>
