@@ -1,6 +1,7 @@
 package com.preproject.stackoverflow.security.configuration;
 
 import com.preproject.stackoverflow.member.repository.MemberRepository;
+import com.preproject.stackoverflow.member.service.MemberService;
 import com.preproject.stackoverflow.security.filter.JwtAuthenticationFilter;
 import com.preproject.stackoverflow.security.filter.JwtVerificationFilter;
 import com.preproject.stackoverflow.security.handler.*;
@@ -18,6 +19,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -39,7 +41,7 @@ public class SecurityConfiguration {
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
     private final MemberDetailsService memberDetailsService;
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
     private final RedisService redisService;
 
     @Bean
@@ -74,6 +76,9 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.GET, "/*/answers/**").permitAll()
                         .antMatchers(HttpMethod.DELETE, "/*/answers/**").hasRole("USER")
                         .anyRequest().permitAll()
+                )
+                .oauth2Login(oauth2 -> oauth2
+                        .successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, authorityUtils, memberService))
                 );
 
         return http.build();
@@ -87,15 +92,12 @@ public class SecurityConfiguration {
         configuration.addAllowedOrigin("http://localhost:3000");
         configuration.addAllowedOrigin("http://localhost:8080");
         configuration.setAllowedMethods(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
-        configuration.addAllowedHeader("Authorization");
-        configuration.addExposedHeader("Authorization");
-        configuration.addAllowedHeader("memberId");
-        configuration.addExposedHeader("memberId");
-        configuration.addAllowedHeader("Set-Cookie");
-        configuration.addExposedHeader("Set-Cookie");
+        configuration.addAllowedHeader("*");
+        configuration.addExposedHeader("*");
+
         configuration.validateAllowCredentials();
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
@@ -107,7 +109,7 @@ public class SecurityConfiguration {
         public void configure(HttpSecurity builder) throws Exception {
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
 
-            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer,redisService);
+            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer, redisService);
             jwtAuthenticationFilter.setFilterProcessesUrl("/api/auth/login");
             jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
             jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
@@ -116,7 +118,9 @@ public class SecurityConfiguration {
 
             builder
                     .addFilter(jwtAuthenticationFilter)
+                    .addFilterAfter(jwtVerificationFilter, OAuth2LoginAuthenticationFilter.class)
                     .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
+
 
         }
     }
