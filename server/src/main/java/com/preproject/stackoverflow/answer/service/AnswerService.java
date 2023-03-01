@@ -107,9 +107,11 @@ public class AnswerService{
     // vote Up
     public Answer voteUp(long answerId, long memberId){
         Answer findAnswer = findVerifiedAnswer(answerId);
-        memberService.findVerifiedMember(memberId);
-        memberService.verifyLoginMember(memberId);
-        if (answerVoteRepository.findByMember_MemberId(memberId).isEmpty() == true){
+
+        memberService.findVerifiedMember(findAnswer.getMember().getMemberId());
+        memberService.verifyLoginMember(findAnswer.getMember().getMemberId());
+        if (answerVoteRepository.findByMember_MemberIdAndAnswer_AnswerId(memberId, answerId).isEmpty() == true){
+
             // 보트 추가
             AnswerVote answerVote = new AnswerVote();
 
@@ -142,9 +144,11 @@ public class AnswerService{
     // vote Down
     public Answer voteDown(long answerId, long memberId){
         Answer findAnswer = findVerifiedAnswer(answerId);
-        memberService.findVerifiedMember(memberId);
-        memberService.verifyLoginMember(memberId);
-        if (answerVoteRepository.findByMember_MemberId(memberId).isEmpty() == true){
+
+        memberService.findVerifiedMember(findAnswer.getMember().getMemberId());
+        memberService.verifyLoginMember(findAnswer.getMember().getMemberId());
+        if (answerVoteRepository.findByMember_MemberIdAndAnswer_AnswerId(memberId, answerId).isEmpty() == true){
+
 
             // 보트 추가
             AnswerVote answerVote = new AnswerVote();

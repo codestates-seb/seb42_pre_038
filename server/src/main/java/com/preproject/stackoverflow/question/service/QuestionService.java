@@ -105,9 +105,11 @@ public class QuestionService {
     // vote Up
     public Question voteUp(long questionId, long memberId) {
         Question findQuestion = findVerifiedQuestion(questionId);
-        memberService.findVerifiedMember(memberId);
-        memberService.verifyLoginMember(memberId);
-        if (questionVoteRepository.findByMember_MemberId(memberId).isEmpty() == true) {
+
+        memberService.findVerifiedMember(findQuestion.getMember().getMemberId());
+        memberService.verifyLoginMember(findQuestion.getMember().getMemberId());
+        if (questionVoteRepository.findByMember_MemberIdAndQuestion_QuestionId(memberId, questionId).isEmpty() == true) {
+
             // 보트 추가
             QuestionVote questionVote = new QuestionVote();
 
@@ -131,9 +133,11 @@ public class QuestionService {
     // vote Down
     public Question voteDown(long questionId, long memberId) {
         Question findQuestion = findVerifiedQuestion(questionId);
-        memberService.findVerifiedMember(memberId);
-        memberService.verifyLoginMember(memberId);
-        if (questionVoteRepository.findByMember_MemberId(memberId).isEmpty() == true) {
+
+        memberService.findVerifiedMember(findQuestion.getMember().getMemberId());
+        memberService.verifyLoginMember(findQuestion.getMember().getMemberId());
+        if (questionVoteRepository.findByMember_MemberIdAndQuestion_QuestionId(memberId, questionId).isEmpty() == true) {
+
             // 보트 추가
             QuestionVote questionVote = new QuestionVote();
 
