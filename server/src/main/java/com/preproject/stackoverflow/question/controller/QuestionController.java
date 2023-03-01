@@ -100,7 +100,7 @@ public class QuestionController {
         return new ResponseEntity<>(new SingleResponseDto<>(mapper.questionToQuestionResponseDto(voteDown)), HttpStatus.OK);
     }
 
-    @PostMapping("/profile/{member-id}")
+    @GetMapping("/profile/{member-id}")
     public ResponseEntity getUserQuestions(@PathVariable("member-id") long memberId){
         List<Question> Questions = questionService.getMembers(memberId);
 
