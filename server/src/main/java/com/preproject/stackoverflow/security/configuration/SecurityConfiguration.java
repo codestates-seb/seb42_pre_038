@@ -91,6 +91,7 @@ public class SecurityConfiguration {
         configuration.setAllowedOriginPatterns(Collections.singletonList("*"));
         configuration.addAllowedOrigin("http://localhost:3000");
         configuration.addAllowedOrigin("http://localhost:8080");
+        configuration.addAllowedOrigin("https://manymanyflow.netlify.app");
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
