@@ -137,6 +137,11 @@ const AnswerEdit = () => {
     }
   };
 
+  /* cancel 버튼 클릭 */
+  const cancelClickHandler = () => {
+    navigate(-1);
+  };
+
   return (
     <ContainerBox>
       <LeftNavBar />
@@ -167,7 +172,7 @@ const AnswerEdit = () => {
           </AnswerEditBox>
           <ButtonBox>
             <MainButton ButtonProps={saveEditAnswer}>Save edits</MainButton>
-            <CancelButton>Cancel</CancelButton>
+            <CancelButton onClick={cancelClickHandler}>Cancel</CancelButton>
           </ButtonBox>
         </AnswerEditWrap>
         <RightSideBar />
