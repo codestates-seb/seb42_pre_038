@@ -44,9 +44,9 @@ public class QuestionController {
     public ResponseEntity patchQuestion(@PathVariable("question-id") @Positive long questionId, @Valid @RequestBody QuestionPatchDto patchDto) {
         Question question = mapper.questionPatchDtoToQuestion(patchDto);
         question.setQuestionId(questionId);
-        questionService.updateQuestion(question);
-
-        return new ResponseEntity<>(new SingleResponseDto<>(mapper.questionToQuestionResponseDto(question)), HttpStatus.OK);
+        Question updateQuestion = questionService.updateQuestion(question);
+        System.out.println();
+        return new ResponseEntity<>(new SingleResponseDto<>(mapper.questionToQuestionResponseDto(updateQuestion)), HttpStatus.OK);
     }
 
     @GetMapping("/{question-id}")
@@ -59,8 +59,8 @@ public class QuestionController {
     // 서치 기능 : title 로만.
     @GetMapping("/search")
     public ResponseEntity getQuestionBySearch(@RequestParam int page,
-                                    @RequestParam int size,
-                                    @RequestParam String keyword){
+                                              @RequestParam int size,
+                                              @RequestParam String keyword){
 
         Page<Question> pageQuestions = questionService.search(page, size, keyword);
         List<Question> questions = pageQuestions.getContent();

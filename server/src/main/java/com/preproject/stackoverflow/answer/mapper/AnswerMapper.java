@@ -17,13 +17,18 @@ import java.util.List;
 public interface AnswerMapper {
 
     @Mapping(source = "memberId", target = "member.memberId")
+    @Mapping(source = "name", target = "member.name")
     @Mapping(source = "questionId", target = "question.questionId")
     Answer answerPostDtoToAnswer(AnswerPostDto answerPostDto);
 
+    @Mapping(source = "memberId", target = "member.memberId")
+    @Mapping(source = "name", target = "member.name")
+    @Mapping(source = "questionId", target = "question.questionId")
     Answer answerPatchDtoToAnswer(AnswerPatchDto answerPatchDto);
 
     @Mapping(source = "member.memberId", target = "memberId")
     @Mapping(source = "question.questionId", target = "questionId")
+    @Mapping(source = "member.name", target = "name")
     AnswerResponseDto answerToAnswerResponseDto(Answer answer);
 
     List<AnswerResponseDto> answersToAnswerResponseDto(List<Answer> answers);

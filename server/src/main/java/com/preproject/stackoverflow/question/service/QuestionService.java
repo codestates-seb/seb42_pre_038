@@ -41,10 +41,11 @@ public class QuestionService {
     }
 
     public Question updateQuestion(Question question) {
-        memberService.findVerifiedMember(question.getMember().getMemberId());
+        Member verifiedMember = memberService.findVerifiedMember(question.getMember().getMemberId());
+        System.out.println(question.getMember().getMemberId());
         memberService.verifyLoginMember(question.getMember().getMemberId());
         Question findQuestion = findVerifiedQuestion(question.getQuestionId());
-
+        findQuestion.setMember(verifiedMember);
         Optional.ofNullable(question.getTitle()).ifPresent(findQuestion::setTitle);
         Optional.ofNullable(question.getContent()).ifPresent(findQuestion::setContent);
 
@@ -63,12 +64,12 @@ public class QuestionService {
             Page<Question> questionPage = questionRepository.findAll(PageRequest.of(page, size, Sort.by("createdAt").descending()));
             return questionPage;
 
-        // Active 순 (LastModified , 마지막 수정 날짜 순)
+            // Active 순 (LastModified , 마지막 수정 날짜 순)
         } else if (sort == 1) {
             Page<Question> questionPage = questionRepository.findAll(PageRequest.of(page, size, Sort.by("modifiedAt").descending()));
             return questionPage;
 
-        // Unanswered 순
+            // Unanswered 순
         } else if (sort == 2) {
             Page<Question> questionPage = questionRepository.findAll(PageRequest.of(page, size, Sort.by("answersCount").ascending()));
             return questionPage;
@@ -89,7 +90,7 @@ public class QuestionService {
         if (answerRepository.countByQuestion(findQuestion) == 0) {
             questionRepository.deleteById(questionId);
 
-        // 만약 답변이 있다면 -> 삭제 불가
+            // 만약 답변이 있다면 -> 삭제 불가
         } else {
             throw new CustomException(ExceptionCode.QUESTION_EXIST_ANSWER);
         }
@@ -104,9 +105,11 @@ public class QuestionService {
     // vote Up
     public Question voteUp(long questionId, long memberId) {
         Question findQuestion = findVerifiedQuestion(questionId);
+
         memberService.findVerifiedMember(findQuestion.getMember().getMemberId());
         memberService.verifyLoginMember(findQuestion.getMember().getMemberId());
         if (questionVoteRepository.findByMember_MemberIdAndQuestion_QuestionId(memberId, questionId).isEmpty() == true) {
+
             // 보트 추가
             QuestionVote questionVote = new QuestionVote();
 
@@ -130,9 +133,11 @@ public class QuestionService {
     // vote Down
     public Question voteDown(long questionId, long memberId) {
         Question findQuestion = findVerifiedQuestion(questionId);
+
         memberService.findVerifiedMember(findQuestion.getMember().getMemberId());
         memberService.verifyLoginMember(findQuestion.getMember().getMemberId());
         if (questionVoteRepository.findByMember_MemberIdAndQuestion_QuestionId(memberId, questionId).isEmpty() == true) {
+
             // 보트 추가
             QuestionVote questionVote = new QuestionVote();
 

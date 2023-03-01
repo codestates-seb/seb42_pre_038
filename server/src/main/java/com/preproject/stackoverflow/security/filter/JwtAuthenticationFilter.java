@@ -3,6 +3,7 @@ package com.preproject.stackoverflow.security.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.preproject.stackoverflow.dto.LoginDto;
 import com.preproject.stackoverflow.member.entity.Member;
+import com.preproject.stackoverflow.member.repository.MemberRepository;
 import com.preproject.stackoverflow.security.jwt.JwtTokenizer;
 import com.preproject.stackoverflow.security.redis.service.RedisService;
 import com.preproject.stackoverflow.security.utils.CookieUtil;
@@ -21,16 +22,12 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenizer jwtTokenizer;
-
     private final RedisService redisService;
 
     @SneakyThrows
@@ -50,21 +47,21 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             FilterChain chain,
                                             Authentication authResult) throws ServletException, IOException {
         Member member = (Member) authResult.getPrincipal();
-
         String accessToken = jwtTokenizer.delegateAccessToken(member);
         String refreshToken = jwtTokenizer.delegateRefreshToken(member);
 
         redisService.setValues(member.getEmail(), refreshToken);
-
-        Cookie refresh = CookieUtil.createCookie("Refresh", refreshToken);
-        response.addCookie(refresh);
+        System.out.println(member.getName());
+//        Cookie refresh = CookieUtil.createCookie("Refresh", refreshToken);
+//        response.addCookie(refresh);
+        CookieUtil.createCookie(response, refreshToken);
+        String memberId = member.getMemberId().toString();
         response.setHeader("Authorization", "Bearer " + accessToken);
-        response.setHeader("memberId", member.getMemberId().toString());
+        response.setHeader("memberId", memberId.toString());
         response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
-        response.setHeader("displayName", member.getName());
         this.getSuccessHandler().onAuthenticationSuccess(request, response, authResult);
     }
 

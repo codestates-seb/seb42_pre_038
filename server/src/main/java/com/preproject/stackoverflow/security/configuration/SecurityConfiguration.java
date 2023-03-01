@@ -24,6 +24,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity(debug = true)
@@ -38,7 +39,7 @@ public class SecurityConfiguration {
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
     private final MemberDetailsService memberDetailsService;
-
+    private final MemberRepository memberRepository;
     private final RedisService redisService;
 
     @Bean
@@ -82,6 +83,7 @@ public class SecurityConfiguration {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOriginPatterns(Collections.singletonList("*"));
         configuration.addAllowedOrigin("http://localhost:3000");
         configuration.addAllowedOrigin("http://localhost:8080");
         configuration.setAllowedMethods(Arrays.asList("*"));
@@ -90,6 +92,10 @@ public class SecurityConfiguration {
         configuration.setAllowCredentials(true);
         configuration.addAllowedHeader("Authorization");
         configuration.addExposedHeader("Authorization");
+        configuration.addAllowedHeader("memberId");
+        configuration.addExposedHeader("memberId");
+        configuration.addAllowedHeader("Set-Cookie");
+        configuration.addExposedHeader("Set-Cookie");
         configuration.validateAllowCredentials();
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
@@ -101,7 +107,7 @@ public class SecurityConfiguration {
         public void configure(HttpSecurity builder) throws Exception {
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
 
-            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer, redisService);
+            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer,redisService);
             jwtAuthenticationFilter.setFilterProcessesUrl("/api/auth/login");
             jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
             jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());

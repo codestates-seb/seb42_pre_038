@@ -41,9 +41,7 @@ public class AnswerController {
     // Answer 등록
     @PostMapping
     public ResponseEntity postAnswer(@Valid @RequestBody AnswerPostDto answerPostDto){
-
-        Answer answer = mapper.answerPostDtoToAnswer(answerPostDto);
-        answerService.createAnswer(answer);
+        Answer answer = answerService.createAnswer(mapper.answerPostDtoToAnswer(answerPostDto));
 
         return new ResponseEntity<>(new SingleResponseDto<>(mapper.answerToAnswerResponseDto(answer)), HttpStatus.CREATED);
     }
@@ -53,9 +51,9 @@ public class AnswerController {
     public ResponseEntity patchAnswer(@PathVariable("answer-id") @Positive long answerId, @Valid @RequestBody AnswerPatchDto patchDto){
         Answer answer = mapper.answerPatchDtoToAnswer(patchDto);
         answer.setAnswerId(answerId);
-        answerService.updateAnswer(answer);
+        Answer updateAnswer = answerService.updateAnswer(answer);
 
-        return new ResponseEntity<>(new SingleResponseDto<>(mapper.answerToAnswerResponseDto(answer)), HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResponseDto<>(mapper.answerToAnswerResponseDto(updateAnswer)), HttpStatus.OK);
     }
 
     // Answer 조회
@@ -89,6 +87,7 @@ public class AnswerController {
     // Vote Down 기능
     @PostMapping("/voteDown/{answer-id}")
     public ResponseEntity voteDownAnswer(@PathVariable("answer-id") long answerId, @RequestParam long memberId){
+        System.out.println(memberId);
         Answer voteDown = answerService.voteDown(answerId, memberId);
 
         return new ResponseEntity<>(new SingleResponseDto<>(mapper.answerToAnswerResponseDto(voteDown)), HttpStatus.OK);
