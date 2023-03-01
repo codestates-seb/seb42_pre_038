@@ -53,16 +53,27 @@ const UserDetailSpan = styled.span`
   font-size: 13px;
 `;
 
-const AnswerDetailMenu = ({ clickHandler, answer }) => {
-  const gotoEdit = () => {
-    clickHandler();
+const AnswerDetailMenu = ({ goToAnswerEdit, answerDelete, answer }) => {
+  /* goToAnwerEdit 함수 실행 */
+  const gotoAnswerEditFunc = () => {
+    goToAnswerEdit();
+  };
+  /* localStorage에 저장된 memberId 가져오기 */
+  const memberId = localStorage.getItem('memberId');
+
+  /* questionDelete 함수 실행 */
+  const answerDeleteFunc = () => {
+    answerDelete();
   };
   return (
     <QuestionDetialMenuBox>
       <MenuBox>
         <MenuSpan>Share</MenuSpan>
-        <MenuSpan onClick={gotoEdit}>Edit</MenuSpan>
+        <MenuSpan onClick={gotoAnswerEditFunc}>Edit</MenuSpan>
         <MenuSpan>Follow</MenuSpan>
+        {answer && Number(memberId) === answer.memberId ? (
+          <MenuSpan onClick={answerDeleteFunc}>Delete</MenuSpan>
+        ) : null}
       </MenuBox>
       <UserInfoBox>
         <UserSpanBox>
@@ -80,7 +91,8 @@ const AnswerDetailMenu = ({ clickHandler, answer }) => {
 };
 
 AnswerDetailMenu.propTypes = {
-  clickHandler: PropTypes.func,
+  goToAnswerEdit: PropTypes.func,
+  answerDelete: PropTypes.func,
   answer: PropTypes.object,
 };
 export default AnswerDetailMenu;

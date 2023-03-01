@@ -47,7 +47,7 @@ const QuestionList = ({ searchValue }) => {
   useEffect(() => {
     async function PaginationFilter() {
       const res = await getAllQuestion(page, filterOption);
-      // console.log(res);
+      console.log(res);
       setQuestion(res.data);
       setPage(res.pageInfo.page);
       // console.log(res.pageInfo.totalElements);
@@ -66,7 +66,7 @@ const QuestionList = ({ searchValue }) => {
           Ask Questions
         </AskQuestionButton>
       </QuestionListHeadBox>
-      <Filter setFilterOption={setFilterOption} />
+      <Filter filterOption={filterOption} setFilterOption={setFilterOption} />
       <QuestionListContainer>
         {filteredQuestionData.length > 0
           ? filteredQuestionData.map((que) => (

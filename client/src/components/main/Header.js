@@ -266,7 +266,7 @@ const Header = ({ handleSearchValueChange }) => {
         {jwtToken ? (
           <HeaderRight>
             <div className="HeaderRightBox">
-              <NavLink to="/userinfo" className="UserInfoBtn">
+              <NavLink to={`/userinfo/${memberId}`} className="UserInfoBtn">
                 <li className="HeaderUsersBox">{headerName}</li>
               </NavLink>
             </div>

@@ -9,10 +9,10 @@ export const getAllAnswer = async (questionId) => {
       method: 'get',
       url: `${URI}/api/answers/${questionId}?page=1&size=10&sort=1`,
     });
-    console.log('answer 성공');
+    console.log('answer 데이터 받아오기 성공');
     return res.data;
   } catch (error) {
-    console.log('에러에러');
+    console.log('answer 데이터 받아오기 실패');
     console.log(error);
   }
 };
@@ -23,9 +23,10 @@ export const getAllQuestion = async (page, filterOption) => {
       method: 'get',
       url: `${URI}/api/questions/?page=${page}&size=10&sort=${filterOption}`,
     });
-    console.log('questions 성공');
+    console.log('questions 데이터 받아오기 성공');
     return res.data;
   } catch (error) {
+    console.log('questions 데이터 받아오기 실패');
     console.log(error);
   }
 };
@@ -45,7 +46,6 @@ export const getQuestionDetail = async (questionId) => {
 
 export const postCreateAnswer = async (questionId, answerContent) => {
   try {
-    console.log('dsdsd');
     const jwtToken = localStorage.getItem('token');
     const memberId = localStorage.getItem('memberId');
     const formData = {
@@ -68,6 +68,7 @@ export const postCreateAnswer = async (questionId, answerContent) => {
     console.log('answer create 성공');
     return res.data;
   } catch (error) {
+    alert('답변 추가가 정상적으로 완료되지 않았습니다.');
     console.log(error);
   }
 };
@@ -89,7 +90,7 @@ export const postVoteUp = async (questionId) => {
     console.log('question voteUp 성공');
     return res.data;
   } catch (error) {
-    console.log('question voteUp 실패');
+    alert('질문 투표가 정상적으로 완료되지 않았습니다.');
     console.log(error);
   }
 };
@@ -118,7 +119,7 @@ export const patchEditQuestion = async (questionId, title, content) => {
     console.log('question Edit 성공');
     return res.data;
   } catch (error) {
-    console.log('question Edit 실패');
+    alert('질문 수정이 정상적으로 완료되지 않았습니다.');
     console.log(error);
   }
 };
@@ -147,7 +148,49 @@ export const patchEditAnswer = async (answerId, questionId, answerContent) => {
     console.log('answer Edit 성공');
     return res.data;
   } catch (error) {
-    console.log('answer Edit 실패');
     console.log(error);
+    alert('답변 수정이 정상적으로 완료되지 않았습니다.');
+  }
+};
+
+export const deleteQuestion = async (questionId) => {
+  try {
+    const jwtToken = localStorage.getItem('token');
+
+    const res = await axios({
+      method: 'delete',
+      url: `${URI}/api/questions/${questionId}`,
+      headers: {
+        'Content-Type': 'Application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Authorization ': jwtToken,
+      },
+    });
+    console.log('question delete 성공');
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    alert('질문 삭제가 정상적으로 완료되지 않았습니다.');
+  }
+};
+
+export const deleteAnswer = async (answerId) => {
+  try {
+    const jwtToken = localStorage.getItem('token');
+
+    const res = await axios({
+      method: 'delete',
+      url: `${URI}/api/answers/${answerId}`,
+      headers: {
+        'Content-Type': 'Application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Authorization ': jwtToken,
+      },
+    });
+    console.log('answer delete 성공');
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    alert('답변 삭제가 정상적으로 완료되지 않았습니다.');
   }
 };
