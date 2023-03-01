@@ -31,7 +31,7 @@ const App = () => {
         <Route path="/questions/ask" element={<QuestionCreate />} />
         <Route path="/questions/:id" element={<QuestionDetail />} />
         <Route path="/questions/:id/edit" element={<QuestionEdit />} />
-        <Route path="/posts/:id/edit" element={<AnswerEdit />} />
+        <Route path="/answers/:id/edit" element={<AnswerEdit />} />
         <Route path="/userinfo" element={<UserInfo />} />
         {/* <Route path="/useredit" element={<UserEdit />} />
         <Route path="/userdelete" element={<UserDelte />} /> */}
