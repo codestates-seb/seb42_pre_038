@@ -122,3 +122,32 @@ export const patchEditQuestion = async (questionId, title, content) => {
     console.log(error);
   }
 };
+
+export const patchEditAnswer = async (answerId, questionId, answerContent) => {
+  try {
+    const jwtToken = localStorage.getItem('token');
+    const memberId = localStorage.getItem('memberId');
+    const formData = {
+      memberId,
+      questionId,
+      answerContent,
+    };
+
+    console.log(formData);
+    const res = await axios({
+      method: 'patch',
+      url: `${URI}/api/answers/${answerId}`,
+      data: formData,
+      headers: {
+        'Content-Type': 'Application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Authorization ': jwtToken,
+      },
+    });
+    console.log('answer Edit 성공');
+    return res.data;
+  } catch (error) {
+    console.log('answer Edit 실패');
+    console.log(error);
+  }
+};
