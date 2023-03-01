@@ -90,6 +90,10 @@ const ButtonBox = styled.div`
   display: flex;
   padding: 30px 0;
 `;
+const React = styled(ReactQuill)`
+  height: 200px;
+  margin-bottom: 50px;
+`;
 const QuestionEdit = () => {
   /*Quill modules*/
   const modules = {
@@ -183,7 +187,7 @@ const QuestionEdit = () => {
             </QuestionEditTitle>
             <QuestionEditContent>
               <QuestionEditLabel htmlFor="body">Body</QuestionEditLabel>
-              <ReactQuill
+              <React
                 modules={modules}
                 value={content}
                 onChange={contentChangeHandler}

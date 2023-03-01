@@ -74,7 +74,10 @@ const ButtonBox = styled.div`
   display: flex;
   padding: 30px 0;
 `;
-
+const React = styled(ReactQuill)`
+  height: 200px;
+  margin-bottom: 50px;
+`;
 const AnswerEdit = () => {
   /*Quill modules*/
   const modules = {
@@ -160,7 +163,7 @@ const AnswerEdit = () => {
           <AnswerEditBox>
             <AnswerEditContent>
               <AnswerEditLabel htmlFor="answer">Answer</AnswerEditLabel>
-              <ReactQuill
+              <React
                 id="answer"
                 modules={modules}
                 value={answerContent}
