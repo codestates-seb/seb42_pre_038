@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import User from '../../images/avatar.png';
 import PropTypes from 'prop-types';
+
 const QuestionDetialMenuBox = styled.div`
   display: flex;
   margin: 50px 0;
@@ -53,17 +54,29 @@ const UserDetailSpan = styled.span`
   color: hsl(206deg 100% 40%);
 `;
 
-const QuestionDetailMenu = ({ clickHandler, question }) => {
-  const gotoEdit = () => {
-    clickHandler();
+const QuestionDetailMenu = ({ goToEdit, questionDelete, question }) => {
+  /* goToEdit 함수 실행 */
+  const goToEditFunc = () => {
+    goToEdit();
   };
+
+  /* questionDelete 함수 실행 */
+  const questionDeleteFunc = () => {
+    questionDelete();
+  };
+
+  /* localStorage에 저장된 memberId 가져오기 */
+  const memberId = localStorage.getItem('memberId');
+
   return (
     <QuestionDetialMenuBox>
       <MenuBox>
         <MenuSpan>Share</MenuSpan>
-        <MenuSpan onClick={gotoEdit}>Edit</MenuSpan>
+        <MenuSpan onClick={goToEditFunc}>Edit</MenuSpan>
         <MenuSpan>Follow</MenuSpan>
-        <MenuSpan>Delete</MenuSpan>
+        {question && Number(memberId) === question.memberId ? (
+          <MenuSpan onClick={questionDeleteFunc}>Delete</MenuSpan>
+        ) : null}
       </MenuBox>
       <UserInfoBox>
         <UserSpanBox>
@@ -80,7 +93,8 @@ const QuestionDetailMenu = ({ clickHandler, question }) => {
   );
 };
 QuestionDetailMenu.propTypes = {
-  clickHandler: PropTypes.func,
+  goToEdit: PropTypes.func,
+  questionDelete: PropTypes.func,
   question: PropTypes.object,
 };
 export default QuestionDetailMenu;
