@@ -17,6 +17,10 @@ const AnswerCountSpan = styled.h2`
 const AnswerButtonBox = styled.div`
   padding: 20px 0 15px 0;
 `;
+const React = styled(ReactQuill)`
+  height: 200px;
+  margin-bottom: 50px;
+`;
 const AnswerCreate = () => {
   const [answerValue, setAnswerValue] = useState('');
   const { id } = useParams();
@@ -68,7 +72,7 @@ const AnswerCreate = () => {
   return (
     <AnswerCreateWrap>
       <AnswerCountSpan>Your Answer</AnswerCountSpan>
-      <ReactQuill
+      <React
         modules={modules}
         value={answerValue}
         onChange={handleAnswerChange}

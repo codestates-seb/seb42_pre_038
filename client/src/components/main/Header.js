@@ -41,6 +41,10 @@ const HeaderLeft = styled.div`
     height: 30px;
     padding: 0 8px;
     cursor: pointer;
+    :hover {
+      background-color: #ddd;
+      border-radius: 3px;
+    }
   }
   > p {
     font-weight: 100;
@@ -214,23 +218,23 @@ const Header = ({ handleSearchValueChange }) => {
   useEffect(() => {
     if (jwtToken) {
       dispatch(loginSuccess());
+      axios
+        .get(`${URI}/api/members/${memberId}`, header)
+        .then((response) => {
+          let name = response.data.data.name;
+          setHeaderName(name.slice(1, 3));
+          console.log(`name`, headerName);
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error.response.status);
+          if (error.response.status === 401) {
+            window.scrollTo(0, 0);
+            localStorage.clear();
+            navigate('/');
+          }
+        });
     }
-    axios
-      .get(`${URI}/api/members/${memberId}`, header)
-      .then((response) => {
-        let name = response.data.data.name;
-        setHeaderName(name.slice(1, 3));
-        console.log(`name`, headerName);
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error.response.status);
-        if (error.response.status === 401) {
-          window.scrollTo(0, 0);
-          localStorage.clear();
-          navigate('/');
-        }
-      });
   }, []);
 
   const handleLogout = () => {
@@ -262,7 +266,7 @@ const Header = ({ handleSearchValueChange }) => {
         {jwtToken ? (
           <HeaderRight>
             <div className="HeaderRightBox">
-              <NavLink to={`/userinfo/${memberId}`} className="UserInfoBtn">
+              <NavLink to="/userinfo" className="UserInfoBtn">
                 <li className="HeaderUsersBox">{headerName}</li>
               </NavLink>
             </div>
