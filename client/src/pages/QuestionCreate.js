@@ -392,7 +392,7 @@ const QuestionCreate = () => {
       .catch((error) => {
         console.log(error);
         console.log('오류오류');
-        navigate('/questions/ask');
+        navigate('/login');
       });
   };
   /*모달*/
@@ -411,7 +411,6 @@ const QuestionCreate = () => {
         [{ header: [1, 2, 3, 4, 5, 6, false] }],
         [{ font: [] }],
         [{ align: [] }],
-        ['image'],
         ['bold', 'italic', 'underline', 'strike', 'blockquote'],
         [{ list: 'ordered' }, { list: 'bullet' }, 'link'],
         [
