@@ -1,44 +1,28 @@
-import styled from 'styled-components';
+import '../../Paging.css';
+import Pagination from 'react-js-pagination';
+import { PropTypes } from 'prop-types';
 
-const PageinationWrap = styled.div`
-  margin: 30px 0;
-  display: flex;
-  justify-content: center;
-`;
+const Paging = ({ page, count, setPage }) => {
+  const handlePageChange = (page) => {
+    setPage(page);
+  };
+  console.log();
 
-const Pagination = () => {
   return (
-    <PageinationWrap>
-      {' '}
-      <div className="s-pagination">
-        <a className="s-pagination--item" href="…">
-          Prev
-        </a>
-        <span className="s-pagination--item is-selected" aria-current="page">
-          1
-        </span>
-        <a className="s-pagination--item" href="…">
-          2
-        </a>
-        <a className="s-pagination--item" href="…">
-          3
-        </a>
-        <a className="s-pagination--item" href="…">
-          4
-        </a>
-        <a className="s-pagination--item" href="…">
-          5
-        </a>
-        <span className="s-pagination--item s-pagination--item__clear">…</span>
-        <a className="s-pagination--item" href="…">
-          10
-        </a>
-        <a className="s-pagination--item" href="…">
-          Next
-        </a>
-      </div>
-    </PageinationWrap>
+    <Pagination
+      activePage={page}
+      itemsCountPerPage={10}
+      totalItemsCount={count}
+      pageRangeDisplayed={5}
+      prevPageText={'‹'}
+      nextPageText={'›'}
+      onChange={handlePageChange}
+    />
   );
 };
-
-export default Pagination;
+Paging.propTypes = {
+  page: PropTypes.number,
+  count: PropTypes.number,
+  setPage: PropTypes.func,
+};
+export default Paging;

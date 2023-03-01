@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import AnswerDetailMenu from '../ui/AnswerDetailMenu';
 import Vote from '../ui/Vote';
 import PropTypes from 'prop-types';
+import { deleteAnswer } from '../../api/answerAPI';
 const AnswerItemWrap = styled.div`
   display: grid;
   grid-template-columns: max-content 1fr;
@@ -24,19 +25,29 @@ const AnswerDetailContent = styled.div``;
 
 const AnswerItem = ({ answer }) => {
   const navigate = useNavigate();
-  const clickHandler = () => {
-    navigate('/posts/1/edit');
+
+  /* answer Edit 페이지 이동*/
+  const goToAnswerEdit = () => {
+    navigate(`/answers/${answer.answerId}/edit`, { state: answer });
   };
-  console.log(answer);
+  /* answer 삭제 요청 */
+  const answerDelete = async () => {
+    await deleteAnswer(answer.answerId);
+    navigate('/');
+  };
   return (
     <AnswerItemWrap>
       <AnswerItemContainer>
-        <Vote />
+        <Vote voteCount={answer && answer.voteCount} />
         <AnswerDetailContentBox>
           <AnswerDetailContent
             dangerouslySetInnerHTML={{ __html: answer.answerContent }}
           ></AnswerDetailContent>
-          <AnswerDetailMenu clickHandler={clickHandler} />
+          <AnswerDetailMenu
+            goToAnswerEdit={goToAnswerEdit}
+            answerDelete={answerDelete}
+            answer={answer}
+          />
         </AnswerDetailContentBox>
       </AnswerItemContainer>
     </AnswerItemWrap>

@@ -1,8 +1,12 @@
+import { useState } from 'react';
+import ReactQuill from 'react-quill';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import LeftNavBar from '../components/main/LeftNavBar';
 import RightSideBar from '../components/main/RightSideBar';
 import MainButton from '../components/ui/MainButton';
 import { MainBox } from './Home';
+import { patchEditQuestion } from '../api/answerAPI';
 
 const QuestionEditWrap = styled.div`
   width: calc(100% - 365px - 24px);
@@ -65,16 +69,6 @@ const QuestionEditContent = styled.div`
   display: flex;
   flex-direction: column;
 `;
-const QuestionEditBodyInput = styled.textarea`
-  padding: 10px;
-  margin: -1px 0 0;
-  height: 200px;
-  line-height: 1.3;
-  width: 100%;
-  font-family: var(--ff-mono);
-  font-size: 1.15384615rem;
-  tab-size: 4;
-`;
 
 const CancelButton = styled.a`
   background-color: #00000000;
@@ -97,6 +91,70 @@ const ButtonBox = styled.div`
   padding: 30px 0;
 `;
 const QuestionEdit = () => {
+  /*Quill modules*/
+  const modules = {
+    toolbar: {
+      container: [
+        [{ header: [1, 2, 3, 4, 5, 6, false] }],
+        [{ font: [] }],
+        [{ align: [] }],
+        ['image'],
+        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+        [{ list: 'ordered' }, { list: 'bullet' }, 'link'],
+        [
+          {
+            color: [
+              '#000000',
+              '#e60000',
+              '#ff9900',
+              '#ffff00',
+              '#008a00',
+              '#0066cc',
+              '#9933ff',
+              'custom-color',
+            ],
+          },
+          { background: [] },
+        ],
+      ],
+    },
+  };
+  /* question detail useNavigate() 두번째 인자 값 받아오기*/
+  const { state } = useLocation();
+
+  /* title, content 상태관리 */
+  const [title, setTitle] = useState(state.title);
+  const [content, setContent] = useState(state.content);
+  const { id } = useParams();
+  const navigate = useNavigate();
+  /* title, content  changeHandler */
+  const titleChangeHandler = (e) => {
+    setTitle(e.target.value);
+  };
+  const contentChangeHandler = (e) => {
+    setContent(e);
+  };
+
+  /* saveEdit Event */
+  const saveEdit = () => {
+    console.log(title);
+    console.log(content);
+    EditQuestionFunc();
+  };
+
+  /* patchEditQuestion 요청 */
+  const EditQuestionFunc = async () => {
+    const response = await patchEditQuestion(id, title, content);
+    if (response) {
+      navigate(`/questions/${id}`);
+    }
+  };
+
+  /* cancel 버튼 클릭 */
+  const cancelClickHandler = () => {
+    navigate(-1);
+  };
+
   return (
     <ContainerBox>
       <LeftNavBar />
@@ -117,16 +175,24 @@ const QuestionEdit = () => {
           <QuestionEditBox>
             <QuestionEditTitle>
               <QuestionEditLabel htmlFor="title">Title</QuestionEditLabel>
-              <QuestionEditTitleInput id="title"></QuestionEditTitleInput>
+              <QuestionEditTitleInput
+                id="title"
+                value={title}
+                onChange={titleChangeHandler}
+              ></QuestionEditTitleInput>
             </QuestionEditTitle>
             <QuestionEditContent>
               <QuestionEditLabel htmlFor="body">Body</QuestionEditLabel>
-              <QuestionEditBodyInput id="body"></QuestionEditBodyInput>
+              <ReactQuill
+                modules={modules}
+                value={content}
+                onChange={contentChangeHandler}
+              />
             </QuestionEditContent>
           </QuestionEditBox>
           <ButtonBox>
-            <MainButton>Save edits</MainButton>
-            <CancelButton>Cancel</CancelButton>
+            <MainButton ButtonProps={saveEdit}>Save edits</MainButton>
+            <CancelButton onClick={cancelClickHandler}>Cancel</CancelButton>
           </ButtonBox>
         </QuestionEditWrap>
         <RightSideBar />

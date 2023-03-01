@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { loginSuccess, logoutSuccess } from '../../actions';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-// import axios from 'axios';
+import PropTypes from 'prop-types';
 const HeaderWrap = styled.div`
   align-items: center;
   box-sizing: border-box;
@@ -178,7 +178,7 @@ const HeaderRight = styled.ol`
   }
 `;
 
-const Header = () => {
+const Header = ({ handleSearchValueChange }) => {
   // true = 로그인상태 ,false = 로그아웃상태
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -195,9 +195,15 @@ const Header = () => {
   const URI = process.env.REACT_APP_SERVER_URI;
   // const [resultValure, setSesultValure] = useState([]);
   //검색벨류
-  const handleSearchValueChange = (e) => {
+  const handleSearchInputChange = (e) => {
     setSearchValue(e.target.value);
     console.log(e.target.value);
+  };
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleSearchValueChange(searchValue);
+      window.scrollTo(0, 0);
+    }
   };
   const header = {
     headers: {
@@ -234,12 +240,6 @@ const Header = () => {
     window.location.reload();
     navigate('/');
   };
-  const handleSearch = (e) => {
-    if (e.key === 'Enter') {
-      alert('엔터');
-      axios.get(`${URI}/api/questions`);
-    }
-  };
 
   return (
     <HeaderWrap>
@@ -255,8 +255,8 @@ const Header = () => {
           <SearchBarInput
             placeholder="Search..."
             value={searchValue}
-            onChange={handleSearchValueChange}
-            onKeyDown={handleSearch}
+            onChange={handleSearchInputChange}
+            onKeyDown={handleKeyDown}
           />
         </HeaderSearchContainer>
         {jwtToken ? (
@@ -290,5 +290,7 @@ const Header = () => {
     </HeaderWrap>
   );
 };
-
+Header.propTypes = {
+  handleSearchValueChange: PropTypes.func.isRequired,
+};
 export default Header;

@@ -261,6 +261,7 @@ const Login = () => {
         };
         dispatch(loginSuccess(data)); //!()부분 수정하기!//
         navigate('/');
+        window.location.reload();
       })
       .catch(() => {
         window.alert('로그인 정보가 일치하지 않습니다. 다시 입력해주세요!');

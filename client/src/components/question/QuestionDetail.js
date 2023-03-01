@@ -3,8 +3,9 @@ import AnswerCreate from '../answer/AnswerCreate';
 import AnswerList from '../answer/AnswerList';
 import QuestionDetailMenu from '../ui/QuestionDetailMenu';
 import Vote from '../ui/Vote';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
+import { deleteQuestion, postVoteUp } from '../../api/answerAPI';
 
 const QuestionDetailWrap = styled.div`
   display: flex;
@@ -36,21 +37,44 @@ const AnswerBox = styled.div``;
 
 const QuestionDetail = ({ queDetail }) => {
   const navigate = useNavigate();
+  const { id } = useParams();
 
-  const clickHandler = () => {
-    navigate('/questions/1/edit');
+  /* question Edit 페이지 이동*/
+  const goToEdit = () => {
+    navigate(`/questions/${id}/edit`, { state: queDetail });
+  };
+
+  /* question 삭제 요청 */
+  const questionDelete = async () => {
+    await deleteQuestion(id);
+    navigate('/');
+  };
+
+  /* voteUp  요청 */
+  const postQuestionVoteUp = async () => {
+    const res = await postVoteUp(id);
+    if (res) {
+      window.location.reload();
+    }
   };
 
   return (
     <QuestionDetailWrap>
       <QuestionDetailContainer>
-        <Vote voteCount={queDetail && queDetail.voteCount} />
+        <Vote
+          voteCount={queDetail && queDetail.voteCount}
+          question={queDetail}
+          VoteFun={postQuestionVoteUp}
+        />
         <QuestionDetailContentBox>
           <QuestionDetailContent
             dangerouslySetInnerHTML={{ __html: queDetail && queDetail.content }}
           />
-
-          <QuestionDetailMenu clickHandler={clickHandler} />
+          <QuestionDetailMenu
+            goToEdit={goToEdit}
+            questionDelete={questionDelete}
+            question={queDetail}
+          />
         </QuestionDetailContentBox>
       </QuestionDetailContainer>
       <AnswerBox>

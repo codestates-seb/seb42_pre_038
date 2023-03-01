@@ -307,7 +307,7 @@ const FooterBox = styled.div`
 `;
 
 const Signup = () => {
-  const [displayName, setDisplayName] = useState('장은수');
+  const [displayName, setDisplayName] = useState('');
   const [displayNameValid, setDisplayNameValid] = useState(false);
   //* 이메일(에러메시지 및 유효성) *//
   const [userEmail, setUserEmail] = useState('');

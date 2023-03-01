@@ -3,7 +3,7 @@ import { LOGIN, LOGOUT } from '../actions/index';
 const initialstate = {
   isLogin: false,
   memberId: null,
-  displayName: null,
+  // displayName: null,
 };
 
 const loginInfoReducer = (state = initialstate, action) => {

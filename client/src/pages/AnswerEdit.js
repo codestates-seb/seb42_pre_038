@@ -1,4 +1,8 @@
+import { useState } from 'react';
+import ReactQuill from 'react-quill';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { patchEditAnswer } from '../api/answerAPI';
 import LeftNavBar from '../components/main/LeftNavBar';
 import RightSideBar from '../components/main/RightSideBar';
 import MainButton from '../components/ui/MainButton';
@@ -50,16 +54,6 @@ const AnswerEditLabel = styled.label`
   cursor: pointer;
 `;
 
-const AnswerEditBodyInput = styled.textarea`
-  padding: 10px;
-  margin: -1px 0 0;
-  height: 200px;
-  line-height: 1.3;
-  width: 100%;
-  font-family: var(--ff-mono);
-  font-size: 1.15384615rem;
-  tab-size: 4;
-`;
 const CancelButton = styled.a`
   background-color: #00000000;
   color: hsl(206deg 100% 40%);
@@ -82,6 +76,70 @@ const ButtonBox = styled.div`
 `;
 
 const AnswerEdit = () => {
+  /*Quill modules*/
+  const modules = {
+    toolbar: {
+      container: [
+        [{ header: [1, 2, 3, 4, 5, 6, false] }],
+        [{ font: [] }],
+        [{ align: [] }],
+        ['image'],
+        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+        [{ list: 'ordered' }, { list: 'bullet' }, 'link'],
+        [
+          {
+            color: [
+              '#000000',
+              '#e60000',
+              '#ff9900',
+              '#ffff00',
+              '#008a00',
+              '#0066cc',
+              '#9933ff',
+              'custom-color',
+            ],
+          },
+          { background: [] },
+        ],
+      ],
+    },
+  };
+
+  /* answer detail useNavigate() 두번째 인자 값 받아오기*/
+  const { state } = useLocation();
+  const navigate = useNavigate();
+
+  /* answerContent 상태관리 */
+  const [answerContent, setAnswerContent] = useState(state.answerContent);
+
+  /* answerchangeHandler */
+  const answerContentChangeHandler = (e) => {
+    setAnswerContent(e);
+  };
+
+  /* saveEdit Event */
+  const saveEditAnswer = () => {
+    console.log(answerContent);
+    EditAnswerFunc();
+  };
+
+  /* patchEditAnswer 요청*/
+  const EditAnswerFunc = async () => {
+    const response = await patchEditAnswer(
+      state.answerId,
+      state.questionId,
+      answerContent
+    );
+    if (response) {
+      navigate(`/questions/${state.questionId}`);
+    }
+  };
+
+  /* cancel 버튼 클릭 */
+  const cancelClickHandler = () => {
+    navigate(-1);
+  };
+
   return (
     <ContainerBox>
       <LeftNavBar />
@@ -102,12 +160,17 @@ const AnswerEdit = () => {
           <AnswerEditBox>
             <AnswerEditContent>
               <AnswerEditLabel htmlFor="answer">Answer</AnswerEditLabel>
-              <AnswerEditBodyInput id="answer"></AnswerEditBodyInput>
+              <ReactQuill
+                id="answer"
+                modules={modules}
+                value={answerContent}
+                onChange={answerContentChangeHandler}
+              />
             </AnswerEditContent>
           </AnswerEditBox>
           <ButtonBox>
-            <MainButton>Save edits</MainButton>
-            <CancelButton>Cancel</CancelButton>
+            <MainButton ButtonProps={saveEditAnswer}>Save edits</MainButton>
+            <CancelButton onClick={cancelClickHandler}>Cancel</CancelButton>
           </ButtonBox>
         </AnswerEditWrap>
         <RightSideBar />

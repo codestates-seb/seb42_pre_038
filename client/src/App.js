@@ -13,13 +13,19 @@ import UserInfo from './pages/UserInfo';
 import AnswerEdit from './pages/AnswerEdit';
 // import UserDelte from './pages/UserDelete';
 import NotFound from './pages/NotFound';
+import { useState } from 'react';
 
 const App = () => {
+  const [searchValue, setSearchValue] = useState('');
+  const handleSearchValueChange = (value) => {
+    setSearchValue(value);
+  };
+
   return (
     <BrowserRouter>
-      <Header />
+      <Header handleSearchValueChange={handleSearchValueChange} />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home searchValue={searchValue} />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/questions/ask" element={<QuestionCreate />} />

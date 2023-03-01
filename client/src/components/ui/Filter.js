@@ -1,7 +1,8 @@
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const FilterWrap = styled.div``;
-const Filter = () => {
+const Filter = ({ filterOption, setFilterOption }) => {
   return (
     <FilterWrap>
       <div className="d-flex ai-center mb16">
@@ -9,42 +10,46 @@ const Filter = () => {
         <div className="flex--item">
           <div className=" d-flex s-btn-group js-filter-btn">
             <a
-              className="js-sort-preference-change flex--item s-btn s-btn__muted s-btn__outlined"
-              href="?tab=bounties"
-              data-nav-xhref=""
-              title="Questions with an active bounty"
-              data-value="bounties"
-              data-shortcut="B"
+              className={
+                filterOption === 3
+                  ? 'js-sort-preference-change flex--item s-btn s-btn__muted s-btn__outlined is-selected'
+                  : 'js-sort-preference-change flex--item s-btn s-btn__muted s-btn__outlined'
+              }
+              href="javacsript:void(0)"
+              onClick={() => setFilterOption(3)}
             >
-              <span className="bounty-indicator-tab">123</span> Score
+              Score
             </a>
             <a
-              className="js-sort-preference-change flex--item s-btn s-btn__muted s-btn__outlined"
-              href="?tab=hot"
-              data-nav-xhref=""
-              title="Questions with the most views, most answers, and highest score over the last few days"
-              data-value="hot"
-              data-shortcut="H"
+              className={
+                filterOption === 0
+                  ? 'js-sort-preference-change flex--item s-btn s-btn__muted s-btn__outlined is-selected'
+                  : 'js-sort-preference-change flex--item s-btn s-btn__muted s-btn__outlined'
+              }
+              href="javacsript:void(0)"
+              onClick={() => setFilterOption(0)}
             >
               Newest
             </a>
             <a
-              className="js-sort-preference-change flex--item s-btn s-btn__muted s-btn__outlined"
-              href="?tab=week"
-              data-nav-xhref=""
-              title="Questions with the most views, most answers, and highest score this week"
-              data-value="week"
-              data-shortcut="W"
+              className={
+                filterOption === 2
+                  ? 'js-sort-preference-change flex--item s-btn s-btn__muted s-btn__outlined is-selected'
+                  : 'js-sort-preference-change flex--item s-btn s-btn__muted s-btn__outlined'
+              }
+              href="javacsript:void(0)"
+              onClick={() => setFilterOption(2)}
             >
               Unanswered
             </a>
             <a
-              className="js-sort-preference-change flex--item s-btn s-btn__muted s-btn__outlined"
-              href="?tab=month"
-              data-nav-xhref=""
-              title="Questions with the most views, most answers, and highest score this month"
-              data-value="month"
-              data-shortcut="M"
+              className={
+                filterOption === 1
+                  ? 'js-sort-preference-change flex--item s-btn s-btn__muted s-btn__outlined is-selected'
+                  : 'js-sort-preference-change flex--item s-btn s-btn__muted s-btn__outlined'
+              }
+              href="javacsript:void(0)"
+              onClick={() => setFilterOption(1)}
             >
               Active
             </a>
@@ -54,5 +59,8 @@ const Filter = () => {
     </FilterWrap>
   );
 };
-
+Filter.propTypes = {
+  setFilterOption: PropTypes.func,
+  filterOption: PropTypes.number,
+};
 export default Filter;
