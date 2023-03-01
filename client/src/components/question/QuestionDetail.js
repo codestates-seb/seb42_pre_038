@@ -40,7 +40,8 @@ const QuestionDetail = ({ queDetail }) => {
   const { id } = useParams();
 
   const clickHandler = () => {
-    navigate(`/questions/${id}/edit`);
+    console.log(queDetail);
+    navigate(`/questions/${id}/edit`, { state: queDetail });
   };
 
   const postQuestionVoteUp = async () => {
