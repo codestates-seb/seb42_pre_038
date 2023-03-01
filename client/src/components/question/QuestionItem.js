@@ -23,10 +23,16 @@ const QuestionStatsBox = styled.div`
   margin-right: 16px;
   text-align: right;
   gap: 6px;
-  width: 108px;
+  margin-left: 40px;
   margin-bottom: 4px;
 `;
-const StatsSpan = styled.span``;
+
+const StatsSpan = styled.span`
+  border-radius: 3px;
+  padding: 2px 6px;
+  border: 1px solid
+    ${(props) => (props.count > 0 ? 'hsl(140deg 41% 31%)' : 'none')};
+`;
 const QuestionContent = styled.div`
   max-width: 100%;
   flex-grow: 2;
@@ -81,7 +87,9 @@ const QuestionItem = ({ question }) => {
       <QuestionItemBox>
         <QuestionStatsBox>
           <StatsSpan>{question.voteCount} votes</StatsSpan>
-          <StatsSpan>{question.answersCount} answers</StatsSpan>
+          <StatsSpan count={question.answersCount}>
+            {question.answersCount} answers
+          </StatsSpan>
           <StatsSpan>{question.viewCount} views</StatsSpan>
         </QuestionStatsBox>
         <QuestionContent>
