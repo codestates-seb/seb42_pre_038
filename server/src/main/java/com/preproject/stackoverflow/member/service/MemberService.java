@@ -42,6 +42,19 @@ public class MemberService {
         return savedMember;
     }
 
+    public Member registerMemberOAuth2(Member member) {
+        Optional<Member> findMember = memberRepository.findByEmail(member.getEmail());
+        if(findMember.isPresent()) {
+            return findMember.get();
+        }
+        List<String> roles = authorityUtils.createRoles(member.getEmail());
+        member.setRoles(roles);
+
+        Member savedMember = memberRepository.save(member);
+
+        return savedMember;
+    }
+
     @Transactional(readOnly = true)
     public Member getMember(Long memberId) {
         verifyLoginMember(memberId);

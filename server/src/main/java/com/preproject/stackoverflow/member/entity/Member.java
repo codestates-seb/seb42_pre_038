@@ -29,7 +29,7 @@ public class Member extends BaseTime {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false, length = 100)
+//    @Column(nullable = false, length = 100)
     private String password;
 
     @Column
@@ -55,6 +55,12 @@ public class Member extends BaseTime {
 
     public Member(String email) {
         this.email = email;
+    }
+
+    public Member(String email, String name, String password) {
+        this.email = email;
+        this.name = name;
+        this.password = password;
     }
 
     public enum MemberStatus {
