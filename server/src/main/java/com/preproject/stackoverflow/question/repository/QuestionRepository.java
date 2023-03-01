@@ -18,5 +18,6 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     //Page<Question> findByQuestion(Long questionId, Pageable pageable);
 
+    Long countByMember_MemberId(Long memberId);
 }
 

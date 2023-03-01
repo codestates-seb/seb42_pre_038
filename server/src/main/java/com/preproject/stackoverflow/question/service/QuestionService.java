@@ -106,8 +106,8 @@ public class QuestionService {
     public Question voteUp(long questionId, long memberId) {
         Question findQuestion = findVerifiedQuestion(questionId);
 
-        memberService.findVerifiedMember(findQuestion.getMember().getMemberId());
-        memberService.verifyLoginMember(findQuestion.getMember().getMemberId());
+        memberService.findVerifiedMember(memberId);
+        memberService.verifyLoginMember(memberId);
         if (questionVoteRepository.findByMember_MemberIdAndQuestion_QuestionId(memberId, questionId).isEmpty() == true) {
 
             // 보트 추가
@@ -134,8 +134,8 @@ public class QuestionService {
     public Question voteDown(long questionId, long memberId) {
         Question findQuestion = findVerifiedQuestion(questionId);
 
-        memberService.findVerifiedMember(findQuestion.getMember().getMemberId());
-        memberService.verifyLoginMember(findQuestion.getMember().getMemberId());
+        memberService.findVerifiedMember(memberId);
+        memberService.verifyLoginMember(memberId);
         if (questionVoteRepository.findByMember_MemberIdAndQuestion_QuestionId(memberId, questionId).isEmpty() == true) {
 
             // 보트 추가
@@ -177,6 +177,13 @@ public class QuestionService {
         Question findQuestion = optionalQuestion.orElseThrow(() -> new CustomException(ExceptionCode.QUESTION_NOT_FOUND));
 
         return findQuestion;
+    }
+
+    public Long countMemberId(long memberId){
+        memberService.findVerifiedMember(memberId);
+        memberService.verifyLoginMember(memberId);
+        Long count = questionRepository.countByMember_MemberId(memberId);
+        return count;
     }
 
 }
