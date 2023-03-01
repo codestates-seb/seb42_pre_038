@@ -147,8 +147,6 @@ const QuestionEdit = () => {
     const response = await patchEditQuestion(id, title, content);
     if (response) {
       navigate(`/questions/${id}`);
-    } else {
-      alert('게시물 수정이 완료되지 않았습니다.');
     }
   };
 
