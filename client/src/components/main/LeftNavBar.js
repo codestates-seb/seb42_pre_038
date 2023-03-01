@@ -5,11 +5,11 @@ const LeftNavBarWrap = styled.div`
   width: 164px;
   border-right: 1px solid #d6d9dc;
   color: #91979e;
+  position: relative;
 `;
 const LeftNavBarBox = styled.div`
   padding-inline-start: 20px;
-  position: sticky;
-  top: 0;
+  position: fixed;
 `;
 const LeftNavBarNav = styled.nav`
   margin: 0;
@@ -35,13 +35,15 @@ const LeftNavBarOl = styled.ol`
     display: flex;
     align-items: center;
     box-sizing: content-box;
-    width: 100%;
+    width: 131px;
     height: 26px;
     padding-top: 4px;
     padding-right: 4px;
     padding-left: 8px;
     padding-bottom: 4px;
     cursor: pointer;
+    background-color: #f1f2f4;
+    border-right: 3px solid #e98432;
   }
 `;
 const PublicBar = styled.ol`
