@@ -33,7 +33,7 @@ const QuestionList = ({ searchValue }) => {
   }
 
   //Filter
-  const [filterOption, setFilterOption] = useState(3);
+  const [filterOption, setFilterOption] = useState(0);
   //Question
   const [isQuestion, setQuestion] = useState([]);
   //Pagenation
