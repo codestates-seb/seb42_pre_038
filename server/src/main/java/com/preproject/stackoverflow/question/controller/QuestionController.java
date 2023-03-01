@@ -7,6 +7,7 @@ import com.preproject.stackoverflow.question.service.QuestionService;
 import com.preproject.stackoverflow.dto.SingleResponseDto;
 import com.preproject.stackoverflow.question.dto.QuestionPatchDto;
 import com.preproject.stackoverflow.question.entity.Question;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -100,7 +101,7 @@ public class QuestionController {
         return new ResponseEntity<>(new SingleResponseDto<>(mapper.questionToQuestionResponseDto(voteDown)), HttpStatus.OK);
     }
 
-    @PostMapping("/profile/{member-id}")
+    @GetMapping("/profile/{member-id}")
     public ResponseEntity getUserQuestions(@PathVariable("member-id") long memberId){
         List<Question> Questions = questionService.getMembers(memberId);
 

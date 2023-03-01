@@ -94,7 +94,7 @@ public class AnswerController {
     }
 
 
-    @PostMapping("/profile/{member-Id}")
+    @GetMapping("/profile/{member-Id}")
     public ResponseEntity getProfile(@PathVariable("member-Id") long memberId){
         List<Answer> members = answerService.getMembers(memberId);
 
