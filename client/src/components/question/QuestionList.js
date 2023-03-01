@@ -17,6 +17,7 @@ const QuestionListContainer = styled.div`
 const QuestionListHeadBox = styled.div`
   display: flex;
   margin-bottom: 24px;
+  min-width: 728px;
 `;
 const QuestionListTitle = styled.h1`
   flex: 1;
