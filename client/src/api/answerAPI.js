@@ -78,7 +78,7 @@ export const postVoteUp = async (questionId) => {
     const memberId = localStorage.getItem('memberId');
 
     const res = await axios({
-      method: 'post',
+      method: '[post]',
       url: `${URI}/api/questions/voteUp/${questionId}?memberId=${memberId}`,
       headers: {
         'Content-Type': 'Application/json',
@@ -90,6 +90,35 @@ export const postVoteUp = async (questionId) => {
     return res.data;
   } catch (error) {
     console.log('question voteUp 실패');
+    console.log(error);
+  }
+};
+
+export const patchEditQuestion = async (questionId, title, content) => {
+  try {
+    const jwtToken = localStorage.getItem('token');
+    const memberId = localStorage.getItem('memberId');
+    const formData = {
+      memberId,
+      title,
+      content,
+    };
+
+    console.log(formData);
+    const res = await axios({
+      method: 'patch',
+      url: `${URI}/api/questions/${questionId}`,
+      data: formData,
+      headers: {
+        'Content-Type': 'Application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Authorization ': jwtToken,
+      },
+    });
+    console.log('question Edit 성공');
+    return res.data;
+  } catch (error) {
+    console.log('question Edit 실패');
     console.log(error);
   }
 };
