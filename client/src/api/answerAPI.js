@@ -170,6 +170,27 @@ export const deleteQuestion = async (questionId) => {
     return res.data;
   } catch (error) {
     console.log(error);
+    alert('질문 삭제가 정상적으로 완료되지 않았습니다.');
+  }
+};
+
+export const deleteAnswer = async (answerId) => {
+  try {
+    const jwtToken = localStorage.getItem('token');
+
+    const res = await axios({
+      method: 'delete',
+      url: `${URI}/api/answers/${answerId}`,
+      headers: {
+        'Content-Type': 'Application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Authorization ': jwtToken,
+      },
+    });
+    console.log('answer delete 성공');
+    return res.data;
+  } catch (error) {
+    console.log(error);
     alert('답변 삭제가 정상적으로 완료되지 않았습니다.');
   }
 };
