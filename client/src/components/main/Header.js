@@ -41,6 +41,10 @@ const HeaderLeft = styled.div`
     height: 30px;
     padding: 0 8px;
     cursor: pointer;
+    :hover {
+      background-color: #ddd;
+      border-radius: 3px;
+    }
   }
   > p {
     font-weight: 100;
