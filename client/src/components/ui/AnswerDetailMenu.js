@@ -63,6 +63,7 @@ const AnswerDetailMenu = ({ clickHandler, answer }) => {
         <MenuSpan>Share</MenuSpan>
         <MenuSpan onClick={gotoEdit}>Edit</MenuSpan>
         <MenuSpan>Follow</MenuSpan>
+        <MenuSpan>Delete</MenuSpan>
       </MenuBox>
       <UserInfoBox>
         <UserSpanBox>

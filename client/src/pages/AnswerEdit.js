@@ -132,8 +132,6 @@ const AnswerEdit = () => {
     );
     if (response) {
       navigate(`/questions/${state.questionId}`);
-    } else {
-      alert('답변 수정이 정상적으로 완료되지 않았습니다.');
     }
   };
 

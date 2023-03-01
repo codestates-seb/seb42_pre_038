@@ -5,7 +5,7 @@ import QuestionDetailMenu from '../ui/QuestionDetailMenu';
 import Vote from '../ui/Vote';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
-import { postVoteUp } from '../../api/answerAPI';
+import { deleteQuestion, postVoteUp } from '../../api/answerAPI';
 
 const QuestionDetailWrap = styled.div`
   display: flex;
@@ -39,11 +39,18 @@ const QuestionDetail = ({ queDetail }) => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const clickHandler = () => {
-    console.log(queDetail);
+  /* question Edit 페이지 이동*/
+  const goToEdit = () => {
     navigate(`/questions/${id}/edit`, { state: queDetail });
   };
 
+  /* question 삭제 요청 */
+  const questionDelete = async () => {
+    await deleteQuestion(id);
+    navigate('/');
+  };
+
+  /* voteUp  요청 */
   const postQuestionVoteUp = async () => {
     const res = await postVoteUp(id);
     if (res) {
@@ -64,7 +71,8 @@ const QuestionDetail = ({ queDetail }) => {
             dangerouslySetInnerHTML={{ __html: queDetail && queDetail.content }}
           />
           <QuestionDetailMenu
-            clickHandler={clickHandler}
+            goToEdit={goToEdit}
+            questionDelete={questionDelete}
             question={queDetail}
           />
         </QuestionDetailContentBox>
