@@ -29,7 +29,7 @@ const QuestionStatsBox = styled.div`
 
 const StatsSpan = styled.span`
   border-radius: 3px;
-  padding: 2px 6px;
+  padding: 4px 6px;
   border: 1px solid
     ${(props) => (props.count > 0 ? 'hsl(140deg 41% 31%)' : 'none')};
 `;
