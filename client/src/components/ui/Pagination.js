@@ -23,6 +23,6 @@ const Paging = ({ page, count, setPage }) => {
 Paging.propTypes = {
   page: PropTypes.number,
   count: PropTypes.number,
-  setPage: PropTypes.number,
+  setPage: PropTypes.func,
 };
 export default Paging;
