@@ -145,8 +145,8 @@ public class AnswerService{
     public Answer voteDown(long answerId, long memberId){
         Answer findAnswer = findVerifiedAnswer(answerId);
 
-        memberService.findVerifiedMember(findAnswer.getMember().getMemberId());
-        memberService.verifyLoginMember(findAnswer.getMember().getMemberId());
+        memberService.findVerifiedMember(memberId);
+        memberService.verifyLoginMember(memberId);
         if (answerVoteRepository.findByMember_MemberIdAndAnswer_AnswerId(memberId, answerId).isEmpty() == true){
 
 
@@ -195,6 +195,11 @@ public class AnswerService{
                 new CustomException(ExceptionCode.ANSWER_NOT_FOUND));
 
         return findAnswer;
+    }
+
+    public Long countMemberId(long memberId){
+        Long count = answerRepository.countByMember_MemberId(memberId);
+        return count;
     }
 
 }
