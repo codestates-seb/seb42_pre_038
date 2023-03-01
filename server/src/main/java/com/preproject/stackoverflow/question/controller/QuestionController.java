@@ -108,4 +108,10 @@ public class QuestionController {
         return new ResponseEntity<>(new SingleResponseDto<>(mapper.questionsToQuestionResponseDto(Questions)), HttpStatus.OK);
     }
 
+    @GetMapping("/member/{member-Id}")
+    public ResponseEntity getCount(@PathVariable("member-Id") long memberId){
+        Long count = questionService.countMemberId(memberId);
+
+        return new ResponseEntity<>(new SingleResponseDto<>(count), HttpStatus.OK);
+    }
 }
