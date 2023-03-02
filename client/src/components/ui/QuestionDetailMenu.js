@@ -83,7 +83,7 @@ const QuestionDetailMenu = ({ goToEdit, questionDelete, question }) => {
         </UserSpanBox>
         <UserDetailImgBox>
           <UserImg
-            src={`https://api.dicebear.com/5.x/identicon/svg?seed=${memberId}`}
+            src={`https://api.dicebear.com/5.x/identicon/svg?seed=${question.memberId}`}
           />
         </UserDetailImgBox>
         <UserDetailBox>
