@@ -3,7 +3,11 @@ import styled from 'styled-components';
 import AnswerDetailMenu from '../ui/AnswerDetailMenu';
 import Vote from '../ui/Vote';
 import PropTypes from 'prop-types';
-import { deleteAnswer } from '../../api/answerAPI';
+import {
+  deleteAnswer,
+  postAnswerVoteDown,
+  postAnswerVoteUp,
+} from '../../api/answerAPI';
 const AnswerItemWrap = styled.div`
   display: grid;
   grid-template-columns: max-content 1fr;
@@ -35,10 +39,31 @@ const AnswerItem = ({ answer }) => {
     await deleteAnswer(answer.answerId);
     navigate('/');
   };
+
+  /* voteUp  요청 */
+  const postAnswerVoteUpFunc = async () => {
+    const res = await postAnswerVoteUp(`${answer.answerId}`);
+    if (res) {
+      window.location.reload();
+    }
+  };
+
+  /* voteDown 요청 */
+  const postAnswerVoteDownFunc = async () => {
+    const res = await postAnswerVoteDown(`${answer.answerId}`);
+    if (res) {
+      window.location.reload();
+    }
+  };
+
   return (
     <AnswerItemWrap>
       <AnswerItemContainer>
-        <Vote voteCount={answer && answer.voteCount} />
+        <Vote
+          voteCount={answer && answer.voteCount}
+          VoteUpProps={postAnswerVoteUpFunc}
+          VoteDownProps={postAnswerVoteDownFunc}
+        />
         <AnswerDetailContentBox>
           <AnswerDetailContent
             dangerouslySetInnerHTML={{ __html: answer.answerContent }}

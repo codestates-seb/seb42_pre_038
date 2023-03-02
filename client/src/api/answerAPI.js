@@ -136,6 +136,64 @@ export const postVoteDown = async (questionId) => {
   }
 };
 
+export const postAnswerVoteUp = async (answerId) => {
+  try {
+    const jwtToken = localStorage.getItem('token');
+    const memberId = localStorage.getItem('memberId');
+
+    const res = await axios({
+      method: 'post',
+      url: `${URI}/api/answers/voteUp/${answerId}?memberId=${memberId}`,
+      headers: {
+        'Content-Type': 'Application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Authorization ': jwtToken,
+      },
+    });
+    console.log('question voteUp 성공');
+    return res.data;
+  } catch (error) {
+    if (error.response.status === 409) {
+      alert('이미 투표한 답변입니다.');
+    } else if (error.response.status === 400) {
+      alert('로그인 후 이용해 주세요');
+      location.href = '/login';
+    } else {
+      alert('답변 투표가 정상적으로 완료되지 않았습니다.');
+    }
+    console.log(error);
+  }
+};
+
+export const postAnswerVoteDown = async (answerId) => {
+  try {
+    const jwtToken = localStorage.getItem('token');
+    const memberId = localStorage.getItem('memberId');
+
+    const res = await axios({
+      method: 'post',
+      url: `${URI}/api/answers/voteDown/${answerId}?memberId=${memberId}`,
+      headers: {
+        'Content-Type': 'Application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Authorization ': jwtToken,
+      },
+    });
+    console.log('question voteUp 성공');
+    return res.data;
+  } catch (error) {
+    if (error.response.status === 409) {
+      alert('이미 투표한 답변입니다.');
+    } else if (error.response.status === 400) {
+      alert('로그인 후 이용해 주세요');
+      location.href = '/login';
+    } else {
+      alert('답변 투표가 정상적으로 완료되지 않았습니다.');
+    }
+    console.log(error);
+  }
+};
+
 export const patchEditQuestion = async (questionId, title, content) => {
   try {
     const jwtToken = localStorage.getItem('token');

@@ -27,16 +27,20 @@ const QuestionDetailIcons = styled.div`
     margin-right: 3px;
   }
 `;
-const Vote = ({ voteCount, VoteUpFunc, VoteDownFunc }) => {
+const Vote = ({ voteCount, VoteUpProps, VoteDownProps }) => {
   return (
     <div>
       <QuestionDetailIcons>
-        <AiFillCaretUp size={40} className="icon upIcon" onClick={VoteUpFunc} />
+        <AiFillCaretUp
+          size={40}
+          className="icon upIcon"
+          onClick={VoteUpProps}
+        />
         <VoteCountSpan>{voteCount}</VoteCountSpan>
         <AiFillCaretDown
           size={40}
           className="icon downIcon"
-          onClick={VoteDownFunc}
+          onClick={VoteDownProps}
         />
         <FiBookmark size={20} className="icon bookmarkIcon" />
         <IoTimerOutline size={20} className="icon timerIcon" />
@@ -47,7 +51,7 @@ const Vote = ({ voteCount, VoteUpFunc, VoteDownFunc }) => {
 
 Vote.propTypes = {
   voteCount: PropTypes.number,
-  VoteUpFunc: PropTypes.func,
-  VoteDownFunc: PropTypes.func,
+  VoteUpProps: PropTypes.func,
+  VoteDownProps: PropTypes.func,
 };
 export default Vote;
