@@ -71,7 +71,9 @@ const QuestionDetailMenu = ({ goToEdit, questionDelete, question }) => {
     <QuestionDetialMenuBox>
       <MenuBox>
         <MenuSpan>Share</MenuSpan>
-        <MenuSpan onClick={goToEditFunc}>Edit</MenuSpan>
+        {question && Number(memberId) === question.memberId ? (
+          <MenuSpan onClick={goToEditFunc}>Edit</MenuSpan>
+        ) : null}
         <MenuSpan>Follow</MenuSpan>
         {question && Number(memberId) === question.memberId ? (
           <MenuSpan onClick={questionDeleteFunc}>Delete</MenuSpan>
@@ -83,7 +85,9 @@ const QuestionDetailMenu = ({ goToEdit, questionDelete, question }) => {
         </UserSpanBox>
         <UserDetailImgBox>
           <UserImg
-            src={`https://api.dicebear.com/5.x/identicon/svg?seed=${memberId}`}
+            src={`https://api.dicebear.com/5.x/identicon/svg?seed=${
+              question && question.memberId
+            }`}
           />
         </UserDetailImgBox>
         <UserDetailBox>

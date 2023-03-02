@@ -37,7 +37,7 @@ export const getQuestionDetail = async (questionId) => {
       method: 'get',
       url: `${URI}/api/questions/${questionId}`,
     });
-    console.log('questions detail성공');
+    console.log('questions detail 성공');
     return res.data;
   } catch (error) {
     console.log(error);
@@ -68,7 +68,12 @@ export const postCreateAnswer = async (questionId, answerContent) => {
     console.log('answer create 성공');
     return res.data;
   } catch (error) {
-    alert('답변 추가가 정상적으로 완료되지 않았습니다.');
+    if (error.response.status === 401) {
+      alert('로그인 후 이용해 주세요');
+      location.href = '/login';
+    } else {
+      alert('답변 작성이 정상적으로 완료되지 않았습니다.');
+    }
     console.log(error);
   }
 };
@@ -92,6 +97,9 @@ export const postVoteUp = async (questionId) => {
   } catch (error) {
     if (error.response.status === 409) {
       alert('이미 투표한 질문입니다.');
+    } else if (error.response.status === 400) {
+      alert('로그인 후 이용해 주세요');
+      location.href = '/login';
     } else {
       alert('질문 투표가 정상적으로 완료되지 않았습니다.');
     }
@@ -118,6 +126,9 @@ export const postVoteDown = async (questionId) => {
   } catch (error) {
     if (error.response.status === 409) {
       alert('이미 투표한 질문입니다.');
+    } else if (error.response.status === 400) {
+      alert('로그인 후 이용해 주세요');
+      location.href = '/login';
     } else {
       alert('질문 투표가 정상적으로 완료되지 않았습니다.');
     }
@@ -149,7 +160,12 @@ export const patchEditQuestion = async (questionId, title, content) => {
     console.log('question Edit 성공');
     return res.data;
   } catch (error) {
-    alert('질문 수정이 정상적으로 완료되지 않았습니다.');
+    if (error.response.status === 401) {
+      alert('로그인 후 이용해 주세요');
+      location.href = '/login';
+    } else {
+      alert('질문 수정이 정상적으로 완료되지 않았습니다.');
+    }
     console.log(error);
   }
 };
@@ -179,7 +195,12 @@ export const patchEditAnswer = async (answerId, questionId, answerContent) => {
     return res.data;
   } catch (error) {
     console.log(error);
-    alert('답변 수정이 정상적으로 완료되지 않았습니다.');
+    if (error.response.status === 401) {
+      alert('로그인 후 이용해 주세요');
+      location.href = '/login';
+    } else {
+      alert('답변 수정이 정상적으로 완료되지 않았습니다.');
+    }
   }
 };
 
@@ -200,7 +221,12 @@ export const deleteQuestion = async (questionId) => {
     return res.data;
   } catch (error) {
     console.log(error);
-    alert('질문 삭제가 정상적으로 완료되지 않았습니다.');
+    if (error.response.status === 401) {
+      alert('로그인 후 이용해 주세요');
+      location.href = '/login';
+    } else {
+      alert('질문 삭제가 정상적으로 완료되지 않았습니다.');
+    }
   }
 };
 
@@ -221,6 +247,11 @@ export const deleteAnswer = async (answerId) => {
     return res.data;
   } catch (error) {
     console.log(error);
-    alert('답변 삭제가 정상적으로 완료되지 않았습니다.');
+    if (error.response.status === 401) {
+      alert('로그인 후 이용해 주세요');
+      location.href = '/login';
+    } else {
+      alert('답변 삭제가 정상적으로 완료되지 않았습니다.');
+    }
   }
 };
