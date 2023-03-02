@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import userImgSample from '../../images/avatar.png';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -88,7 +87,7 @@ const UserInfoHeader = ({ userHeaderTap, setUserHeaderTap, setEditDelete }) => {
           <div className="md:d-none js-usermini-avatar-container">
             <div className="bar-md bs-sm">
               <img
-                src={userImgSample}
+                src={`https://api.dicebear.com/5.x/identicon/svg?seed=${memberId}`}
                 alt="장은수's user avatar"
                 width="128"
                 height="128"

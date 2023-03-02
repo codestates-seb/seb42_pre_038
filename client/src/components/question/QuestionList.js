@@ -32,7 +32,7 @@ const QuestionList = ({ searchValue }) => {
     navigate('/questions/ask');
   }
 
-  //Filter
+  //Filterr
   const [filterOption, setFilterOption] = useState(0);
   //Question
   const [isQuestion, setQuestion] = useState([]);

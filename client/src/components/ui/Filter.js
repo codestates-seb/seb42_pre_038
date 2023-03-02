@@ -8,7 +8,7 @@ const Filter = ({ filterOption, setFilterOption }) => {
       <div className="d-flex ai-center mb16">
         <div className="flex--item fl1 fs-body3"></div>
         <div className="flex--item">
-          <div className=" d-flex s-btn-group js-filter-btn">
+          <div className="d-flex s-btn-group js-filter-btn">
             <a
               className={
                 filterOption === 3
