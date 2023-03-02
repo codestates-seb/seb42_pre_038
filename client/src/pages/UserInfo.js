@@ -57,6 +57,11 @@ const UserInfo = () => {
 
   const [isUserContents, setIsUserContents] = useState([]);
   const [isUserAnswers, setIsUserAnswers] = useState([]);
+  const [isUserContentsCount, setIsUserContentsCount] = useState(0);
+  const [isUserAnswersCount, setIsUserAnswersCount] = useState(0);
+
+  const contentscount = isUserContentsCount;
+  const answercount = isUserAnswersCount;
   useEffect(() => {
     // 유저 프로필 퀘스천 요청
     axios
@@ -86,6 +91,16 @@ const UserInfo = () => {
           navigate('/login');
         }
       });
+
+    // 유저 질문 갯수 요청
+    axios
+      .get(`${URI}/api/questions/member/${memberId}`, header)
+      .then((res) => setIsUserContentsCount(res.data.data));
+
+    // 유저 답변 갯수 요청
+    axios
+      .get(`${URI}/api/answers/member/${memberId}`, header)
+      .then((res) => setIsUserAnswersCount(res.data.data));
   }, []);
 
   const { id } = useParams();
@@ -106,11 +121,11 @@ const UserInfo = () => {
               <div className="s-card fc-light bar-md">
                 <div className="d-flex flex__allitems6 gs16 fw-wrap md:jc-space-between">
                   <div className="flex--item md:fl-auto">
-                    <div className="fs-body3 fc-dark">1</div>
+                    <div className="fs-body3 fc-dark">{contentscount}</div>
                     qeustions
                   </div>
                   <div className="flex--item md:fl-auto">
-                    <div className="fs-body3 fc-dark">0</div>
+                    <div className="fs-body3 fc-dark">{answercount}</div>
                     answers
                   </div>
                 </div>

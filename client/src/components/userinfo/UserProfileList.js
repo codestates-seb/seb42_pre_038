@@ -18,8 +18,8 @@ const UserProfileList = ({ isUserContents, isUserAnswers }) => {
             <UserProfileItem key={item.questionId} contents={item} />
           ))}
         {isUserAnswers &&
-          isUserAnswers.map((item) => (
-            <UserProfileItem key={item.questionId} contents={item} />
+          isUserAnswers.map((answer) => (
+            <UserProfileItem key={answer.answerId} contents={answer} />
           ))}
       </QuestionListContainer>
     </QuestionContainerWrap>
