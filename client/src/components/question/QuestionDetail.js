@@ -5,7 +5,7 @@ import QuestionDetailMenu from '../ui/QuestionDetailMenu';
 import Vote from '../ui/Vote';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
-import { deleteQuestion, postVoteUp } from '../../api/answerAPI';
+import { deleteQuestion, postVoteDown, postVoteUp } from '../../api/answerAPI';
 
 const QuestionDetailWrap = styled.div`
   display: flex;
@@ -58,13 +58,21 @@ const QuestionDetail = ({ queDetail }) => {
     }
   };
 
+  /* voteDown 요청 */
+  const postQuestionVoteDown = async () => {
+    const res = await postVoteDown(id);
+    if (res) {
+      window.location.reload();
+    }
+  };
   return (
     <QuestionDetailWrap>
       <QuestionDetailContainer>
         <Vote
           voteCount={queDetail && queDetail.voteCount}
           question={queDetail}
-          VoteFun={postQuestionVoteUp}
+          VoteUpFunc={postQuestionVoteUp}
+          VoteDownFunc={postQuestionVoteDown}
         />
         <QuestionDetailContentBox>
           <QuestionDetailContent
