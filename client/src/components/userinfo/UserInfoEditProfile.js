@@ -197,7 +197,7 @@ const UserInfoEditProfile = ({ EditDelete }) => {
   // delete button area
   // eslint-disable-next-line no-undef
   const URI = process.env.REACT_APP_SERVER_URI;
-  const token = localStorage.getItem('Authorization');
+  const token = localStorage.getItem('token');
   const memberId = localStorage.getItem('memberId');
 
   const userDelete = (e) => {
@@ -206,7 +206,6 @@ const UserInfoEditProfile = ({ EditDelete }) => {
     console.log(memberId);
     const header = {
       headers: {
-        'Content-Type': 'application/json',
         Authorization: token,
       },
     };
