@@ -197,11 +197,11 @@ const UserInfoEditProfile = ({ EditDelete }) => {
   // delete button area
   // eslint-disable-next-line no-undef
   const URI = process.env.REACT_APP_SERVER_URI;
+  const token = localStorage.getItem('Authorization');
+  const memberId = localStorage.getItem('memberId');
 
   const userDelete = (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('Authorization');
-    const memberId = localStorage.getItem('memberId');
     console.log(token);
     console.log(memberId);
     const header = {
@@ -234,7 +234,12 @@ const UserInfoEditProfile = ({ EditDelete }) => {
                     <h3>Profile image</h3>
                   </ProfileImgTitle>
                   <ProfileImgContent>
-                    <li>{patchName.slice(1, 3)}</li>
+                    <img
+                      src={`https://api.dicebear.com/5.x/identicon/svg?seed=${memberId}`}
+                      alt="장은수's user avatar"
+                      width="128"
+                      height="128"
+                    />
                   </ProfileImgContent>
                 </ProfileImgBox>
                 <ProfileDisplayNameBox>
