@@ -392,7 +392,9 @@ const QuestionCreate = () => {
       .catch((error) => {
         console.log(error);
         console.log('오류오류');
+        alert('로그인이 필요합니다');
         navigate('/login');
+        window.scrollTo(0, 0);
       });
   };
   /*모달*/

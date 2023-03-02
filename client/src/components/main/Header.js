@@ -53,8 +53,17 @@ const HeaderLeft = styled.div`
     box-sizing: content-box;
     cursor: pointer;
     :hover {
+      cursor: pointer;
       background-color: #ddd;
       border-radius: 33px;
+    }
+  }
+  > button {
+    height: 47px;
+    border: 0;
+    background-color: rgb(248, 249, 249);
+    :hover {
+      background-color: #ddd;
     }
   }
 `;
@@ -244,14 +253,17 @@ const Header = ({ handleSearchValueChange }) => {
     window.location.reload();
     navigate('/');
   };
-
+  const toHome = () => {
+    navigate('/');
+    window.scrollTo(0, 0);
+  };
   return (
     <HeaderWrap>
       <HeaderContainer>
         <HeaderLeft>
-          <NavLink to="/">
+          <button onClick={toHome}>
             <img src={Logo} alt="logo" className="Logo" />
-          </NavLink>
+          </button>
           <p>Products</p>
         </HeaderLeft>
         <HeaderSearchContainer>
