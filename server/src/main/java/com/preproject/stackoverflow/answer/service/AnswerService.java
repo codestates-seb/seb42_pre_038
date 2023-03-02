@@ -108,8 +108,8 @@ public class AnswerService{
     public Answer voteUp(long answerId, long memberId){
         Answer findAnswer = findVerifiedAnswer(answerId);
 
-        memberService.findVerifiedMember(findAnswer.getMember().getMemberId());
-        memberService.verifyLoginMember(findAnswer.getMember().getMemberId());
+        memberService.findVerifiedMember(memberId);
+        memberService.verifyLoginMember(memberId);
         if (answerVoteRepository.findByMember_MemberIdAndAnswer_AnswerId(memberId, answerId).isEmpty() == true){
 
             // 보트 추가

@@ -41,10 +41,10 @@ public class Member extends BaseTime {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = {CascadeType.REMOVE})
     private List<Question> questions = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = {CascadeType.REMOVE})
     private List<Answer> answers = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")

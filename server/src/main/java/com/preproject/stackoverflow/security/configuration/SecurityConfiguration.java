@@ -76,10 +76,10 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.GET, "/*/answers/**").permitAll()
                         .antMatchers(HttpMethod.DELETE, "/*/answers/**").hasRole("USER")
                         .anyRequest().permitAll()
-                )
-                .oauth2Login(oauth2 -> oauth2
-                        .successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, authorityUtils, memberService))
                 );
+//                .oauth2Login(oauth2 -> oauth2
+//                        .successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, authorityUtils, memberService))
+//                );
 
         return http.build();
     }
@@ -88,10 +88,10 @@ public class SecurityConfiguration {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(Collections.singletonList("*"));
+        configuration.addAllowedOriginPattern("*");
         configuration.addAllowedOrigin("http://localhost:3000");
         configuration.addAllowedOrigin("http://localhost:8080");
-        configuration.addAllowedOrigin("https://manymanyflow.netlify.app");
+        configuration.addAllowedOrigin("http://manymanyflow38.s3-website.ap-northeast-2.amazonaws.com/");
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
@@ -119,7 +119,7 @@ public class SecurityConfiguration {
 
             builder
                     .addFilter(jwtAuthenticationFilter)
-                    .addFilterAfter(jwtVerificationFilter, OAuth2LoginAuthenticationFilter.class)
+//                    .addFilterAfter(jwtVerificationFilter, OAuth2LoginAuthenticationFilter.class)
                     .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
 
 
