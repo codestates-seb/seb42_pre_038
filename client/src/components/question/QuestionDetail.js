@@ -71,8 +71,8 @@ const QuestionDetail = ({ queDetail }) => {
         <Vote
           voteCount={queDetail && queDetail.voteCount}
           question={queDetail}
-          VoteUpFunc={postQuestionVoteUp}
-          VoteDownFunc={postQuestionVoteDown}
+          VoteUpProps={postQuestionVoteUp}
+          VoteDownProps={postQuestionVoteDown}
         />
         <QuestionDetailContentBox>
           <QuestionDetailContent
