@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import User from '../../images/avatar.png';
 import PropTypes from 'prop-types';
 
 const QuestionDetialMenuBox = styled.div`
@@ -83,7 +82,9 @@ const QuestionDetailMenu = ({ goToEdit, questionDelete, question }) => {
           <UserSpan>asked 12 hours ago</UserSpan>
         </UserSpanBox>
         <UserDetailImgBox>
-          <UserImg src={User} />
+          <UserImg
+            src={`https://api.dicebear.com/5.x/identicon/svg?seed=${memberId}`}
+          />
         </UserDetailImgBox>
         <UserDetailBox>
           <UserDetailSpan>{question && question.name}</UserDetailSpan>

@@ -82,6 +82,7 @@ const QuestionContentUserSpan = styled.span`
 `;
 
 const QuestionItem = ({ question }) => {
+  const memberId = localStorage.getItem('memberId');
   return (
     <QuestionItemWrap>
       <QuestionItemBox>
@@ -113,7 +114,9 @@ const QuestionItem = ({ question }) => {
               </div>
             </QuestionTagsBox>
             <QuestionContentUserBox>
-              <QuestionContentUserImg></QuestionContentUserImg>
+              <QuestionContentUserImg
+                src={`https://api.dicebear.com/5.x/identicon/svg?seed=${memberId}`}
+              />
               <QuestionContentUserSpan>
                 <a href="/">{question.name}</a>
               </QuestionContentUserSpan>

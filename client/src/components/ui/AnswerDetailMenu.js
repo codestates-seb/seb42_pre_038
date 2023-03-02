@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import User from '../../images/avatar.png';
 import PropTypes from 'prop-types';
 
 const QuestionDetialMenuBox = styled.div`
@@ -69,7 +68,9 @@ const AnswerDetailMenu = ({ goToAnswerEdit, answerDelete, answer }) => {
     <QuestionDetialMenuBox>
       <MenuBox>
         <MenuSpan>Share</MenuSpan>
-        <MenuSpan onClick={gotoAnswerEditFunc}>Edit</MenuSpan>
+        {answer && Number(memberId) === answer.memberId ? (
+          <MenuSpan onClick={gotoAnswerEditFunc}>Edit</MenuSpan>
+        ) : null}
         <MenuSpan>Follow</MenuSpan>
         {answer && Number(memberId) === answer.memberId ? (
           <MenuSpan onClick={answerDeleteFunc}>Delete</MenuSpan>
@@ -80,7 +81,9 @@ const AnswerDetailMenu = ({ goToAnswerEdit, answerDelete, answer }) => {
           <UserSpan>answered 9 mins ago</UserSpan>
         </UserSpanBox>
         <UserDetailImgBox>
-          <UserImg src={User}></UserImg>
+          <UserImg
+            src={`https://api.dicebear.com/5.x/identicon/svg?seed=${memberId}`}
+          ></UserImg>
         </UserDetailImgBox>
         <UserDetailBox>
           <UserDetailSpan>{answer.name}</UserDetailSpan>
