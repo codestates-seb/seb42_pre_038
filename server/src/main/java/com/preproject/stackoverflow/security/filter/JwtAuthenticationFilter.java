@@ -58,10 +58,18 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String memberId = member.getMemberId().toString();
         response.setHeader("Authorization", "Bearer " + accessToken);
         response.setHeader("memberId", memberId.toString());
-        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-        response.setHeader("Access-Control-Allow-Credentials", "true");
-        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-        response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
+        String allowedOrigin = request.getHeader("Origin");
+
+        if (allowedOrigin.equals("http://localhost:3000")) {
+            response.setHeader("Access-Control-Allow-Origin", allowedOrigin);
+        } else if (allowedOrigin.equals("http://manymanyflow38.s3-website.ap-northeast-2.amazonaws.com")) {
+            response.setHeader("Access-Control-Allow-Origin", allowedOrigin);
+        } else {
+            response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+        }
+//        response.setHeader("Access-Control-Allow-Credentials", "true");
+//        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+//        response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
         this.getSuccessHandler().onAuthenticationSuccess(request, response, authResult);
     }
 

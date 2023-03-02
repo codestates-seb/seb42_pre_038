@@ -93,12 +93,18 @@ public class AnswerController {
         return new ResponseEntity<>(new SingleResponseDto<>(mapper.answerToAnswerResponseDto(voteDown)), HttpStatus.OK);
     }
 
-
     @GetMapping("/profile/{member-Id}")
     public ResponseEntity getProfile(@PathVariable("member-Id") long memberId){
         List<Answer> members = answerService.getMembers(memberId);
 
         return new ResponseEntity<>(new SingleResponseDto<>(mapper.answersToAnswerResponseDto(members)), HttpStatus.OK);
+    }
+
+    @GetMapping("/member/{member-Id}")
+    public ResponseEntity getCount(@PathVariable("member-Id") long memberId){
+        Long count = answerService.countMemberId(memberId);
+
+        return new ResponseEntity<>(new SingleResponseDto<>(count), HttpStatus.OK);
     }
 
 }

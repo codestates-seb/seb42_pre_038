@@ -26,6 +26,6 @@ public class MemberAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
     private void logExceptionMessage(AuthenticationException authenticationException, Exception exception) {
         String message = exception != null ? exception.getMessage() : authenticationException.getMessage();
-        log.warn("검증 오류");
+        log.warn("Unauthorized error happened: {}", message);
     }
 }

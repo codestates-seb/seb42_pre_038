@@ -31,5 +31,5 @@ public interface AnswerRepository extends JpaRepository<Answer, Long> {
     /*  Optional<Answer> findByMember_MemberId(Long memberId);
     Optional<Answer>  findByQuestion_QuestionId(Long questionId);
 */
-
+    Long countByMember_MemberId(Long memberId);
 }
