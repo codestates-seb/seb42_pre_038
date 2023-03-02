@@ -79,7 +79,7 @@ export const postVoteUp = async (questionId) => {
     const memberId = localStorage.getItem('memberId');
 
     const res = await axios({
-      method: '[post]',
+      method: 'post',
       url: `${URI}/api/questions/voteUp/${questionId}?memberId=${memberId}`,
       headers: {
         'Content-Type': 'Application/json',
@@ -90,7 +90,37 @@ export const postVoteUp = async (questionId) => {
     console.log('question voteUp 성공');
     return res.data;
   } catch (error) {
-    alert('질문 투표가 정상적으로 완료되지 않았습니다.');
+    if (error.response.status === 409) {
+      alert('이미 투표한 질문입니다.');
+    } else {
+      alert('질문 투표가 정상적으로 완료되지 않았습니다.');
+    }
+    console.log(error);
+  }
+};
+
+export const postVoteDown = async (questionId) => {
+  try {
+    const jwtToken = localStorage.getItem('token');
+    const memberId = localStorage.getItem('memberId');
+
+    const res = await axios({
+      method: 'post',
+      url: `${URI}/api/questions/voteDown/${questionId}?memberId=${memberId}`,
+      headers: {
+        'Content-Type': 'Application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Authorization ': jwtToken,
+      },
+    });
+    console.log('question voteUp 성공');
+    return res.data;
+  } catch (error) {
+    if (error.response.status === 409) {
+      alert('이미 투표한 질문입니다.');
+    } else {
+      alert('질문 투표가 정상적으로 완료되지 않았습니다.');
+    }
     console.log(error);
   }
 };
