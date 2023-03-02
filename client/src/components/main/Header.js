@@ -267,7 +267,17 @@ const Header = ({ handleSearchValueChange }) => {
           <HeaderRight>
             <div className="HeaderRightBox">
               <NavLink to={`/userinfo/${memberId}`} className="UserInfoBtn">
-                <li className="HeaderUsersBox">{headerName}</li>
+                <div className="md:d-none js-usermini-avatar-container">
+                  <div className="bar-md bs-sm">
+                    <img
+                      src={`https://api.dicebear.com/5.x/identicon/svg?seed=${memberId}`}
+                      alt="장은수's user avatar"
+                      width="20"
+                      height="20"
+                      className="bar-sm bar-md d-block"
+                    />
+                  </div>
+                </div>
               </NavLink>
             </div>
             <NavLink to="/" className="LogoutContainer">
